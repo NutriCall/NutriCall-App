@@ -26,7 +26,7 @@ class NutricallBanner extends StatelessWidget {
                 children: [
                   Text(
                     'NutriCall',
-                    style: GoogleFonts.montserrat(
+                    style: GoogleFonts.poppins(
                       color: AppColor.darkGreen,
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
@@ -34,7 +34,7 @@ class NutricallBanner extends StatelessWidget {
                   ),
                   Text(
                     'Call Your Nutrition, Recall Your Health!',
-                    style: GoogleFonts.montserrat(
+                    style: GoogleFonts.poppins(
                       color: AppColor.lightBlack,
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
