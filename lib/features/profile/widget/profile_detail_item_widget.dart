@@ -23,7 +23,7 @@ class ProfileDetailItem extends StatelessWidget {
             child: Text(
               label,
               style: GoogleFonts.poppins(
-                fontSize: 16,
+                fontSize: 14,
                 color: AppColor.grey,
               ),
               textAlign: TextAlign.left,
@@ -33,7 +33,7 @@ class ProfileDetailItem extends StatelessWidget {
           Text(
             ':',
             style: GoogleFonts.poppins(
-              fontSize: 16,
+              fontSize: 14,
               color: AppColor.grey,
             ),
           ),
@@ -43,8 +43,8 @@ class ProfileDetailItem extends StatelessWidget {
             child: Text(
               value,
               style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
                 color: AppColor.darkGrey,
               ),
               textAlign: TextAlign.left,

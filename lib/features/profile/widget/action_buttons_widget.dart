@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
-import 'package:nutri_call_app/features/profile/pages/edit_profile_page.dart';
 
 class ProfileActionButtons extends StatelessWidget {
   const ProfileActionButtons({Key? key}) : super(key: key);
@@ -13,12 +12,12 @@ class ProfileActionButtons extends StatelessWidget {
         Expanded(
           child: ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditProfilePage(),
-                ),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => EditProfilePage(),
+              //   ),
+              // );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColor.darkGreen,
@@ -41,7 +40,7 @@ class ProfileActionButtons extends StatelessWidget {
           child: OutlinedButton(
             onPressed: () {},
             style: OutlinedButton.styleFrom(
-              side: BorderSide(color: AppColor.darkGreen),
+              side: const BorderSide(color: AppColor.darkGreen),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
