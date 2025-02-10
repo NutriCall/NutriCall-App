@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:nutri_call_app/features/main/controllers/selected_index_provider.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
-class CalorieConsumptionWidget extends StatelessWidget {
+class CalorieConsumptionWidget extends HookConsumerWidget {
   const CalorieConsumptionWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     double progress = 0.8;
     double width = MediaQuery.of(context).size.width - 40;
 
@@ -25,14 +27,19 @@ class CalorieConsumptionWidget extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            Text(
-              'more',
-              style: GoogleFonts.poppins(
-                color: AppColor.lightBlack,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+            GestureDetector(
+              onTap: (){
+                ref.read(selectedIndexNavBar.notifier).state = 2;
+              },
+              child: Text(
+                'more',
+                style: GoogleFonts.poppins(
+                  color: AppColor.lightBlack,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
+            )
           ],
         ),
         const Gap(10),
