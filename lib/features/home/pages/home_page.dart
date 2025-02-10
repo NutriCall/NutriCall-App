@@ -38,7 +38,7 @@ class HomePage extends HookConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: GestureDetector(
                   onTap: (){
-                    ref.read(selectedIndexNavBar.notifier).state = 2;
+                    context.pushNamed(RouteName.weeklyReportPage);
                   },
                   child: MenuHomeWidget(
                     title: 'Weekly Report', 

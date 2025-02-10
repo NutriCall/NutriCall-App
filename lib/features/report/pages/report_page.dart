@@ -8,7 +8,7 @@ class ReportPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return const Scaffold(
       appBar: CustomAppBar(
-        title: 'Report',
+        title: 'Daily Report',
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
