@@ -23,8 +23,20 @@ class $AssetsImagesGen {
   AssetGenImage get mountainElement =>
       const AssetGenImage('assets/images/mountainElement.png');
 
+  /// File path: assets/images/plan.png
+  AssetGenImage get plan => const AssetGenImage('assets/images/plan.png');
+
+  /// File path: assets/images/userProfile.png
+  AssetGenImage get userProfile =>
+      const AssetGenImage('assets/images/userProfile.png');
+
+  /// File path: assets/images/recipe.png
+  AssetGenImage get recipe =>
+      const AssetGenImage('assets/images/recipe.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [logoApp, mountainElement];
+  List<AssetGenImage> get values =>
+      [logoApp, mountainElement, plan, userProfile];
 }
 
 class $AssetsNavbarGen {
@@ -33,11 +45,20 @@ class $AssetsNavbarGen {
   /// File path: assets/navbar/home.svg
   SvgGenImage get home => const SvgGenImage('assets/navbar/home.svg');
 
-  /// File path: assets/navbar/order.svg
-  SvgGenImage get order => const SvgGenImage('assets/navbar/order.svg');
+  /// File path: assets/navbar/plan.svg
+  SvgGenImage get plan => const SvgGenImage('assets/navbar/plan.svg');
 
   /// File path: assets/navbar/product.svg
   SvgGenImage get product => const SvgGenImage('assets/navbar/product.svg');
+
+  /// File path: assets/navbar/profile.svg
+  SvgGenImage get profile => const SvgGenImage('assets/navbar/profile.svg');
+
+  /// File path: assets/navbar/progress.svg
+  SvgGenImage get progress => const SvgGenImage('assets/navbar/progress.svg');
+
+  /// File path: assets/navbar/report.svg
+  SvgGenImage get report => const SvgGenImage('assets/navbar/report.svg');
 
   /// File path: assets/navbar/setting.svg
   SvgGenImage get setting => const SvgGenImage('assets/navbar/setting.svg');
@@ -46,7 +67,8 @@ class $AssetsNavbarGen {
   SvgGenImage get site => const SvgGenImage('assets/navbar/site.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [home, order, product, setting, site];
+  List<SvgGenImage> get values =>
+      [home, plan, product, profile, progress, report, setting, site];
 }
 
 class Assets {
