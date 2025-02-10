@@ -6,7 +6,6 @@ import 'package:nutri_call_app/features/home/widget/calorie_consumption_widget.d
 import 'package:nutri_call_app/features/home/widget/menu_home_widget.dart';
 import 'package:nutri_call_app/features/home/widget/nutricall_banner_widget.dart';
 import 'package:nutri_call_app/features/home/widget/user_header_widget.dart';
-import 'package:nutri_call_app/features/main/controllers/selected_index_provider.dart';
 import 'package:nutri_call_app/routers/router_name.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 import 'package:nutri_call_app/utils/assets.gen.dart';
