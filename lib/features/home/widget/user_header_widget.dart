@@ -29,15 +29,15 @@ class UserProfileHeader extends StatelessWidget {
             children: [
               Text(
                 'Hi! There',
-                style: GoogleFonts.montserrat(
+                style: GoogleFonts.poppins(
                   color: AppColor.semiBlack,
                   fontSize: 15,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               Text(
                 'Welcome back',
-                style: GoogleFonts.montserrat(
+                style: GoogleFonts.poppins(
                   color: AppColor.lightBlack,
                   fontSize: 12,
                   fontWeight: FontWeight.w500,

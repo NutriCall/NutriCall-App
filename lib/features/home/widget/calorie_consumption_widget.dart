@@ -8,7 +8,7 @@ class CalorieConsumptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double progress = 0.8; 
+    double progress = 0.8;
     double width = MediaQuery.of(context).size.width - 40;
 
     return Column(
@@ -19,15 +19,15 @@ class CalorieConsumptionWidget extends StatelessWidget {
           children: [
             Text(
               'Calorie Consumption Today',
-              style: GoogleFonts.montserrat(
+              style: GoogleFonts.poppins(
                 color: AppColor.semiBlack,
                 fontSize: 17,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w700,
               ),
             ),
             Text(
               'more',
-              style: GoogleFonts.montserrat(
+              style: GoogleFonts.poppins(
                 color: AppColor.lightBlack,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
@@ -36,76 +36,90 @@ class CalorieConsumptionWidget extends StatelessWidget {
           ],
         ),
         const Gap(10),
-        Stack(
-          children: [
-            Container(
-              width: width,
-              height: 32,
-              decoration: BoxDecoration(
-                color: AppColor.lightGrey,
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ),
-
-            Positioned(
-              left: 0,
-              child: Container(
-                width: width * 0.2,
+        SizedBox(
+          height: 32, 
+          child: Stack(
+            clipBehavior: Clip.none, 
+            children: [
+              Container(
+                width: width,
                 height: 32,
-                decoration: const BoxDecoration(
-                  color: AppColor.disabledGreen,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    bottomLeft: Radius.circular(15),
-                  ),
+                decoration: BoxDecoration(
+                  color: AppColor.lightGrey,
+                  borderRadius: BorderRadius.circular(15),
                 ),
               ),
-            ),
-
-            if (progress > 0.2)
               Positioned(
-                left: width * 0.2,
+                left: 0,
                 child: Container(
-                  width: width * (progress > 0.5 ? 0.3 : progress - 0.2),
+                  width: width * 0.2,
                   height: 32,
                   decoration: const BoxDecoration(
-                    color: AppColor.lightGreen,
+                    color: AppColor.disabledGreen,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      bottomLeft: Radius.circular(15),
+                    ),
                   ),
                 ),
               ),
 
-            if (progress > 0.5)
-              Positioned(
-                left: width * 0.5,
-                child: Container(
-                  width: width * (progress - 0.5),
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: AppColor.darkGreen,
-                    borderRadius: progress == 1.0
-                        ? const BorderRadius.only(
-                            topRight: Radius.circular(15),
-                            bottomRight: Radius.circular(15),
-                          )
-                        : null,
+              if (progress > 0.2)
+                Positioned(
+                  left: width * 0.2,
+                  child: Container(
+                    width: width * (progress > 0.5 ? 0.3 : progress - 0.2),
+                    height: 32,
+                    decoration: const BoxDecoration(
+                      color: AppColor.lightGreen,
+                    ),
                   ),
                 ),
-              ),
 
-            if (progress > 0)
-              Positioned(
-                left: width * progress - 1,
-                top: -4, 
-                child: Container(
-                  width: 2,
-                  height: 100, 
-                  color: Colors.black, 
+              if (progress > 0.5)
+                Positioned(
+                  left: width * 0.5,
+                  child: Container(
+                    width: width * (progress - 0.5),
+                    height: 32,
+                    decoration: BoxDecoration(
+                      color: AppColor.darkGreen,
+                      borderRadius: progress == 1.0
+                          ? const BorderRadius.only(
+                              topRight: Radius.circular(15),
+                              bottomRight: Radius.circular(15),
+                            )
+                          : null,
+                    ),
+                  ),
                 ),
-              ),
-          ],
+
+              if (progress > 0)
+                Positioned(
+                  left: width * progress - 1,
+                  top: -4,
+                  child: Container(
+                    width: 2,
+                    height: 40, 
+                    color: Colors.black,
+                  ),
+                ),
+            ],
+          ),
+        ),
+        const Gap(6),
+        Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            '619 kkal',
+            style: GoogleFonts.poppins(
+              color: AppColor.darkGreen,
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
       ],
     );
   }
 }
-
