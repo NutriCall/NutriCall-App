@@ -3,4 +3,5 @@ class RouteName {
   static const String splashscreen = '/splashscreen';
   static const String login = '/login';
   static const String recipePage = '/recipe-page';
+  static const String weeklyReportPage = '/weekly-report-page';
 }
