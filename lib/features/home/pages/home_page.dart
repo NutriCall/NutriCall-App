@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:nutri_call_app/features/home/widget/calorie_consumption_widget.dart';
 import 'package:nutri_call_app/features/home/widget/menu_home_widget.dart';
 import 'package:nutri_call_app/features/home/widget/nutricall_banner_widget.dart';
 import 'package:nutri_call_app/features/home/widget/user_header_widget.dart';
@@ -18,16 +19,18 @@ class HomePage extends HookConsumerWidget {
           onRefresh: () async {},
           child: ListView(
             children:  [
-              const Padding(
-                padding: EdgeInsets.all(20.0),
-                child: UserProfileHeader(),
-              ),
-              const Gap(2),
+              const UserProfileHeader(),
+              const Gap(10),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: NutricallBanner(),
               ),
-              const Gap(16),
+              const Gap(22),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: CalorieConsumptionWidget(),
+              ),
+              const Gap(24),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: MenuHomeWidget(
