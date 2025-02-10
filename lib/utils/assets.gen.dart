@@ -12,6 +12,16 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart' as _svg;
 import 'package:vector_graphics/vector_graphics.dart' as _vg;
 
+class $AssetsIconsGen {
+  const $AssetsIconsGen();
+
+  /// File path: assets/icons/back.svg
+  SvgGenImage get back => const SvgGenImage('assets/icons/back.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [back];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -26,17 +36,16 @@ class $AssetsImagesGen {
   /// File path: assets/images/plan.png
   AssetGenImage get plan => const AssetGenImage('assets/images/plan.png');
 
+  /// File path: assets/images/recipe.png
+  AssetGenImage get recipe => const AssetGenImage('assets/images/recipe.png');
+
   /// File path: assets/images/userProfile.png
   AssetGenImage get userProfile =>
       const AssetGenImage('assets/images/userProfile.png');
 
-  /// File path: assets/images/recipe.png
-  AssetGenImage get recipe =>
-      const AssetGenImage('assets/images/recipe.png');
-
   /// List of all assets
   List<AssetGenImage> get values =>
-      [logoApp, mountainElement, plan, userProfile];
+      [logoApp, mountainElement, plan, recipe, userProfile];
 }
 
 class $AssetsNavbarGen {
@@ -48,9 +57,6 @@ class $AssetsNavbarGen {
   /// File path: assets/navbar/plan.svg
   SvgGenImage get plan => const SvgGenImage('assets/navbar/plan.svg');
 
-  /// File path: assets/navbar/product.svg
-  SvgGenImage get product => const SvgGenImage('assets/navbar/product.svg');
-
   /// File path: assets/navbar/profile.svg
   SvgGenImage get profile => const SvgGenImage('assets/navbar/profile.svg');
 
@@ -60,21 +66,15 @@ class $AssetsNavbarGen {
   /// File path: assets/navbar/report.svg
   SvgGenImage get report => const SvgGenImage('assets/navbar/report.svg');
 
-  /// File path: assets/navbar/setting.svg
-  SvgGenImage get setting => const SvgGenImage('assets/navbar/setting.svg');
-
-  /// File path: assets/navbar/site.svg
-  SvgGenImage get site => const SvgGenImage('assets/navbar/site.svg');
-
   /// List of all assets
-  List<SvgGenImage> get values =>
-      [home, plan, product, profile, progress, report, setting, site];
+  List<SvgGenImage> get values => [home, plan, profile, progress, report];
 }
 
 class Assets {
   const Assets._();
 
   static const String aEnv = '.env';
+  static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsNavbarGen navbar = $AssetsNavbarGen();
 

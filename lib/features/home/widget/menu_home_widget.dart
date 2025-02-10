@@ -41,10 +41,10 @@ class MenuHomeWidget extends StatelessWidget {
               const Gap(10),
               Text(
                 title,
-                style: GoogleFonts.montserrat(
+                style: GoogleFonts.poppins(
                   color: textColor,
                   fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
