@@ -7,6 +7,7 @@ import 'package:nutri_call_app/features/plan/pages/plan_page.dart';
 import 'package:nutri_call_app/features/profile/pages/profile_page.dart';
 import 'package:nutri_call_app/features/progress/pages/progress_page.dart';
 import 'package:nutri_call_app/features/report/pages/report_page.dart';
+import 'package:nutri_call_app/utils/app_color.dart';
 import 'package:nutri_call_app/utils/assets.gen.dart';
 
 class MainPage extends HookConsumerWidget {
@@ -32,29 +33,27 @@ class MainPage extends HookConsumerWidget {
       body: selectedPage[selectedIndex],
       bottomNavigationBar: IntrinsicHeight(
         child: Container(
-          color: Colors.black,
+          color: AppColor.lightGreen,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               NavItem(
                 iconPath: Assets.navbar.home.path,
-                label: 'Beranda',
                 isActive: selectedIndex == 0,
                 onTap: () {
                   onItemTapped(0);
                 },
               ),
               NavItem(
-                iconPath: Assets.navbar.product.path,
-                label: 'Produk',
+                iconPath: Assets.navbar.progress.path,
                 isActive: selectedIndex == 1,
                 onTap: () {
                   onItemTapped(1);
                 },
+                scale: 1.0
               ),
               NavItem(
-                iconPath: Assets.navbar.site.path,
-                label: 'Layanan Saya',
+                iconPath: Assets.navbar.report.path,
                 middle: true,
                 isActive: selectedIndex == 2,
                 onTap: () {
@@ -62,16 +61,15 @@ class MainPage extends HookConsumerWidget {
                 },
               ),
               NavItem(
-                iconPath: Assets.navbar.order.path,
-                label: 'Pesanan',
+                iconPath: Assets.navbar.plan.path,
                 isActive: selectedIndex == 3,
                 onTap: () {
                   onItemTapped(3);
                 },
+                scale: 1.0,
               ),
               NavItem(
-                iconPath: Assets.navbar.setting.path,
-                label: 'Setting',
+                iconPath: Assets.navbar.profile.path,
                 isActive: selectedIndex == 4,
                 onTap: () {
                   onItemTapped(4);
