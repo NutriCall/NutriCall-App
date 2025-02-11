@@ -32,6 +32,8 @@ dependencies:
   fluttertoast: ^8.2.11
   image_picker: ^0.8.4+4
   permission_handler: ^11.0.1
+  percent_indicator: ^4.2.4
+  syncfusion_flutter_charts: ^28.2.5
 
 dev_dependencies:
   flutter_test:
