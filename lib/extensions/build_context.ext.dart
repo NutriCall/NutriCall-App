@@ -25,7 +25,7 @@ extension BuildContextExt on BuildContext {
         content: Text(
           message,
           textAlign: TextAlign.center,
-          style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w500),
+          style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500),
         ),
       ),
     );
@@ -45,7 +45,7 @@ extension BuildContextExt on BuildContext {
         content: Text(
           message,
           textAlign: TextAlign.center,
-          style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w500),
+          style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500),
         ),
         margin: EdgeInsets.only(bottom: message.length > 1 ? deviceHeight - 170 : deviceHeight - 150, left: 20, right: 20),
         backgroundColor: Colors.red,

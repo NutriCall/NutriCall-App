@@ -21,14 +21,16 @@ class _GenderDropdownState extends State<GenderDropdown> {
         Text(
           "Gender",
           style: GoogleFonts.poppins(
-            color: AppColor.darkGreen,
-          ),
+              color: AppColor.darkGreen,
+              fontSize: 13,
+              fontWeight: FontWeight.w500),
         ),
         const Gap(5),
         Container(
           height: 48,
           padding: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
+            color: AppColor.darkWhite2,
             border: Border.all(color: AppColor.darkGreen, width: 1.5),
             borderRadius: BorderRadius.circular(8),
           ),
@@ -41,10 +43,9 @@ class _GenderDropdownState extends State<GenderDropdown> {
                       child: Text(
                         gender,
                         style: GoogleFonts.poppins(
-                          color: AppColor.semiBlack,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500
-                        ),
+                            color: AppColor.semiBlack,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500),
                       ),
                     ))
                 .toList(),
