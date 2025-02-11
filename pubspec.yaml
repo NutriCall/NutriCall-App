@@ -30,6 +30,8 @@ dependencies:
   shared_preferences: ^2.5.1
   gap: ^3.0.1
   fluttertoast: ^8.2.11
+  image_picker: ^0.8.4+4
+  permission_handler: ^11.0.1
 
 dev_dependencies:
   flutter_test:
