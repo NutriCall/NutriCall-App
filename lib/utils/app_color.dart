@@ -40,4 +40,5 @@ class AppColor {
   static const grey = Color(0xFF616161);
   static const neon = Color(0xFFC0D80F);
   static const yellow = Color(0xFFFFD05A);
+  static const darkWhite2 = Color(0xFFEDEDED);
 }

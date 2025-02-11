@@ -14,24 +14,42 @@ class CustomFloatingTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: GoogleFonts.poppins(color: AppColor.darkGreen),
-        floatingLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-        focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: AppColor.darkGreen, width: 1.5),
-          borderRadius: BorderRadius.circular(8),
+    return SizedBox(
+      height: 53, 
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: GoogleFonts.poppins(
+            color: AppColor.darkGreen,
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+          ),
+          floatingLabelStyle: GoogleFonts.poppins(
+            color: AppColor.darkGreen,
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: AppColor.darkGreen, width: 1.5),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: AppColor.darkGreen, width: 1.5),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          filled: true,
+          fillColor: AppColor.darkWhite2,
         ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: AppColor.darkGreen, width: 1.5),
-          borderRadius: BorderRadius.circular(8),
+        style: GoogleFonts.poppins(
+          color: AppColor.semiBlack,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
         ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+        cursorColor: AppColor.semiBlack,
       ),
-      style: GoogleFonts.poppins(),
     );
   }
 }
+

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
 import 'package:nutri_call_app/helpers/widget/custom_button_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_floating_field.dart';
-import 'package:nutri_call_app/utils/app_color.dart';
 import 'package:nutri_call_app/features/profile/widget/edit_profil_header.dart';
 import 'package:nutri_call_app/helpers/widget/gender_dropdown.dart';
 import 'package:nutri_call_app/helpers/widget/custom_text_field.dart';
+import 'package:nutri_call_app/utils/app_color.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -32,29 +33,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(
-          'Edit Profile',
-          style: GoogleFonts.poppins(color: AppColor.darkGreen),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              'Cancel',
-              style: GoogleFonts.poppins(
-                color: AppColor.darkGrey,
-              ),
-            ),
-          ),
-        ],
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+      appBar: CustomAppBar(
+        title: 'Edit Profile',
+        onBack: (){
+          context.pop();
+        },
       ),
       body: RefreshIndicator(
+        color: AppColor.semiBlack,
         onRefresh: _refreshData,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -105,17 +91,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ],
                   ),
                   const Gap(100),
-                  const Row(
-                    children: [
-                      Expanded(
-                        child: CustomButtonWidget(
-                          text: 'Save',
-                          backgroundColor: AppColor.darkGreen,
-                          textColor: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+                  const CustomButtonWidget(text: 'Save')
                 ],
               ),
             ),
