@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
@@ -23,8 +24,10 @@ class _GenderDropdownState extends State<GenderDropdown> {
             color: AppColor.darkGreen,
           ),
         ),
+        const Gap(5),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
+          height: 48,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
             border: Border.all(color: AppColor.darkGreen, width: 1.5),
             borderRadius: BorderRadius.circular(8),
@@ -37,7 +40,11 @@ class _GenderDropdownState extends State<GenderDropdown> {
                       value: gender,
                       child: Text(
                         gender,
-                        style: GoogleFonts.poppins(),
+                        style: GoogleFonts.poppins(
+                          color: AppColor.semiBlack,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500
+                        ),
                       ),
                     ))
                 .toList(),
@@ -48,7 +55,6 @@ class _GenderDropdownState extends State<GenderDropdown> {
             },
             decoration: const InputDecoration(
               border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(vertical: 12),
             ),
           ),
         ),
