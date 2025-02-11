@@ -25,6 +25,14 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/bananaSplit.jpg
+  AssetGenImage get bananaSplit =>
+      const AssetGenImage('assets/images/bananaSplit.jpg');
+
+  /// File path: assets/images/chickenKatsu.jpeg
+  AssetGenImage get chickenKatsu =>
+      const AssetGenImage('assets/images/chickenKatsu.jpeg');
+
   /// File path: assets/images/logo_app.png
   AssetGenImage get logoApp =>
       const AssetGenImage('assets/images/logo_app.png');
@@ -39,13 +47,24 @@ class $AssetsImagesGen {
   /// File path: assets/images/recipe.png
   AssetGenImage get recipe => const AssetGenImage('assets/images/recipe.png');
 
+  /// File path: assets/images/sopIga.jpg
+  AssetGenImage get sopIga => const AssetGenImage('assets/images/sopIga.jpg');
+
   /// File path: assets/images/userProfile.png
   AssetGenImage get userProfile =>
       const AssetGenImage('assets/images/userProfile.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [logoApp, mountainElement, plan, recipe, userProfile];
+  List<AssetGenImage> get values => [
+        bananaSplit,
+        chickenKatsu,
+        logoApp,
+        mountainElement,
+        plan,
+        recipe,
+        sopIga,
+        userProfile
+      ];
 }
 
 class $AssetsNavbarGen {

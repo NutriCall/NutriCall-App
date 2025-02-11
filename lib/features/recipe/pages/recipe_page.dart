@@ -1,24 +1,87 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:nutri_call_app/features/recipe/widget/recipe_item_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
+import 'package:nutri_call_app/utils/app_color.dart';
+import 'package:nutri_call_app/utils/assets.gen.dart';
+
+final List<Map<String, String>> recipes = [
+  {
+    "avatarUrl": Assets.images.userProfile.path,
+    "imageUrl": Assets.images.bananaSplit.path,
+    "title": "Banana split",
+    "author": "leonardochris",
+    "date": "15 January 2025"
+  },
+  {
+    "avatarUrl": Assets.images.userProfile.path,
+    "imageUrl": Assets.images.chickenKatsu.path,
+    "title": "Chicken Katsu",
+    "author": "leonardochris",
+    "date": "14 January 2025"
+  },
+  {
+    "avatarUrl": Assets.images.userProfile.path,
+    "imageUrl": Assets.images.sopIga.path,
+    "title": "Sop Iga",
+    "author": "leonardochris",
+    "date": "13 January 2025"
+  }
+];
 
 class RecipePage extends HookConsumerWidget {
   const RecipePage({super.key});
+
+  Future<void> _refreshRecipes() async {
+    await Future.delayed(const Duration(seconds: 2));
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Recipes',
-        onBack: (){
+        onBack: () {
           context.pop();
         },
       ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Center(
-          child: Text('Recipes Page'),
+      body: RefreshIndicator(
+        onRefresh: _refreshRecipes,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: ListView.builder(
+            itemCount: recipes.length,
+            itemBuilder: (context, index) {
+              final recipe = recipes[index];
+              return RecipeItem(
+                avatarUrl: recipe['avatarUrl']!,
+                imageUrl: recipe['imageUrl']!,
+                title: recipe['title']!,
+                author: recipe['author']!,
+                date: recipe['date']!,
+              );
+            },
+          ),
         ),
+      ),
+      floatingActionButton: const AddButton(),
+    );
+  }
+}
+
+class AddButton extends StatelessWidget {
+  const AddButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton.extended(
+      onPressed: () {},
+      icon: const Icon(Icons.edit, color: AppColor.darkGreen),
+      label: const Text('Add', style: TextStyle(color: AppColor.darkGreen)),
+      backgroundColor: AppColor.lightGreen,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(50),
       ),
     );
   }

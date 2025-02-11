@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nutri_call_app/features/profile/widget/profile_header_widget.dart';
 import 'package:nutri_call_app/features/profile/widget/profile_detail_item_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
 import 'package:nutri_call_app/helpers/widget/custom_button_widget.dart';
-import 'package:nutri_call_app/features/profile/pages/edit_profile_page.dart';
+import 'package:nutri_call_app/routers/router_name.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 import 'package:nutri_call_app/utils/assets.gen.dart';
 
@@ -50,12 +51,7 @@ class ProfilePage extends StatelessWidget {
                           backgroundColor: AppColor.darkGreen,
                           textColor: Colors.white,
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const EditProfilePage(),
-                              ),
-                            );
+                            context.pushNamed(RouteName.editProfilePage);
                           },
                         ),
                       ),
@@ -67,7 +63,7 @@ class ProfilePage extends StatelessWidget {
                           borderColor: AppColor.darkGreen,
                           textColor: AppColor.darkGreen,
                           onTap: () {
-                            // Add your logout functionality here
+                            context.pushNamed(RouteName.loginPage);
                           },
                         ),
                       ),
