@@ -69,16 +69,16 @@ class ProfileHeader extends StatelessWidget {
                         return Wrap(
                           children: [
                             ListTile(
-                              leading: Icon(Icons.camera),
-                              title: Text("Ambil dari Kamera"),
+                              leading: const Icon(Icons.camera),
+                              title: const Text("Ambil dari Kamera"),
                               onTap: () async {
                                 Navigator.pop(context);
                                 await pickImage(ImageSource.camera);
                               },
                             ),
                             ListTile(
-                              leading: Icon(Icons.photo),
-                              title: Text("Pilih dari Galeri"),
+                              leading: const Icon(Icons.photo),
+                              title: const Text("Pilih dari Galeri"),
                               onTap: () async {
                                 Navigator.pop(context);
                                 await pickImage(ImageSource.gallery);
