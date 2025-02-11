@@ -4,6 +4,7 @@ import 'package:nutri_call_app/features/profile/widget/profile_header_widget.dar
 import 'package:nutri_call_app/features/profile/widget/profile_detail_item_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
 import 'package:nutri_call_app/helpers/widget/custom_button_widget.dart';
+import 'package:nutri_call_app/features/profile/pages/edit_profile_page.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 import 'package:nutri_call_app/utils/assets.gen.dart';
 
@@ -39,30 +40,42 @@ class ProfilePage extends StatelessWidget {
               const Gap(60),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: CustomButtonWidget(
-                        text: 'Edit',
-                        backgroundColor: AppColor.darkGreen,
-                        textColor: Colors.white,
-                        onTap: () {},
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: CustomButtonWidget(
+                          text: 'Edit',
+                          backgroundColor: AppColor.darkGreen,
+                          textColor: Colors.white,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const EditProfilePage(),
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                    const Gap(10),
-                    Expanded(
-                      child: CustomButtonWidget(
-                        text: 'Logout',
-                        isOutlined: true,
-                        borderColor: AppColor.darkGreen,
-                        textColor: AppColor.darkGreen,
-                        onTap: () {},
+                      const Gap(10),
+                      Expanded(
+                        child: CustomButtonWidget(
+                          text: 'Logout',
+                          isOutlined: true,
+                          borderColor: AppColor.darkGreen,
+                          textColor: AppColor.darkGreen,
+                          onTap: () {
+                            // Add your logout functionality here
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-              const Gap(20), 
+              const Gap(20),
             ],
           ),
         ),
