@@ -54,6 +54,7 @@ class RecipePage extends HookConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
           child: ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
             itemCount: recipes.length,
             itemBuilder: (context, index) {
               final recipe = recipes[index];
