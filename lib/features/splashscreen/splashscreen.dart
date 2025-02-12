@@ -25,7 +25,7 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
     });
 
     Future.delayed(const Duration(seconds: 3), () {
-      context.pushReplacement(RouteName.main);
+      context.pushReplacement(RouteName.loginPage);
     });
   }
 
