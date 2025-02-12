@@ -5,8 +5,9 @@ import 'package:nutri_call_app/utils/app_color.dart';
 class MyTheme {
   static ThemeData get lightTheme {
     return ThemeData(
-      textTheme: GoogleFonts.montserratTextTheme().apply(bodyColor: AppColor.textColor),
-      fontFamily: GoogleFonts.montserrat().fontFamily,
+      textTheme:
+          GoogleFonts.poppinsTextTheme().apply(bodyColor: AppColor.textColor),
+      fontFamily: GoogleFonts.poppins().fontFamily,
       scaffoldBackgroundColor: AppColor.primaryColor,
     );
   }

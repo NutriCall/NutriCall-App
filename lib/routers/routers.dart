@@ -1,6 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:nutri_call_app/features/auth/pages/sign_up_page.dart';
 import 'package:nutri_call_app/features/main/pages/main_page.dart';
+import 'package:nutri_call_app/features/recipe/pages/add_recipe_page.dart';
+import 'package:nutri_call_app/features/recipe/pages/add_ingredients_page.dart';
 import 'package:nutri_call_app/features/recipe/pages/recipe_page.dart';
 import 'package:nutri_call_app/features/splashscreen/splashscreen.dart';
 import 'package:nutri_call_app/features/weekly_report/pages/weekly_report_page.dart';
@@ -52,6 +54,16 @@ Raw<GoRouter> router(RouterRef ref) {
         path: '/sign-up-page',
         name: RouteName.signUpPage,
         builder: (context, state) => const SignUpPage(),
+      ),
+      GoRoute(
+        path: '/add-recipe-page',
+        name: RouteName.addRecipePage,
+        builder: (context, state) => const AddRecipePage(),
+      ),
+      GoRoute(
+        path: '/add-ingredient-page',
+        name: RouteName.addIngredientPage,
+        builder: (context, state) => const AddIngredientsPage(),
       ),
     ],
   );

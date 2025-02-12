@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:nutri_call_app/features/recipe/widget/floating_action_button.dart';
 import 'package:nutri_call_app/features/recipe/widget/recipe_item_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
+import 'package:nutri_call_app/routers/router_name.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 import 'package:nutri_call_app/utils/assets.gen.dart';
 
@@ -68,8 +68,27 @@ class RecipePage extends HookConsumerWidget {
         ),
       ),
       floatingActionButton: Transform.translate(
-        offset: const Offset(0, -40), 
+        offset: const Offset(0, -40),
         child: const AddButton(),
+      ),
+    );
+  }
+}
+
+class AddButton extends StatelessWidget {
+  const AddButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton.extended(
+      onPressed: () {
+        context.pushNamed(RouteName.addRecipePage);
+      },
+      icon: const Icon(Icons.edit, color: AppColor.darkGreen),
+      label: const Text('Add', style: TextStyle(color: AppColor.darkGreen)),
+      backgroundColor: AppColor.lightGreen,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(50),
       ),
     );
   }
