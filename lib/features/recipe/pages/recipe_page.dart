@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nutri_call_app/features/recipe/widget/floating_action_button.dart';
 import 'package:nutri_call_app/features/recipe/widget/recipe_item_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
+import 'package:nutri_call_app/routers/router_name.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 import 'package:nutri_call_app/utils/assets.gen.dart';
 
@@ -68,9 +69,14 @@ class RecipePage extends HookConsumerWidget {
         ),
       ),
       floatingActionButton: Transform.translate(
-        offset: const Offset(0, -40),
-        child: const AddButton(),
+        offset: const Offset(0, -20), 
+        child: AddButton(
+          onTap: () {
+            context.pushNamed(RouteName.addRecipePage);
+          },
+        ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

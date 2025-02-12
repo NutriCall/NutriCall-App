@@ -4,12 +4,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
 class AddButton extends StatelessWidget {
-  const AddButton({super.key});
+  final VoidCallback onTap;
+
+  const AddButton({
+    super.key,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
-      onPressed: () {},
+      onPressed: onTap,
       icon: const Icon(Icons.edit, color: AppColor.darkGreen),
       label: Text(
         'Add', 
