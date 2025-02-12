@@ -22,11 +22,9 @@ class CircularPercentWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: CircularPercentIndicator(
-        radius: 80.0,
-        lineWidth: 28.0,
+    return CircularPercentIndicator(
+        radius: 65.0,
+        lineWidth: 22.0,
         percent: percent,
         center: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -52,7 +50,6 @@ class CircularPercentWidget extends HookConsumerWidget {
         progressColor: progressColor,
         backgroundColor: backgroundColor,
         circularStrokeCap: CircularStrokeCap.round,
-      ),
-    );
+      );
   }
 }

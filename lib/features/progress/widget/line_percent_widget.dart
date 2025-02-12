@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-
 class LinePercentWidget extends HookConsumerWidget {
   final String title;
   final double percent;
@@ -29,13 +28,13 @@ class LinePercentWidget extends HookConsumerWidget {
           title,
           style: GoogleFonts.poppins(
             color: Colors.black,
-            fontSize: 9,
+            fontSize: 8,
             fontWeight: FontWeight.w400,
           ),
         ),
         const Gap(6),
         LinearPercentIndicator(
-          width: 100.0,
+          width: 66.0,
           lineHeight: 8.0,
           percent: percent,
           progressColor: progressColor,
@@ -48,8 +47,8 @@ class LinePercentWidget extends HookConsumerWidget {
           valueText,
           style: GoogleFonts.poppins(
             color: Colors.black,
-            fontSize: 9,
-            fontWeight: FontWeight.w600,
+            fontSize: 8,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ],
