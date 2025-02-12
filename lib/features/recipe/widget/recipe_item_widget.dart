@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
@@ -10,46 +11,53 @@ class RecipeItem extends StatelessWidget {
   final String date;
 
   const RecipeItem({
-    Key? key,
+    super.key,
     required this.avatarUrl,
     required this.imageUrl,
     required this.title,
     required this.author,
     required this.date,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Profile and Author
             Row(
               children: [
                 CircleAvatar(
                   backgroundImage: AssetImage(avatarUrl),
                   radius: 16,
                 ),
-                const SizedBox(width: 8),
-                Text(
-                  'by $author',
-                  style: GoogleFonts.poppins(
-                    fontSize: 12,
-                    color: Colors.grey[600],
+                const Gap(8),
+                RichText(
+                  text: TextSpan(
+                    style: GoogleFonts.poppins(
+                      fontSize: 13,
+                      color: AppColor.lightBlack,
+                    ),
+                    children: [
+                      const TextSpan(
+                        text: 'by ',
+                        style: TextStyle(fontWeight: FontWeight.w400),
+                      ),
+                      TextSpan(
+                        text: author,
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-
+            const Gap(10),
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.asset(
@@ -59,8 +67,7 @@ class RecipeItem extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(height: 12),
-
+            const Gap(8),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -68,18 +75,19 @@ class RecipeItem extends StatelessWidget {
                   title,
                   style: GoogleFonts.poppins(
                     fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: AppColor.darkGrey,
+                    fontWeight: FontWeight.w600,
+                    color: AppColor.semiBlack,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const Gap(4),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
                     date,
                     style: GoogleFonts.poppins(
-                      fontSize: 12,
-                      color: AppColor.grey,
+                      fontSize: 13,
+                      color: AppColor.lightBlack,
+                      fontWeight: FontWeight.w400
                     ),
                   ),
                 ),
