@@ -47,7 +47,7 @@ class NutricallBanner extends StatelessWidget {
               child: Transform.scale(
                 scale: 1.2,
                 child: Image.asset(
-                  Assets.images.logoApp.path,
+                  Assets.images.logoNutri.path,
                   fit: BoxFit.cover,
                 ),
               ),
