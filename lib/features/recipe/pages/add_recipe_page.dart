@@ -12,7 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
 class AddRecipePage extends HookConsumerWidget {
-  const AddRecipePage({Key? key});
+  const AddRecipePage({super.key});
 
   Future<void> _refresh() async {
     await Future.delayed(const Duration(seconds: 2));
