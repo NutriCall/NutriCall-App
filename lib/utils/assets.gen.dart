@@ -33,9 +33,12 @@ class $AssetsImagesGen {
   AssetGenImage get chickenKatsu =>
       const AssetGenImage('assets/images/chickenKatsu.jpeg');
 
-  /// File path: assets/images/logo_app.png
-  AssetGenImage get logoApp =>
-      const AssetGenImage('assets/images/logo_app.png');
+  /// File path: assets/images/logoApp.PNG
+  AssetGenImage get logoApp => const AssetGenImage('assets/images/logoApp.PNG');
+
+  /// File path: assets/images/logoNutri.png
+  AssetGenImage get logoNutri =>
+      const AssetGenImage('assets/images/logoNutri.png');
 
   /// File path: assets/images/mountainElement.png
   AssetGenImage get mountainElement =>
@@ -59,6 +62,7 @@ class $AssetsImagesGen {
         bananaSplit,
         chickenKatsu,
         logoApp,
+        logoNutri,
         mountainElement,
         plan,
         recipe,
