@@ -12,12 +12,20 @@ import 'package:nutri_call_app/utils/assets.gen.dart';
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
+  Future<void> _refreshProfile() async {
+    await Future.delayed(const Duration(seconds: 2));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: const CustomAppBar(title: 'Profile Page'),
-        body: SingleChildScrollView(
+        body:  RefreshIndicator(
+        color: AppColor.semiBlack,
+        onRefresh: _refreshProfile,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,6 +82,7 @@ class ProfilePage extends StatelessWidget {
               const Gap(20),
             ],
           ),
+        ),
         ),
       ),
     );
