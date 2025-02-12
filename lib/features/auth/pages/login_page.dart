@@ -64,9 +64,18 @@ class LoginPage extends StatelessWidget {
                     const Gap(50),
                     const CustomFloatingTextField(label: 'Username'),
                     const Gap(20),
-                    const CustomFloatingTextField(label: 'Password'),
+                    CustomFloatingTextField(
+                      label: "Password",
+                      controller: TextEditingController(),
+                      isPassword: true, 
+                    ),
                     const Gap(65),
-                    const CustomButtonWidget(text: 'Log in'),
+                    GestureDetector(
+                      onTap: (){
+                        context.pushReplacement(RouteName.main);
+                      },
+                      child: const CustomButtonWidget(text: 'Log in'),
+                    ), 
                     const Gap(30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
