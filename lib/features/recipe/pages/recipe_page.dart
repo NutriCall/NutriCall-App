@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:nutri_call_app/features/recipe/widget/floating_action_button.dart';
 import 'package:nutri_call_app/features/recipe/widget/recipe_item_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
-import 'package:nutri_call_app/utils/app_color.dart';
 import 'package:nutri_call_app/utils/assets.gen.dart';
 
 final List<Map<String, String>> recipes = [
@@ -49,7 +49,7 @@ class RecipePage extends HookConsumerWidget {
       body: RefreshIndicator(
         onRefresh: _refreshRecipes,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
           child: ListView.builder(
             itemCount: recipes.length,
             itemBuilder: (context, index) {
@@ -65,23 +65,9 @@ class RecipePage extends HookConsumerWidget {
           ),
         ),
       ),
-      floatingActionButton: const AddButton(),
-    );
-  }
-}
-
-class AddButton extends StatelessWidget {
-  const AddButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton.extended(
-      onPressed: () {},
-      icon: const Icon(Icons.edit, color: AppColor.darkGreen),
-      label: const Text('Add', style: TextStyle(color: AppColor.darkGreen)),
-      backgroundColor: AppColor.lightGreen,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(50),
+      floatingActionButton: Transform.translate(
+        offset: const Offset(0, -40), 
+        child: const AddButton(),
       ),
     );
   }
