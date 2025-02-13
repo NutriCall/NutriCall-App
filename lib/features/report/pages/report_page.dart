@@ -44,7 +44,7 @@ class _ReportPageState extends State<ReportPage> with SingleTickerProviderStateM
       onRefresh: _refreshReport,
       color: AppColor.semiBlack,
       child: Scaffold(
-        appBar: const CustomAppBar(title: 'Report'),
+        appBar: const CustomAppBar(title: 'Daily Report'),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: Column(
