@@ -244,7 +244,6 @@ class ProgressPage extends HookConsumerWidget {
     }
     return chartData;
   }
-
 }
 
 
