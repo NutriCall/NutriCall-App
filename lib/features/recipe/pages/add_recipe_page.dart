@@ -87,7 +87,12 @@ class AddRecipePage extends HookConsumerWidget {
                   placeholder: "Describe the steps...",
                 ),
                 const Gap(15),
-                const CustomButtonWidget(text: 'Save')
+                CustomButtonWidget(
+                  text: 'Preview',
+                  onTap: () {
+                    context.pushNamed(RouteName.previewRecipePage);
+                  },
+                ),
               ],
             ),
           ),
