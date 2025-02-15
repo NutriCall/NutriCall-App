@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nutri_call_app/routers/router_name.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
 class MealItem {
@@ -41,6 +43,15 @@ class MealItemWidget extends StatelessWidget {
         activeColor: meal.isSelected ? AppColor.darkGreen : null,
         side: const BorderSide(color: AppColor.darkGreen),
       ),
+      onTap: () {
+        context.pushNamed(
+          RouteName.detailMealPage, 
+          pathParameters: {
+            'id': meal.id.toString(),
+            'name': meal.name,
+          },
+        );
+      },
     );
   }
 }
