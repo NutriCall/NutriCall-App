@@ -10,6 +10,7 @@ import 'package:nutri_call_app/utils/assets.gen.dart';
 
 final List<Map<String, String>> recipes = [
   {
+    "id": "1",
     "avatarUrl": Assets.images.userProfile.path,
     "imageUrl": Assets.images.bananaSplit.path,
     "title": "Banana split",
@@ -17,6 +18,7 @@ final List<Map<String, String>> recipes = [
     "date": "15 January 2025"
   },
   {
+    "id": "2",
     "avatarUrl": Assets.images.userProfile.path,
     "imageUrl": Assets.images.chickenKatsu.path,
     "title": "Chicken Katsu",
@@ -24,6 +26,7 @@ final List<Map<String, String>> recipes = [
     "date": "14 January 2025"
   },
   {
+    "id": "3",
     "avatarUrl": Assets.images.userProfile.path,
     "imageUrl": Assets.images.sopIga.path,
     "title": "Sop Iga",
@@ -58,19 +61,27 @@ class RecipePage extends HookConsumerWidget {
             itemCount: recipes.length,
             itemBuilder: (context, index) {
               final recipe = recipes[index];
-              return RecipeItem(
-                avatarUrl: recipe['avatarUrl']!,
-                imageUrl: recipe['imageUrl']!,
-                title: recipe['title']!,
-                author: recipe['author']!,
-                date: recipe['date']!,
+              return GestureDetector(
+                onTap: () {
+                  context.pushNamed(
+                    RouteName.detailRecipePage,
+                    pathParameters: {'id': recipe['id']!},
+                  );
+                },
+                child: RecipeItem(
+                  avatarUrl: recipe['avatarUrl']!,
+                  imageUrl: recipe['imageUrl']!,
+                  title: recipe['title']!,
+                  author: recipe['author']!,
+                  date: recipe['date']!,
+                ),
               );
             },
           ),
         ),
       ),
       floatingActionButton: Transform.translate(
-        offset: const Offset(0, -20), 
+        offset: const Offset(0, -20),
         child: AddButton(
           onTap: () {
             context.pushNamed(RouteName.addRecipePage);

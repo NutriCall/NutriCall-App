@@ -9,4 +9,6 @@ class RouteName {
   static const String signUpPage = '/sign-up-page';
   static const String addRecipePage = '/add-recipe-page';
   static const String addIngredientPage = '/add-ingredient-page';
+  static const String previewRecipePage = '/preview-recipe-page';
+  static const String detailRecipePage = '/recipes/:id';
 }
