@@ -12,7 +12,7 @@ import 'package:nutri_call_app/utils/app_color.dart';
 class ProgressPage extends HookConsumerWidget {
   const ProgressPage({super.key});
 
-    Future<void> _refreshRecipes() async {
+    Future<void> _refreshProgress() async {
       await Future.delayed(const Duration(seconds: 2));
     }
 
@@ -21,10 +21,12 @@ class ProgressPage extends HookConsumerWidget {
     List<ChartData> customChartData = generateChartData();
 
     return RefreshIndicator(
-      onRefresh: _refreshRecipes,
+      onRefresh: _refreshProgress,
       color: AppColor.semiBlack,
       child: Scaffold(
-        appBar: const CustomAppBar(title: 'Progress'),
+        appBar: const CustomAppBar(
+          title: 'Progress',
+        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: SingleChildScrollView(
