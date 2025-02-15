@@ -4,13 +4,13 @@ import 'package:nutri_call_app/utils/app_color.dart';
 class SizeDropdown extends StatefulWidget {
   final String initialSize;
   final bool isEditable;
-  final Function(String) onChanged;
+  final Function(String)? onChanged;
 
   const SizeDropdown({
     super.key,
     this.initialSize = 'medium',
     this.isEditable = true,
-    required this.onChanged,
+    this.onChanged,
   });
 
   @override
@@ -30,32 +30,46 @@ class _SizeDropdownState extends State<SizeDropdown> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 60,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         border: Border.all(color: AppColor.darkGreen, width: 1.5),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: _selectedSize,
-          onChanged: widget.isEditable
-              ? (String? newValue) {
+      child: widget.isEditable
+          ? DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                value: _selectedSize,
+                iconEnabledColor: AppColor.darkGreen,
+                onChanged: (String? newValue) {
                   if (newValue != null) {
                     setState(() {
                       _selectedSize = newValue;
-                      widget.onChanged(newValue);
+                      widget.onChanged?.call(newValue);
                     });
                   }
-                }
-              : null,
-          items: _sizes.map((String size) {
-            return DropdownMenuItem<String>(
-              value: size,
-              child: Text(size),
-            );
-          }).toList(),
-        ),
-      ),
+                },
+                items: _sizes.map((String size) {
+                  return DropdownMenuItem<String>(
+                    value: size,
+                    child: Text(
+                      size,
+                      style: TextStyle(color: AppColor.darkGreen),
+                    ),
+                  );
+                }).toList(),
+              ),
+            )
+          : Center(
+              child: Text(
+                _selectedSize,
+                style: TextStyle(
+                  color: AppColor.darkGreen,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
     );
   }
 }

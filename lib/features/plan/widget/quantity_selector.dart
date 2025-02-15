@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class QuantitySelector extends StatefulWidget {
   final int initialValue;
   final bool isEditable;
-  final Function(int) onChanged;
+  final Function(int)? onChanged;
 
   const QuantitySelector({
     super.key,
     this.initialValue = 1,
     this.isEditable = true,
-    required this.onChanged,
+    this.onChanged,
   });
 
   @override
@@ -30,7 +31,7 @@ class _QuantitySelectorState extends State<QuantitySelector> {
     if (widget.isEditable) {
       setState(() {
         _quantity++;
-        widget.onChanged(_quantity);
+        widget.onChanged?.call(_quantity);
       });
     }
   }
@@ -39,7 +40,7 @@ class _QuantitySelectorState extends State<QuantitySelector> {
     if (widget.isEditable && _quantity > 1) {
       setState(() {
         _quantity--;
-        widget.onChanged(_quantity);
+        widget.onChanged?.call(_quantity);
       });
     }
   }
@@ -47,24 +48,51 @@ class _QuantitySelectorState extends State<QuantitySelector> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      height: 60,
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         border: Border.all(color: AppColor.darkGreen, width: 1.5),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            icon: const Icon(Icons.remove),
-            onPressed: widget.isEditable ? _decrement : null,
-          ),
-          Text('$_quantity', style: const TextStyle(fontSize: 18)),
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: widget.isEditable ? _increment : null,
-          ),
-        ],
+      child: widget.isEditable
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildIconButton(Icons.remove, _decrement),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Text(
+                    '$_quantity',
+                    style: GoogleFonts.poppins(
+                        fontSize: 18, color: AppColor.darkGreen),
+                  ),
+                ),
+                _buildIconButton(Icons.add, _increment),
+              ],
+            )
+          : Center(
+              child: Text(
+                '$_quantity',
+                style: GoogleFonts.poppins(
+                    fontSize: 18, color: AppColor.darkGreen),
+              ),
+            ),
+    );
+  }
+
+  Widget _buildIconButton(IconData icon, VoidCallback onPressed) {
+    return SizedBox(
+      width: 28,
+      height: 28,
+      child: ElevatedButton(
+        onPressed: widget.isEditable ? onPressed : null,
+        style: ElevatedButton.styleFrom(
+          shape: const CircleBorder(),
+          padding: EdgeInsets.zero,
+          backgroundColor: AppColor.darkGreen,
+          elevation: 0,
+        ),
+        child: Icon(icon, color: Colors.white, size: 18),
       ),
     );
   }

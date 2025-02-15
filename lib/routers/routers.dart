@@ -4,6 +4,7 @@ import 'package:nutri_call_app/features/main/pages/main_page.dart';
 import 'package:nutri_call_app/features/plan/pages/add_meals_page.dart';
 import 'package:nutri_call_app/features/plan/pages/detail_meal_page.dart';
 import 'package:nutri_call_app/features/plan/pages/plan_page.dart';
+import 'package:nutri_call_app/features/plan/pages/preview_meal_page.dart';
 import 'package:nutri_call_app/features/recipe/pages/add_recipe_page.dart';
 import 'package:nutri_call_app/features/recipe/pages/add_ingredients_page.dart';
 import 'package:nutri_call_app/features/recipe/pages/detail_recipe_page.dart';
@@ -97,14 +98,23 @@ Raw<GoRouter> router(RouterRef ref) {
         builder: (context, state) => const PlanPage(),
       ),
       GoRoute(
-      path: '/detail-meal/:id/:name',
-      name: RouteName.detailMealPage,
-      builder: (context, state) {
-        final id = state.pathParameters['id']!;
-        final name = state.pathParameters['name']!;
-        return DetailMealPage(id: id, name: name);
-      },
-    ),
+        path: '/detail-meal/:id/:name',
+        name: RouteName.detailMealPage,
+        builder: (context, state) {
+          final id = state.pathParameters['id']!;
+          final name = state.pathParameters['name']!;
+          return DetailMealPage(id: id, name: name);
+        },
+      ),
+      GoRoute(
+        path: '/preview-meal/:id/:name',
+        name: RouteName.previewMealPage,
+        builder: (context, state) {
+          final id = state.pathParameters['id']!;
+          final name = state.pathParameters['name']!;
+          return PreviewMealPage(id: id, name: name);
+        },
+      ),
     ],
   );
 }

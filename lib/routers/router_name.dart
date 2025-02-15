@@ -14,4 +14,5 @@ class RouteName {
   static const String addMealsPage = '/add-meals/:mealId';
   static const String planPage = '/plan-page';
   static const String detailMealPage = '/detail-meal/:id/:name';
+  static const String previewMealPage = '/preview-meal/:id/:name';
 }
