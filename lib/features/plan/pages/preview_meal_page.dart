@@ -1,37 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nutri_call_app/features/plan/widget/quantity_selector.dart';
 import 'package:nutri_call_app/features/plan/widget/size_dropdown.dart';
 import 'package:nutri_call_app/features/recipe/widget/recipe_image_widget.dart';
+import 'package:nutri_call_app/features/recipe/widget/recipe_nutrition_table_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
 import 'package:nutri_call_app/helpers/widget/custom_button_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_description_input.dart';
-import 'package:nutri_call_app/routers/router_name.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 import 'package:nutri_call_app/utils/assets.gen.dart';
 
-class DetailMealPage extends StatefulWidget {
+final previewMealProvider = FutureProvider<Map<String, dynamic>>((ref) async {
+  return {
+    "nutritionData": {
+      "Calories": "210 (4%)",
+      "Total Fat": "0,8g",
+      "Total Carbohydrates": "53,8g",
+      "Proteins": "2,6g"
+    }
+  };
+});
+
+class PreviewMealPage extends ConsumerStatefulWidget {
   final String id;
   final String name;
   final int initialQuantity;
   final String initialSize;
   final bool isEditable;
 
-  const DetailMealPage({
+  const PreviewMealPage({
     super.key,
     required this.id,
     required this.name,
     this.initialQuantity = 1,
     this.initialSize = 'medium',
-    this.isEditable = true,
+    this.isEditable = false,
   });
 
   @override
-  _DetailMealPageState createState() => _DetailMealPageState();
+  _PreviewMealPageState createState() => _PreviewMealPageState();
 }
 
-class _DetailMealPageState extends State<DetailMealPage> {
+class _PreviewMealPageState extends ConsumerState<PreviewMealPage> {
   late int quantity;
   late String size;
 
@@ -42,18 +53,10 @@ class _DetailMealPageState extends State<DetailMealPage> {
     size = widget.initialSize;
   }
 
-  Future<void> _refresh() async {
-    // Simulate a network call or any async operation
-    await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      // Update the state with new data if needed
-      quantity = widget.initialQuantity;
-      size = widget.initialSize;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final mealState = ref.watch(previewMealProvider);
+
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Detail Meal',
@@ -62,10 +65,14 @@ class _DetailMealPageState extends State<DetailMealPage> {
         },
       ),
       body: RefreshIndicator(
-        onRefresh: _refresh,
-        child: Padding(
+        onRefresh: () async {
+          ref.refresh(previewMealProvider);
+        },
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.all(16.0),
-          child: ListView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 widget.name,
@@ -77,9 +84,10 @@ class _DetailMealPageState extends State<DetailMealPage> {
               const SizedBox(height: 8),
               RecipeImageWidget(imageUrl: Assets.images.chickenKatsu.path),
               const CustomDescriptionInput(
-                  label: "",
-                  placeholder:
-                      'Describe your meal, for example “a piece of chicken with rice”.'),
+                label: "",
+                placeholder:
+                    'Describe your meal, for example “a piece of chicken with rice”.',
+              ),
               Row(
                 children: [
                   Expanded(
@@ -137,18 +145,22 @@ class _DetailMealPageState extends State<DetailMealPage> {
                   ),
                 ],
               ),
+              const SizedBox(height: 15),
+              mealState.when(
+                data: (meal) {
+                  final nutritionData =
+                      meal["nutritionData"] as Map<String, String>? ?? {};
+                  return RecipeNutritionTableWidget(
+                      nutritionData: nutritionData);
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, _) => Text(
+                  'Failed to load nutrition data',
+                  style: GoogleFonts.poppins(color: Colors.red),
+                ),
+              ),
               const SizedBox(height: 24),
-              CustomButtonWidget(
-                  text: 'Preview',
-                  onTap: () {
-                    context.pushNamed(
-                      RouteName.previewMealPage,
-                      pathParameters: {
-                        'id': widget.id,
-                        'name': widget.name,
-                      },
-                    );
-                  }),
+              const CustomButtonWidget(text: 'Add to List'),
             ],
           ),
         ),
