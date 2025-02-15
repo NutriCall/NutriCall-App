@@ -3,10 +3,10 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:nutri_call_app/features/progress/widget/circular_percent_widget.dart';
-import 'package:nutri_call_app/features/progress/widget/line_percent_widget.dart';
 import 'package:nutri_call_app/features/weekly_report/widget/area_chart_weekly_widget.dart';
+import 'package:nutri_call_app/features/weekly_report/widget/calories_info_widget.dart';
 import 'package:nutri_call_app/features/weekly_report/widget/circular_percent_weekly_widget.dart';
+import 'package:nutri_call_app/features/weekly_report/widget/nutrition_info_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
@@ -38,6 +38,25 @@ class WeeklyReportPage extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const Gap(8),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CaloriesInfoWidget(
+                      calories: "8.200", 
+                      description: "Target Calories"
+                    ),
+                    CaloriesInfoWidget(
+                      calories: "2.207", 
+                      description: "Calories Recorded"
+                    ),
+                    CaloriesInfoWidget(
+                      calories: "3.800", 
+                      description: "Calories Burned"
+                    )
+                  ],
+                ),
+                const Gap(20),
                 Text(
                   'What have you eaten this week?',
                   style: GoogleFonts.poppins(
@@ -49,7 +68,7 @@ class WeeklyReportPage extends HookConsumerWidget {
                 const Gap(10),
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
@@ -57,96 +76,27 @@ class WeeklyReportPage extends HookConsumerWidget {
                       width: 1,
                     ),
                   ),
-                  child:Row(
-                    children: [
-                      Expanded(
-                        flex: 3, 
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Consumed',
-                                    style: GoogleFonts.poppins(
-                                      color: AppColor.lightBlack,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  const Gap(4),
-                                  RichText(
-                                    text: TextSpan(
-                                      style: GoogleFonts.poppins(
-                                        color: AppColor.semiBlack,
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: '615 ',
-                                          style: GoogleFonts.poppins(
-                                              fontWeight: FontWeight.w600, fontSize: 20),
-                                        ),
-                                        TextSpan(
-                                          text: 'kcal',
-                                          style: GoogleFonts.poppins(
-                                              fontWeight: FontWeight.w400, fontSize: 12),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Gap(12),
-                            const Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: LinePercentWidget(
-                                    title: 'Carbs',
-                                    percent: 0.2,
-                                    progressColor: AppColor.blue,
-                                    valueText: '13 / 228 g',
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: LinePercentWidget(
-                                    title: 'Protein',
-                                    percent: 0.4,
-                                    progressColor: AppColor.orange,
-                                    valueText: '27 / 91 g',
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: LinePercentWidget(
-                                    title: 'Fat',
-                                    percent: 0.7,
-                                    progressColor: AppColor.pink,
-                                    valueText: '52 / 61 g',
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
+                  child: const Column(
+                      children: [
+                        NutritionInfoWidget(
+                          color: AppColor.blue, 
+                          percentage: "60%", 
+                          description: "Carbohydrates are food components that serve as the main source of energy for the body."
                         ),
-                      ),
-                      const Expanded(
-                        flex: 2, 
-                        child: CircularPercentWidget(
-                          percent: 0.3,
-                          progressColor: AppColor.darkGreen,
-                          backgroundColor: AppColor.disabledGreen,
-                          value1: '1212',
-                          value2: 'kcal remaining',
+                        Gap(12),
+                        NutritionInfoWidget(
+                          color: AppColor.orange, 
+                          percentage: "20%", 
+                          description: "Proteins helps the immune system, and is the building block for cells and tissues."
                         ),
-                      ),
-                    ],
-                  ),
+                        Gap(12),
+                        NutritionInfoWidget(
+                          color: AppColor.pink, 
+                          percentage: "20%", 
+                          description: "Fat is an essential nutrient that serves as a source of energy, protects the body's organs, and helps the absorption process of vitamins."
+                        )
+                      ],
+                    ),
                 ),
                 const Gap(20),
                 Text(
@@ -168,14 +118,22 @@ class WeeklyReportPage extends HookConsumerWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const Gap(10),
+                const Gap(30),
                 Center(
                   child: CircularPercentWeelyWidget(
                     percentages: const [0.16, 0.259, 0.308, 0.084, 0.125, 0.064],
                     progressColors: const [AppColor.blue, AppColor.orange, AppColor.purple, AppColor.yellow, AppColor.lightGreen, AppColor.pink],
-                    backgroundColor: Colors.grey[300]!,
+                    backgroundColor: Colors.grey[300]!, 
+                    labels: const [
+                      "Carbohydrates",
+                      "Proteins",
+                      "Calories",
+                      "Fats",
+                      "Vitamins",
+                      "Fibers",],
                   ),
                 ),
+                const Gap(100),
               ],
             ),
           ),

@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
@@ -6,12 +9,14 @@ class CircularPercentWeelyWidget extends HookConsumerWidget {
   final List<double> percentages;
   final List<Color> progressColors;
   final Color backgroundColor;
+  final List<String> labels;
 
   const CircularPercentWeelyWidget({
     super.key,
     required this.percentages,
     required this.progressColors,
     required this.backgroundColor,
+    required this.labels,
   });
 
   @override
@@ -28,6 +33,7 @@ class CircularPercentWeelyWidget extends HookConsumerWidget {
         ),
         
         ..._buildSegmentedProgress(),
+        ..._buildLabels(),
       ],
     );
   }
@@ -57,5 +63,50 @@ class CircularPercentWeelyWidget extends HookConsumerWidget {
     }
 
     return progressSegments;
+  }
+
+  List<Widget> _buildLabels() {
+    List<Widget> labelWidgets = [];
+    double startAngle = -180.0; 
+    double radius = 105.0; 
+
+    for (int i = 0; i < percentages.length; i++) {
+      double midAngle = startAngle + (percentages[i] * 180); 
+      double radian = (midAngle * pi) / 180; 
+
+      double x = cos(radian) * radius;
+      double y = sin(radian) * radius;
+
+      labelWidgets.add(
+        Transform.translate(
+          offset: Offset(x, y),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                labels[i],
+                style:  GoogleFonts.poppins(
+                  color: Colors.black,
+                  fontSize: 7,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              Text(
+                "${(percentages[i] * 100).toStringAsFixed(0)}%",
+                style:  GoogleFonts.poppins(
+                  color: Colors.black,
+                  fontSize: 7,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+      startAngle += percentages[i] * 360;
+    }
+
+    return labelWidgets;
   }
 }
