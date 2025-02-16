@@ -8,15 +8,16 @@ class CustomSearchField extends StatelessWidget {
   final VoidCallback onSearch;
 
   const CustomSearchField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
     required this.onSearch,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      cursorColor: AppColor.semiBlack,
       controller: controller,
       style: GoogleFonts.poppins(
         color: AppColor.darkGreen,
@@ -26,11 +27,15 @@ class CustomSearchField extends StatelessWidget {
         hintText: hintText,
         hintStyle: GoogleFonts.poppins(
           color: AppColor.darkGreen,
-          fontSize: 16,
+          fontSize: 15,
+          fontWeight: FontWeight.w500
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColor.darkGreen),
+          borderSide: const BorderSide(
+            color: AppColor.darkGreen,
+            width: 1.5,
+          ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
@@ -42,6 +47,14 @@ class CustomSearchField extends StatelessWidget {
           icon: const Icon(Icons.search, color: AppColor.darkGreen),
           onPressed: onSearch,
         ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(
+            color: AppColor.darkGreen,
+            width: 1.5,
+          ),
+        ),
+
       ),
       onSubmitted: (value) => onSearch(),
     );

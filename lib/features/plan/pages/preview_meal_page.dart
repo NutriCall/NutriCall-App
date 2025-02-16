@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nutri_call_app/features/plan/widget/quantity_selector.dart';
@@ -81,7 +82,7 @@ class _PreviewMealPageState extends ConsumerState<PreviewMealPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 8),
+              const Gap(8),
               RecipeImageWidget(imageUrl: Assets.images.chickenKatsu.path),
               const CustomDescriptionInput(
                 label: "",
@@ -100,7 +101,7 @@ class _PreviewMealPageState extends ConsumerState<PreviewMealPage> {
                               fontSize: 16,
                               color: AppColor.darkGreen,
                             )),
-                        const SizedBox(height: 8),
+                        const Gap(8),
                         SizedBox(
                           width: double.infinity,
                           child: QuantitySelector(
@@ -116,7 +117,7 @@ class _PreviewMealPageState extends ConsumerState<PreviewMealPage> {
                       ],
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const Gap(16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,7 +128,7 @@ class _PreviewMealPageState extends ConsumerState<PreviewMealPage> {
                               fontSize: 16,
                               color: AppColor.darkGreen,
                             )),
-                        const SizedBox(height: 8),
+                        const Gap(8),
                         SizedBox(
                           width: double.infinity,
                           child: SizeDropdown(
@@ -145,7 +146,7 @@ class _PreviewMealPageState extends ConsumerState<PreviewMealPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 15),
+              const Gap(5),
               mealState.when(
                 data: (meal) {
                   final nutritionData =
@@ -159,7 +160,7 @@ class _PreviewMealPageState extends ConsumerState<PreviewMealPage> {
                   style: GoogleFonts.poppins(color: Colors.red),
                 ),
               ),
-              const SizedBox(height: 24),
+              const Gap(24),
               const CustomButtonWidget(text: 'Add to List'),
             ],
           ),

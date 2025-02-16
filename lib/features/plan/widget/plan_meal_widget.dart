@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutri_call_app/features/plan/pages/add_meals_page.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
@@ -54,7 +55,7 @@ class _PlanMealWidgetState extends State<PlanMealWidget> {
                           style: GoogleFonts.poppins(
                               fontSize: 14, color: Colors.grey),
                         ),
-                        const SizedBox(width: 10),
+                        const Gap(10),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.push(

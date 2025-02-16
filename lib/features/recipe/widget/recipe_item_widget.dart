@@ -44,13 +44,17 @@ class RecipeItem extends StatelessWidget {
                       color: AppColor.lightBlack,
                     ),
                     children: [
-                      const TextSpan(
+                      TextSpan(
                         text: 'by ',
-                        style: TextStyle(fontWeight: FontWeight.w400),
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w400
+                        ),
                       ),
                       TextSpan(
                         text: author,
-                        style: const TextStyle(fontWeight: FontWeight.w600),
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600
+                        ),
                       ),
                     ],
                   ),

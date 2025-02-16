@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutri_call_app/features/plan/widget/quantity_selector.dart';
@@ -74,7 +75,7 @@ class _DetailMealPageState extends State<DetailMealPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 8),
+              const Gap(8),
               RecipeImageWidget(imageUrl: Assets.images.chickenKatsu.path),
               const CustomDescriptionInput(
                   label: "",
@@ -92,7 +93,7 @@ class _DetailMealPageState extends State<DetailMealPage> {
                               fontSize: 16,
                               color: AppColor.darkGreen,
                             )),
-                        const SizedBox(height: 8),
+                        const Gap(8),
                         SizedBox(
                           width: double.infinity,
                           child: QuantitySelector(
@@ -108,7 +109,7 @@ class _DetailMealPageState extends State<DetailMealPage> {
                       ],
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const Gap(16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,7 +120,7 @@ class _DetailMealPageState extends State<DetailMealPage> {
                               fontSize: 16,
                               color: AppColor.darkGreen,
                             )),
-                        const SizedBox(height: 8),
+                        const Gap(8),
                         SizedBox(
                           width: double.infinity,
                           child: SizeDropdown(
@@ -137,7 +138,7 @@ class _DetailMealPageState extends State<DetailMealPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
+              const Gap(24),
               CustomButtonWidget(
                   text: 'Preview',
                   onTap: () {

@@ -49,11 +49,11 @@ class SignUpPage extends StatelessWidget {
                     Expanded(
                         child:
                             CustomTextField(label: 'Age', suffixText: 'Y.O')),
-                    SizedBox(width: 16),
+                    Gap(16),
                     Expanded(
                         child: CustomTextField(
                             label: 'Weight', suffixText: 'Kg')),
-                    SizedBox(width: 16),
+                    Gap(16),
                     Expanded(
                         child: CustomTextField(
                             label: 'Weight Target', suffixText: 'Kg')),
@@ -65,9 +65,9 @@ class SignUpPage extends StatelessWidget {
                     Expanded(
                         child: CustomTextField(
                             label: 'Height', suffixText: 'cm')),
-                    SizedBox(width: 16),
+                    Gap(16),
                     Expanded(child: GenderDropdown()),
-                    SizedBox(width: 16),
+                    Gap(16),
                     Expanded(
                         child: CustomTextField(
                             label: 'BMI', suffixText: 'Kg/m2')),

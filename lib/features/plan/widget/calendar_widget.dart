@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
@@ -58,7 +59,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                       style: const TextStyle(
                           color: AppColor.darkGreen, fontSize: 14),
                     ),
-                    const SizedBox(height: 5),
+                    const Gap(5),
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(

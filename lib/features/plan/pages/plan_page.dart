@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nutri_call_app/features/plan/widget/calendar_widget.dart';
@@ -33,11 +34,11 @@ class PlanPage extends HookConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 5),
+            const Gap(5),
             CalendarWidget(
               onDateSelected: (selectedDay) {},
             ),
-            const SizedBox(height: 10),
+            const Gap(10),
             Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Align(
@@ -51,7 +52,7 @@ class PlanPage extends HookConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 10),
+            const Gap(10),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -76,13 +77,13 @@ class PlanPage extends HookConsumerWidget {
                       },
                     ],
                   ),
-                  SizedBox(height: 10),
+                  Gap(10),
                   PlanMealWidget(
                     label: "Lunch",
                     kcal: "0",
                     items: [],
                   ),
-                  SizedBox(height: 10),
+                  Gap(10),
                   PlanMealWidget(
                     label: "Dinner",
                     kcal: "450",
@@ -103,7 +104,7 @@ class PlanPage extends HookConsumerWidget {
                       },
                     ],
                   ),
-                  SizedBox(height: 10),
+                  Gap(10),
                   PlanMealWidget(
                     label: "Snacks/Other",
                     kcal: "150",

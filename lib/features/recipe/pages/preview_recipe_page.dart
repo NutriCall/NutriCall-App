@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -70,7 +71,7 @@ class PreviewRecipePage extends HookConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           RecipeImageWidget(imageUrl: recipe["imageUrl"]),
-                          const SizedBox(height: 16),
+                          const Gap(16),
                           Text(
                             recipe["title"],
                             style: GoogleFonts.poppins(
@@ -78,27 +79,28 @@ class PreviewRecipePage extends HookConsumerWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(height: 12),
+                          const Gap(12),
                           RecipeIngredientsWidget(
                             ingredients:
                                 List<String>.from(recipe["ingredients"]),
                           ),
-                          const SizedBox(height: 12),
+                          const Gap(12),
                           RecipeStepsWidget(
                             steps: List<String>.from(recipe["steps"]),
                           ),
-                          const SizedBox(height: 12),
+                          const Gap(24),
                           RecipeNutritionTableWidget(
                             nutritionData: Map<String, String>.from(
                                 recipe["nutritionData"]),
                           ),
-                          const SizedBox(height: 20),
+                          const Gap(24),
                           CustomButtonWidget(
                             text: 'Publish',
                             onTap: () {
                               context.pushNamed(RouteName.recipePage);
                             },
                           ),
+                          const Gap(20),
                         ],
                       ),
                     ),
