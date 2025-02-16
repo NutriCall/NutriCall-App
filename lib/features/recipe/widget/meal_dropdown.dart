@@ -18,7 +18,7 @@ class _MealDropdownState extends State<MealDropdown> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: 48,
+          height: 50,
           padding: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
             border: Border.all(color: AppColor.darkGreen, width: 1.5),
@@ -28,17 +28,18 @@ class _MealDropdownState extends State<MealDropdown> {
             isDense: true,
             value: selectedMeal,
             items: ['Breakfast', 'Lunch', 'Dinner', 'Snacks/Other']
-                .map((meal) => DropdownMenuItem(
-                      value: meal,
-                      child: Text(
-                        meal,
-                        style: GoogleFonts.poppins(
-                            color: AppColor.darkGreen,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500),
+              .map((meal) => DropdownMenuItem(
+                    value: meal,
+                    child: Text(
+                      meal,
+                      style: GoogleFonts.poppins(
+                        color: AppColor.darkGreen,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500
                       ),
-                    ))
-                .toList(),
+                    ),
+                  ))
+              .toList(),
             onChanged: (value) {
               setState(() {
                 selectedMeal = value!;

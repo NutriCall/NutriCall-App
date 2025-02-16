@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutri_call_app/features/plan/widget/meal_item_widget.dart';
 
@@ -36,7 +37,7 @@ class _MealListWidgetState extends State<MealListWidget> {
           'List of Meals',
           style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 16),
         ),
-        const SizedBox(height: 10),
+        const Gap(10),
         Expanded(
           child: ListView.builder(
             itemCount: widget.meals.length,

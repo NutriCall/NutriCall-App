@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -124,19 +125,22 @@ class DetailRecipePage extends HookConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           RecipeImageWidget(imageUrl: recipe["imageUrl"]),
-                          const SizedBox(height: 7),
+                          const Gap(7),
                           Text.rich(
                             TextSpan(
                               text: "by ",
                               style: GoogleFonts.poppins(
-                                  fontSize: 14, color: AppColor.grey),
+                                fontSize: 13, 
+                                color: AppColor.lightBlack,
+                                fontWeight: FontWeight.w500
+                              ),
                               children: [
                                 TextSpan(
                                   text: recipe["author"],
                                   style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColor.grey,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColor.lightBlack,
                                   ),
                                 ),
                               ],
@@ -145,34 +149,41 @@ class DetailRecipePage extends HookConsumerWidget {
                           Text(
                             recipe["date"],
                             style: GoogleFonts.poppins(
-                                fontSize: 14, color: AppColor.grey),
+                              fontSize: 13, 
+                              color: AppColor.lightBlack,
+                              fontWeight: FontWeight.w500
+                            ),
                           ),
-                          const SizedBox(height: 16),
+                          const Gap(16),
                           Text(
                             recipe["title"],
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                            style: GoogleFonts.poppins(
+                              fontSize: 24, 
+                              fontWeight: FontWeight.w600,
+                              color: AppColor.semiBlack
+                            ),
                           ),
-                          const SizedBox(height: 12),
+                          const Gap(12),
                           RecipeIngredientsWidget(
                               ingredients:
                                   List<String>.from(recipe["ingredients"])),
-                          const SizedBox(height: 12),
+                          const Gap(12),
                           RecipeStepsWidget(
                               steps: List<String>.from(recipe["steps"])),
-                          const SizedBox(height: 12),
+                          const Gap(24),
                           RecipeNutritionTableWidget(
                               nutritionData: Map<String, String>.from(
                                   recipe["nutritionData"])),
-                          const SizedBox(height: 20),
+                          const Gap(30),
                           const MealDropdown(),
-                          const SizedBox(height: 20),
+                          const Gap(24),
                           CustomButtonWidget(
                             text: 'Add to Meal Plan',
                             onTap: () {
                               context.pushNamed(RouteName.recipePage);
                             },
                           ),
+                          const Gap(20),
                         ],
                       ),
                     ),

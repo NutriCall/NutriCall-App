@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
@@ -32,7 +33,7 @@ class ProfileHeader extends StatelessWidget {
             backgroundImage: AssetImage(imagePath),
           ),
         ),
-        const SizedBox(height: 15),
+        const Gap(15),
         Text(
           name,
           style: GoogleFonts.poppins(
@@ -41,7 +42,7 @@ class ProfileHeader extends StatelessWidget {
             color: AppColor.darkGreen,
           ),
         ),
-        const SizedBox(height: 5),
+        const Gap(5),
         Text(
           username,
           style: GoogleFonts.poppins(

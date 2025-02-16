@@ -4,20 +4,22 @@ import 'package:nutri_call_app/utils/app_color.dart';
 
 class IngredientItem extends StatefulWidget {
   final String ingredientName;
+   final String ingredientWeight;
   final int initialQuantity;
 
   const IngredientItem({
-    Key? key,
+    super.key,
     required this.ingredientName,
+    required this.ingredientWeight,
     this.initialQuantity = 1,
-  }) : super(key: key);
+  });
 
   @override
   _IngredientItemState createState() => _IngredientItemState();
 }
 
 class _IngredientItemState extends State<IngredientItem> {
-  int quantity = 1;
+  late int quantity;
 
   @override
   void initState() {
@@ -45,34 +47,52 @@ class _IngredientItemState extends State<IngredientItem> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          widget.ingredientName,
+          '${widget.ingredientName} (${widget.ingredientWeight})',
           style: GoogleFonts.poppins(
-            fontSize: 16,
+            fontSize: 15,
             fontWeight: FontWeight.w500,
             color: AppColor.darkGreen,
           ),
         ),
-        Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.remove_circle_outline,
-                  color: AppColor.darkGreen),
-              onPressed: decrement,
-            ),
-            Text(
-              quantity.toString(),
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: AppColor.darkGreen,
+        const Spacer(),
+        Container(
+          height: 40,
+          width: 130,
+          padding: const EdgeInsets.symmetric(horizontal: 3),
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColor.darkGreen, width: 1),
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: const Icon(
+                  Icons.remove_circle_rounded,
+                  color: AppColor.darkGreen,
+                  size: 20,
+                ),
+                onPressed: decrement,
               ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.add_circle_outline,
-                  color: AppColor.darkGreen),
-              onPressed: increment,
-            ),
-          ],
+              Text(
+                quantity.toString(),
+                style: GoogleFonts.poppins(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: AppColor.darkGreen,
+                ),
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.add_circle_rounded,
+                  color: AppColor.darkGreen,
+                  size: 20,
+                ),
+                onPressed: increment,
+              ),
+            ],
+          ),
         ),
       ],
     );

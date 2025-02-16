@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -132,20 +133,20 @@ class _AddMealsPageState extends State<AddMealsPage> {
             ),
             if (_selectedImage != null)
               Image.file(File(_selectedImage!.path), height: 100),
-            const SizedBox(height: 5),
+            const Gap(5),
             CustomSearchField(
               hintText: "Search meals..",
               controller: searchController,
               onSearch: () => _searchMeals(searchController.text),
             ),
-            const SizedBox(height: 20),
+            const Gap(20),
             Expanded(
               child: MealListWidget(
                 meals: filteredMeals,
                 onSelectionChanged: (selected) {},
               ),
             ),
-            const SizedBox(height: 10),
+            const Gap(10),
             CustomButtonWidget(
               text: 'Save',
               onTap: () {

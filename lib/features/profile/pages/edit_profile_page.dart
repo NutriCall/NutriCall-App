@@ -66,11 +66,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       Expanded(
                           child:
                               CustomTextField(label: 'Age', suffixText: 'Y.O')),
-                      SizedBox(width: 16),
+                      Gap(6),
                       Expanded(
                           child: CustomTextField(
                               label: 'Weight', suffixText: 'Kg')),
-                      SizedBox(width: 16),
+                      Gap(16),
                       Expanded(
                           child: CustomTextField(
                               label: 'Weight Target', suffixText: 'Kg')),
@@ -82,9 +82,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       Expanded(
                           child: CustomTextField(
                               label: 'Height', suffixText: 'cm')),
-                      SizedBox(width: 16),
+                      Gap(16),
                       Expanded(child: GenderDropdown()),
-                      SizedBox(width: 16),
                       Expanded(
                           child: CustomTextField(
                               label: 'BMI', suffixText: 'Kg/m2')),

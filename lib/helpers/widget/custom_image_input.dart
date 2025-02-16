@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class CustomImagePicker extends StatelessWidget {
-  const CustomImagePicker({super.key});
+  final VoidCallback? onTap;
+
+  const CustomImagePicker({super.key, this.onTap});
+
   Future<void> requestPermission() async {
     PermissionStatus cameraStatus = await Permission.camera.request();
     PermissionStatus galleryStatus = await Permission.photos.request();
@@ -37,39 +41,14 @@ class CustomImagePicker extends StatelessWidget {
           "Image",
           textAlign: TextAlign.start,
           style: GoogleFonts.poppins(
-            textStyle:
-                const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            fontSize: 16,
+            color: AppColor.semiBlack,
+            fontWeight: FontWeight.w500
           ),
         ),
+        const Gap(6),
         GestureDetector(
-          onTap: () async {
-            await requestPermission();
-            showModalBottomSheet(
-              context: context,
-              builder: (context) {
-                return Wrap(
-                  children: [
-                    ListTile(
-                      leading: const Icon(Icons.camera),
-                      title: const Text("Ambil dari Kamera"),
-                      onTap: () async {
-                        Navigator.pop(context);
-                        await pickImage(ImageSource.camera);
-                      },
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.photo),
-                      title: const Text("Pilih dari Galeri"),
-                      onTap: () async {
-                        Navigator.pop(context);
-                        await pickImage(ImageSource.gallery);
-                      },
-                    ),
-                  ],
-                );
-              },
-            );
-          },
+          onTap: onTap,
           child: Container(
             width: double.infinity,
             height: 160,
@@ -77,10 +56,14 @@ class CustomImagePicker extends StatelessWidget {
               border: Border.all(color: AppColor.darkGreen, width: 1.5),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Center(
+            child: Center(
               child: Text(
                 'Add Image +',
-                style: TextStyle(color: AppColor.darkGreen, fontSize: 14),
+                style: GoogleFonts.poppins(
+                  fontSize: 15, 
+                  fontWeight: FontWeight.w500,
+                  color: AppColor.darkGreen
+                ),
               ),
             ),
           ),
@@ -89,3 +72,4 @@ class CustomImagePicker extends StatelessWidget {
     );
   }
 }
+
