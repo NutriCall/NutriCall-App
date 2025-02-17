@@ -97,13 +97,13 @@ class _AddMealsPageState extends State<AddMealsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Add Meals',
+        title: 'Search Meal',
         onBack: () {
           Navigator.of(context).pop();
         },
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -114,19 +114,23 @@ class _AddMealsPageState extends State<AddMealsPage> {
                   widget.mealId,
                   style: GoogleFonts.poppins(
                     fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
+                    color: AppColor.semiBlack
                   ),
                 ),
                 TextButton.icon(
                   onPressed: _showImagePickerOptions,
-                  icon:
-                      const Icon(Icons.add_a_photo, color: AppColor.darkGreen),
-                  label: const Text("Add Image",
-                      style: TextStyle(color: AppColor.darkGreen)),
+                  icon: const Icon(Icons.add_a_photo, color: AppColor.darkGreen),
+                  label: Text("Add Image",
+                    style: GoogleFonts.poppins(
+                      color: AppColor.darkGreen,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500
+                    )
+                  ),
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.transparent,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                   ),
                 ),
               ],
@@ -152,7 +156,8 @@ class _AddMealsPageState extends State<AddMealsPage> {
               onTap: () {
                 context.pushNamed(RouteName.planPage);
               },
-            )
+            ),
+            const Gap(20),
           ],
         ),
       ),

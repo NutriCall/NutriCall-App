@@ -31,11 +31,35 @@ class MealItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(
-        '${meal.name} (${meal.kcal} kcal)',
-        style: GoogleFonts.poppins(
-          color: AppColor.darkGreen,
-        ),
+      title: RichText(text: 
+        TextSpan(
+          children: [
+            TextSpan(
+              text: '${meal.name} (${meal.kcal}',
+              style: GoogleFonts.poppins(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: AppColor.darkGreen
+              ),
+            ),
+            TextSpan(
+              text: 'kcal',
+              style: GoogleFonts.poppins(
+                fontSize: 9,
+                fontWeight: FontWeight.w500,
+                color: AppColor.darkGreen
+              ),
+            ),
+            TextSpan(
+              text: ')',
+              style: GoogleFonts.poppins(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: AppColor.darkGreen
+              ),
+            )
+          ]
+        )
       ),
       trailing: Checkbox(
         value: meal.isSelected,

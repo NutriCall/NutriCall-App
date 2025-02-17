@@ -30,7 +30,7 @@ class _PlanMealWidgetState extends State<PlanMealWidget> {
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(15),
             border: Border.all(color: AppColor.darkGreen),
           ),
           child: Column(
@@ -44,18 +44,36 @@ class _PlanMealWidgetState extends State<PlanMealWidget> {
                     Text(
                       widget.label,
                       style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        color: AppColor.darkGreen
                       ),
                     ),
                     Row(
                       children: [
-                        Text(
-                          '${widget.kcal} kcal',
-                          style: GoogleFonts.poppins(
-                              fontSize: 14, color: Colors.grey),
+                        RichText(text: 
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: widget.kcal,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12, 
+                                  color: AppColor.darkGreen,
+                                  fontWeight: FontWeight.w500
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'kcal',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 9, 
+                                  color: AppColor.darkGreen,
+                                  fontWeight: FontWeight.w500
+                                ),
+                              )
+                            ]
+                          )
                         ),
-                        const Gap(10),
+                        const Gap(16),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.push(
@@ -74,7 +92,11 @@ class _PlanMealWidgetState extends State<PlanMealWidget> {
                           ),
                           child: Text(
                             'Add',
-                            style: GoogleFonts.poppins(color: Colors.white),
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400
+                            ),
                           ),
                         ),
                       ],
@@ -99,7 +121,7 @@ class _PlanMealWidgetState extends State<PlanMealWidget> {
                     ),
                   ),
                   padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 12),
                   child: Row(
                     children: [
                       Expanded(
@@ -107,7 +129,8 @@ class _PlanMealWidgetState extends State<PlanMealWidget> {
                           'Detail items',
                           style: GoogleFonts.poppins(
                             color: Colors.white,
-                            fontSize: 12,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500
                           ),
                         ),
                       ),
@@ -130,23 +153,47 @@ class _PlanMealWidgetState extends State<PlanMealWidget> {
                     ),
                   ),
                   padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 12),
                   child: widget.items.isNotEmpty
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: widget.items.map((item) {
                             return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      '${item["name"]} (${item["calories"]} kcal)',
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
+                                    RichText(text: 
+                                      TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text: '${item["name"]} (${item["calories"]}',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: 'kcal',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 9,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: ')',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white
+                                            ),
+                                          )
+                                        ]
+                                      )
                                     ),
                                     IconButton(
                                       onPressed: () {
@@ -154,48 +201,97 @@ class _PlanMealWidgetState extends State<PlanMealWidget> {
                                           widget.items.remove(item);
                                         });
                                       },
-                                      icon: const Icon(Icons.delete,
-                                          color: Colors.white),
+                                      icon: const Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
                                     ),
                                   ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 12.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          'Carb: ${item["carbs"]}g',
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 12,
-                                              color: Colors.white),
-                                        ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 16,
+                                      width: 100,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Carb',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 10,
+                                              color: Colors.white70,
+                                              fontWeight: FontWeight.w500
+                                            ),
+                                          ),
+                                          Text(
+                                            '${item["carbs"]}g',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 10,
+                                              color: Colors.white70,
+                                              fontWeight: FontWeight.w500
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          'Protein: ${item["protein"]}g',
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 12,
-                                              color: Colors.white),
-                                        ),
+                                    ),
+                                    SizedBox(
+                                      height: 16,
+                                      width: 100,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Protein',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 10,
+                                              color: Colors.white70,
+                                              fontWeight: FontWeight.w500
+                                            ),
+                                          ),
+                                          Text(
+                                            '${item["protein"]}g',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 10,
+                                              color: Colors.white70,
+                                              fontWeight: FontWeight.w500
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          'Fat: ${item["fat"]}g',
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 12,
-                                              color: Colors.white),
-                                        ),
+                                    ),
+                                    SizedBox(
+                                      height: 16,
+                                      width: 100,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Fat',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 10,
+                                              color: Colors.white70,
+                                              fontWeight: FontWeight.w500
+                                            ),
+                                          ),
+                                          Text(
+                                            '${item["fat"]}g',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 10,
+                                              color: Colors.white70,
+                                              fontWeight: FontWeight.w500
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                                const Divider(color: Colors.white),
+                                const Gap(10),
+                                const Divider(color: Colors.white54),
                               ],
                             );
                           }).toList(),
@@ -203,7 +299,11 @@ class _PlanMealWidgetState extends State<PlanMealWidget> {
                       : Center(
                           child: Text(
                             "No Items",
-                            style: GoogleFonts.poppins(color: Colors.white),
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 9,
+                              fontWeight: FontWeight.w400
+                            ),
                           ),
                         ),
                 ),

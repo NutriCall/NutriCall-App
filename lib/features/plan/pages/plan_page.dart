@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nutri_call_app/features/plan/widget/calendar_widget.dart';
 import 'package:nutri_call_app/features/plan/widget/plan_meal_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
+import 'package:nutri_call_app/utils/app_color.dart';
 
 class PlanPage extends HookConsumerWidget {
   const PlanPage({super.key});
@@ -22,14 +23,15 @@ class PlanPage extends HookConsumerWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "Today",
                   style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: AppColor.semiBlack
                   ),
                 ),
               ),
@@ -46,8 +48,9 @@ class PlanPage extends HookConsumerWidget {
                 child: Text(
                   "Plan Meal",
                   style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: AppColor.semiBlack
                   ),
                 ),
               ),
@@ -55,7 +58,7 @@ class PlanPage extends HookConsumerWidget {
             const Gap(10),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 children: const [
                   PlanMealWidget(
                     label: "Breakfast",
@@ -125,6 +128,7 @@ class PlanPage extends HookConsumerWidget {
                       },
                     ],
                   ),
+                  Gap(20)
                 ],
               ),
             ),

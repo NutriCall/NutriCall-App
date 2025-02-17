@@ -7,9 +7,9 @@ class RecipeStepsWidget extends StatelessWidget {
   final List<String> steps;
 
   const RecipeStepsWidget({
-    Key? key,
+    super.key,
     required this.steps,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

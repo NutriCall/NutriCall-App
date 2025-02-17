@@ -4,10 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
 class CalendarWidget extends StatefulWidget {
-  final Function(int) onDateSelected; // Callback ketika tanggal dipilih
+  final Function(int) onDateSelected; 
 
-  const CalendarWidget({Key? key, required this.onDateSelected})
-      : super(key: key);
+  const CalendarWidget({super.key, required this.onDateSelected});
 
   @override
   _CalendarWidgetState createState() => _CalendarWidgetState();
@@ -19,7 +18,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   @override
   Widget build(BuildContext context) {
     DateTime today = DateTime.now();
-    DateTime startOfWeek = today.subtract(Duration(days: today.weekday - 1));
+    DateTime startOfWeek = today.subtract(Duration(days: today.weekday % 7)); 
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,8 +30,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             child: Text(
               'Calendar',
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
                 color: Colors.white,
               ),
             ),
@@ -54,12 +53,16 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                 },
                 child: Column(
                   children: [
+                    const Gap(5),
                     Text(
                       DateFormat.E().format(day).toUpperCase(),
                       style: const TextStyle(
-                          color: AppColor.darkGreen, fontSize: 14),
+                          color: AppColor.darkGreen, 
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400
+                        ),
                     ),
-                    const Gap(5),
+                    const Gap(3),
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
@@ -72,7 +75,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                         day.day.toString(),
                         style: TextStyle(
                           color: isSelected ? Colors.white : AppColor.darkGreen,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14
                         ),
                       ),
                     ),

@@ -11,7 +11,7 @@ import 'package:nutri_call_app/routers/router_name.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
 class SignUpPage extends StatelessWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  const SignUpPage({super.key});
 
   Future<void> _refreshPage() async {
     await Future.delayed(const Duration(seconds: 1));
@@ -42,7 +42,10 @@ class SignUpPage extends StatelessWidget {
                 const Gap(20),
                 const CustomFloatingTextField(label: 'Username'),
                 const Gap(20),
-                const CustomFloatingTextField(label: 'Password'),
+                const CustomFloatingTextField(
+                  label: 'Password',
+                  isPassword: true, 
+                ),
                 const Gap(20),
                 const Row(
                   children: [
