@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
 class SizeDropdown extends StatefulWidget {
@@ -30,7 +31,8 @@ class _SizeDropdownState extends State<SizeDropdown> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60,
+      width: double.infinity,
+      height: 50,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         border: Border.all(color: AppColor.darkGreen, width: 1.5),
@@ -54,7 +56,11 @@ class _SizeDropdownState extends State<SizeDropdown> {
                     value: size,
                     child: Text(
                       size,
-                      style: TextStyle(color: AppColor.darkGreen),
+                      style: GoogleFonts.poppins(
+                        fontSize: 13, 
+                        color: AppColor.darkGreen,
+                        fontWeight: FontWeight.w500
+                      ),
                     ),
                   );
                 }).toList(),

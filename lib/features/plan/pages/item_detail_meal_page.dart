@@ -4,45 +4,38 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutri_call_app/features/plan/widget/quantity_selector.dart';
 import 'package:nutri_call_app/features/plan/widget/size_dropdown.dart';
-import 'package:nutri_call_app/features/recipe/widget/recipe_image_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
 import 'package:nutri_call_app/helpers/widget/custom_button_widget.dart';
-import 'package:nutri_call_app/helpers/widget/custom_description_input.dart';
 import 'package:nutri_call_app/routers/router_name.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
-import 'package:nutri_call_app/utils/assets.gen.dart';
 
-class DetailMealPage extends StatefulWidget {
+class ItemDetailMealPage extends StatefulWidget {
   final String id;
   final String name;
-  final String? initialImage;
   final int initialQuantity;
   final String initialSize;
   final bool isEditable;
 
-  const DetailMealPage({
+  const ItemDetailMealPage({
     super.key,
     required this.id,
     required this.name,
-    this.initialImage,
     this.initialQuantity = 1,
     this.initialSize = 'medium',
     this.isEditable = true,
   });
 
   @override
-  _DetailMealPageState createState() => _DetailMealPageState();
+  _ItemDetailMealPageState createState() => _ItemDetailMealPageState();
 }
 
-class _DetailMealPageState extends State<DetailMealPage> {
+class _ItemDetailMealPageState extends State<ItemDetailMealPage> {
   late int quantity;
   late String size;
-  late String image;
 
   @override
   void initState() {
     super.initState();
-    image = widget.initialImage ?? Assets.images.chickenKatsu.path;
     quantity = widget.initialQuantity;
     size = widget.initialSize;
   }
@@ -71,17 +64,15 @@ class _DetailMealPageState extends State<DetailMealPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RecipeImageWidget(imageUrl: image),
-              CustomDescriptionInput(
-                label: "",
-                placeholder: 'Describe your meal, for example “a piece of chicken with rice”.',
-                hintStyle: GoogleFonts.poppins(
-                  fontSize: 13,
-                  color: AppColor.lightBlack,
-                  fontWeight: FontWeight.w500,
+              Text(
+                widget.name,
+                style: GoogleFonts.poppins(
+                  color: AppColor.semiBlack,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600
                 ),
               ),
-              const Gap(6),
+              const Gap(10),
               Row(
                 children: [
                   Expanded(
@@ -133,7 +124,7 @@ class _DetailMealPageState extends State<DetailMealPage> {
                 text: 'Preview',
                 onTap: () {
                   context.pushNamed(
-                    RouteName.previewMealPage,
+                    RouteName.itemPreviewMealPage,
                     pathParameters: {
                       'id': widget.id,
                       'name': widget.name,
