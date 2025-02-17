@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutri_call_app/features/plan/widget/meal_item_widget.dart';
+import 'package:nutri_call_app/utils/app_color.dart';
 
 class MealListWidget extends StatefulWidget {
   final List<MealItem> meals;
@@ -35,7 +36,11 @@ class _MealListWidgetState extends State<MealListWidget> {
       children: [
         Text(
           'List of Meals',
-          style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 16),
+          style: GoogleFonts.poppins(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: AppColor.semiBlack
+          ),
         ),
         const Gap(10),
         Expanded(

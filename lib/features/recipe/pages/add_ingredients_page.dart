@@ -10,7 +10,7 @@ import 'package:nutri_call_app/routers/router_name.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
 class AddIngredientsPage extends StatefulWidget {
-  const AddIngredientsPage({Key? key}) : super(key: key);
+  const AddIngredientsPage({super.key});
 
   @override
   _AddIngredientsPageState createState() => _AddIngredientsPageState();

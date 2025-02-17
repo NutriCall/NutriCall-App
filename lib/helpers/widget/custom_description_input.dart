@@ -8,10 +8,10 @@ class CustomDescriptionInput extends StatelessWidget {
   final String placeholder;
 
   const CustomDescriptionInput({
-    Key? key,
+    super.key,
     required this.label,
     required this.placeholder,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
