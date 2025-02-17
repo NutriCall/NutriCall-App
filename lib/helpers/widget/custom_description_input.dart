@@ -6,11 +6,13 @@ import 'package:nutri_call_app/utils/app_color.dart';
 class CustomDescriptionInput extends StatelessWidget {
   final String label;
   final String placeholder;
+  final TextStyle? hintStyle; 
 
   const CustomDescriptionInput({
     super.key,
     required this.label,
     required this.placeholder,
+    this.hintStyle,
   });
 
   @override
@@ -21,9 +23,9 @@ class CustomDescriptionInput extends StatelessWidget {
         Text(
           label,
           style: GoogleFonts.poppins(
-            fontSize: 15, 
+            fontSize: 15,
             fontWeight: FontWeight.w500,
-            color: AppColor.semiBlack
+            color: AppColor.semiBlack,
           ),
         ),
         const Gap(6),
@@ -32,20 +34,18 @@ class CustomDescriptionInput extends StatelessWidget {
           maxLines: 10,
           decoration: InputDecoration(
             hintText: placeholder,
-            hintStyle: GoogleFonts.poppins(
+            hintStyle: hintStyle ?? GoogleFonts.poppins( // Gunakan hintStyle dari parameter jika ada
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: AppColor.darkGreen,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide:
-                  const BorderSide(color: AppColor.darkGreen, width: 1.5),
+              borderSide: const BorderSide(color: AppColor.darkGreen, width: 1.5),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide:
-                  const BorderSide(color: AppColor.darkGreen, width: 1.5),
+              borderSide: const BorderSide(color: AppColor.darkGreen, width: 1.5),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),

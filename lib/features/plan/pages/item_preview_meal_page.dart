@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:nutri_call_app/features/recipe/widget/recipe_image_widget.dart';
 import 'package:nutri_call_app/features/recipe/widget/recipe_nutrition_table_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
 import 'package:nutri_call_app/helpers/widget/custom_button_widget.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 import 'package:nutri_call_app/utils/assets.gen.dart';
 
-final previewMealProvider = FutureProvider<Map<String, dynamic>>((ref) async {
+final itemPreviewMealProvider = FutureProvider<Map<String, dynamic>>((ref) async {
   return {
     "nutritionData": {
       "Calories": "210 (4%)",
@@ -20,7 +19,7 @@ final previewMealProvider = FutureProvider<Map<String, dynamic>>((ref) async {
   };
 });
 
-class PreviewMealPage extends ConsumerStatefulWidget {
+class ItemPreviewMealPage extends ConsumerStatefulWidget {
   final String id;
   final String name;
   final String? initialImage;
@@ -29,7 +28,7 @@ class PreviewMealPage extends ConsumerStatefulWidget {
   final String initialDescription;
   final bool isEditable;
 
-  const PreviewMealPage({
+  const ItemPreviewMealPage({
     super.key,
     required this.id,
     required this.name,
@@ -41,11 +40,11 @@ class PreviewMealPage extends ConsumerStatefulWidget {
   });
 
   @override
-  _PreviewMealPageState createState() => _PreviewMealPageState();
+  _ItemPreviewMealPageState createState() => _ItemPreviewMealPageState();
 }
 
 
-class _PreviewMealPageState extends ConsumerState<PreviewMealPage> {
+class _ItemPreviewMealPageState extends ConsumerState<ItemPreviewMealPage> {
   late String image;
 
   @override
@@ -56,7 +55,7 @@ class _PreviewMealPageState extends ConsumerState<PreviewMealPage> {
 
   @override
   Widget build(BuildContext context) {
-    final mealState = ref.watch(previewMealProvider);
+    final mealState = ref.watch(itemPreviewMealProvider);
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -65,7 +64,7 @@ class _PreviewMealPageState extends ConsumerState<PreviewMealPage> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          ref.invalidate(previewMealProvider);
+          ref.invalidate(itemPreviewMealProvider);
         },
         color: AppColor.semiBlack,
         child: SingleChildScrollView(
@@ -74,26 +73,15 @@ class _PreviewMealPageState extends ConsumerState<PreviewMealPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RecipeImageWidget(imageUrl: image),
-              const Gap(16),
-              Container(
-                height: 100,
-                width: double.infinity,
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColor.darkGreen, width: 1.5),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  widget.initialDescription,
-                  style: GoogleFonts.poppins(
-                    fontSize: 12, 
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                  ),
+              Text(
+                widget.name,
+                style: GoogleFonts.poppins(
+                  color: AppColor.semiBlack,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600
                 ),
               ),
-              const Gap(16),
+              const Gap(10),
               Row(
                 children: [
                   Expanded(

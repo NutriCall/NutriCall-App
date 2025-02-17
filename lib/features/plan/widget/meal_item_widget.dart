@@ -69,7 +69,7 @@ class MealItemWidget extends StatelessWidget {
       ),
       onTap: () {
         context.pushNamed(
-          RouteName.detailMealPage, 
+          RouteName.itemDetailMealPage, 
           pathParameters: {
             'id': meal.id.toString(),
             'name': meal.name,
