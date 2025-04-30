@@ -6,11 +6,19 @@ import 'package:nutri_call_app/utils/app_color.dart';
 class CustomTextField extends StatelessWidget {
   final String label;
   final String? suffixText;
+  final String? errorText;
+  final VoidCallback? onTap;
+  final TextEditingController? controller;
+  final bool readOnly;
 
   const CustomTextField({
     super.key,
     required this.label,
     this.suffixText,
+    this.errorText,
+    this.onTap,
+    this.controller,
+    this.readOnly = false,
   });
 
   @override
@@ -21,10 +29,9 @@ class CustomTextField extends StatelessWidget {
         Text(
           label,
           style: GoogleFonts.poppins(
-            color: AppColor.darkGreen,
-            fontSize: 13,
-            fontWeight: FontWeight.w500
-          ),
+              color: AppColor.darkGreen,
+              fontSize: 13,
+              fontWeight: FontWeight.w500),
         ),
         const Gap(5),
         Container(
@@ -39,18 +46,26 @@ class CustomTextField extends StatelessWidget {
               Expanded(
                 child: SizedBox(
                   height: 45,
-                  child: TextField(
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      focusColor: AppColor.semiBlack,
+                  child: GestureDetector(
+                    onTap: onTap,
+                    child: TextField(
+                      readOnly: readOnly,
+                      controller: controller,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          focusColor: AppColor.semiBlack,
+                          errorText: errorText,
+                          errorStyle: GoogleFonts.poppins(
+                              color: AppColor.lightRed,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400)),
+                      style: GoogleFonts.poppins(
+                          color: AppColor.semiBlack,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
+                      cursorColor: AppColor.semiBlack,
                     ),
-                    style: GoogleFonts.poppins(
-                      color: AppColor.semiBlack,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500
-                    ),
-                    cursorColor: AppColor.semiBlack,
                   ),
                 ),
               ),
@@ -58,10 +73,9 @@ class CustomTextField extends StatelessWidget {
                 Text(
                   suffixText ?? '',
                   style: GoogleFonts.poppins(
-                    color: AppColor.semiBlack,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400
-                  ),
+                      color: AppColor.semiBlack,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400),
                 ),
             ],
           ),

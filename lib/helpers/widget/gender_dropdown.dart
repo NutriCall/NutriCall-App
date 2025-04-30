@@ -4,14 +4,27 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
 class GenderDropdown extends StatefulWidget {
-  const GenderDropdown({super.key});
+  final ValueChanged<String> onSelected;
+  final String? selectedValue;
+
+  const GenderDropdown({
+    super.key,
+    required this.onSelected,
+    this.selectedValue,
+  });
 
   @override
   _GenderDropdownState createState() => _GenderDropdownState();
 }
 
 class _GenderDropdownState extends State<GenderDropdown> {
-  String selectedGender = 'Female';
+  late String? selectedGender;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedGender = widget.selectedValue;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +50,14 @@ class _GenderDropdownState extends State<GenderDropdown> {
           child: DropdownButtonFormField<String>(
             isDense: true,
             value: selectedGender,
+            hint: Text(
+              'gender',
+              style: GoogleFonts.poppins(
+                fontSize: 10,
+                fontWeight: FontWeight.w500,
+                color: AppColor.darkGreen,
+              ),
+            ),
             items: ['Male', 'Female']
                 .map((gender) => DropdownMenuItem(
                       value: gender,
@@ -53,6 +74,7 @@ class _GenderDropdownState extends State<GenderDropdown> {
               setState(() {
                 selectedGender = value!;
               });
+              widget.onSelected(value!);
             },
             decoration: const InputDecoration(
               border: InputBorder.none,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
+import 'package:nutri_call_app/utils/assets.gen.dart';
 
 class ProfileHeader extends StatelessWidget {
   final String imagePath;
@@ -29,8 +30,11 @@ class ProfileHeader extends StatelessWidget {
             ),
           ),
           child: CircleAvatar(
+            backgroundColor: AppColor.disableButton,
             radius: 60,
-            backgroundImage: AssetImage(imagePath),
+            backgroundImage: imagePath.isNotEmpty
+                ? NetworkImage(imagePath)
+                : AssetImage(Assets.images.defaultProfile.path),
           ),
         ),
         const Gap(15),

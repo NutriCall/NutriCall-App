@@ -16,44 +16,44 @@ class ProfileDetailItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 4),
       child: Row(
-          mainAxisSize: MainAxisSize.min, 
-          children: [
-            Expanded(
-              flex: 2,
-              child: Text(
-                label,
-                style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  color: AppColor.grey,
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            const Gap(10),
-            Text(
-              ':',
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+            flex: 6,
+            child: Text(
+              label,
               style: GoogleFonts.poppins(
                 fontSize: 14,
                 color: AppColor.grey,
               ),
+              textAlign: TextAlign.left,
             ),
-            const Gap(10),
-            Expanded(
-              flex: 4,
-              child: Text(
-                value,
-                style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: AppColor.darkGrey,
-                ),
-                textAlign: TextAlign.left,
+          ),
+          const Gap(10),
+          Text(
+            ':',
+            style: GoogleFonts.poppins(
+              fontSize: 14,
+              color: AppColor.grey,
+            ),
+          ),
+          const Gap(10),
+          Expanded(
+            flex: 8,
+            child: Text(
+              value,
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: AppColor.darkGrey,
               ),
+              textAlign: TextAlign.left,
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
     );
   }
 }

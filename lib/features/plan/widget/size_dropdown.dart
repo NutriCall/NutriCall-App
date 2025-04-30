@@ -57,10 +57,9 @@ class _SizeDropdownState extends State<SizeDropdown> {
                     child: Text(
                       size,
                       style: GoogleFonts.poppins(
-                        fontSize: 13, 
-                        color: AppColor.darkGreen,
-                        fontWeight: FontWeight.w500
-                      ),
+                          fontSize: 13,
+                          color: AppColor.darkGreen,
+                          fontWeight: FontWeight.w500),
                     ),
                   );
                 }).toList(),
@@ -69,7 +68,7 @@ class _SizeDropdownState extends State<SizeDropdown> {
           : Center(
               child: Text(
                 _selectedSize,
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColor.darkGreen,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

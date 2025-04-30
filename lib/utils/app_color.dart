@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColor {
   static const textColor = Color(0xFF3F424C);
+  static const textColor2 = Color(0xFF192434);
   static const primaryColor = Color(0xFFFFFFFF);
   static const lightPurple = Color(0xFF8158F4);
   static const buttonFilter = Color(0xFF9069FF);
@@ -17,6 +18,7 @@ class AppColor {
   static const blueButton = Color(0xFF3A4D91);
   static const ultraBlue = Color(0xFF203270);
   static const disable = Color(0xFF636365);
+  static const disableButton = Color(0xFFD5D5D5);
   static const darkGrey = Color(0xFF1C1C1D);
   static const newLightPurple = Color(0xFFB095F0);
   static const recomendation = Color(0xFFFF8210);

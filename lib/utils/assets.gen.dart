@@ -18,8 +18,11 @@ class $AssetsIconsGen {
   /// File path: assets/icons/back.svg
   SvgGenImage get back => const SvgGenImage('assets/icons/back.svg');
 
+  /// File path: assets/icons/logout.svg
+  SvgGenImage get logout => const SvgGenImage('assets/icons/logout.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [back];
+  List<SvgGenImage> get values => [back, logout];
 }
 
 class $AssetsImagesGen {
@@ -32,6 +35,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/chickenKatsu.jpeg
   AssetGenImage get chickenKatsu =>
       const AssetGenImage('assets/images/chickenKatsu.jpeg');
+
+  /// File path: assets/images/defaultProfile.png
+  AssetGenImage get defaultProfile =>
+      const AssetGenImage('assets/images/defaultProfile.png');
 
   /// File path: assets/images/logoApp.PNG
   AssetGenImage get logoApp => const AssetGenImage('assets/images/logoApp.PNG');
@@ -61,6 +68,7 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [
         bananaSplit,
         chickenKatsu,
+        defaultProfile,
         logoApp,
         logoNutri,
         mountainElement,
