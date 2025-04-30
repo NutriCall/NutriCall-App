@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:nutri_call_app/core/provider/user_manager_provider.dart';
 import 'package:nutri_call_app/features/auth/pages/sign_up_page.dart';
 import 'package:nutri_call_app/features/main/pages/main_page.dart';
 import 'package:nutri_call_app/features/plan/pages/add_meals_page.dart';
@@ -32,6 +33,14 @@ Raw<GoRouter> router(RouterRef ref) {
         path: '/splashscreen',
         name: RouteName.splashscreen,
         builder: (context, state) => const Splashscreen(),
+        redirect: (context, state) async {
+          final user = await ref.watch(userManagerProvider.future);
+          final auth = await user.hasUser();
+          if (auth == true) {
+            return RouteName.main;
+          }
+          return RouteName.splashscreen;
+        },
       ),
       GoRoute(
         path: '/',
