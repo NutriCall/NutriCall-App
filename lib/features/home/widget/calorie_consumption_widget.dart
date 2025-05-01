@@ -6,12 +6,18 @@ import 'package:nutri_call_app/features/main/controllers/selected_index_provider
 import 'package:nutri_call_app/utils/app_color.dart';
 
 class CalorieConsumptionWidget extends HookConsumerWidget {
-  const CalorieConsumptionWidget({super.key});
+  final double calories;
+  final double goal;
+  const CalorieConsumptionWidget({
+    super.key,
+    required this.calories,
+    required this.goal,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    double progress = 0.8;
-    double width = MediaQuery.of(context).size.width - 40;
+    final progress = goal == 0 ? 0.0 : (calories / goal).clamp(0.0, 1.0);
+    final width = MediaQuery.of(context).size.width - 40;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +34,7 @@ class CalorieConsumptionWidget extends HookConsumerWidget {
               ),
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 ref.read(selectedIndexNavBar.notifier).state = 2;
               },
               child: Text(
@@ -44,9 +50,9 @@ class CalorieConsumptionWidget extends HookConsumerWidget {
         ),
         const Gap(10),
         SizedBox(
-          height: 32, 
+          height: 32,
           child: Stack(
-            clipBehavior: Clip.none, 
+            clipBehavior: Clip.none,
             children: [
               Container(
                 width: width,
@@ -56,21 +62,21 @@ class CalorieConsumptionWidget extends HookConsumerWidget {
                   borderRadius: BorderRadius.circular(15),
                 ),
               ),
-              Positioned(
-                left: 0,
-                child: Container(
-                  width: width * 0.2,
-                  height: 32,
-                  decoration: const BoxDecoration(
-                    color: AppColor.disabledGreen,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      bottomLeft: Radius.circular(15),
+              if (progress > 0)
+                Positioned(
+                  left: 0,
+                  child: Container(
+                    width: width * (progress.clamp(0.0, 0.2)),
+                    height: 32,
+                    decoration: const BoxDecoration(
+                      color: AppColor.disabledGreen,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        bottomLeft: Radius.circular(15),
+                      ),
                     ),
                   ),
                 ),
-              ),
-
               if (progress > 0.2)
                 Positioned(
                   left: width * 0.2,
@@ -82,7 +88,6 @@ class CalorieConsumptionWidget extends HookConsumerWidget {
                     ),
                   ),
                 ),
-
               if (progress > 0.5)
                 Positioned(
                   left: width * 0.5,
@@ -100,14 +105,13 @@ class CalorieConsumptionWidget extends HookConsumerWidget {
                     ),
                   ),
                 ),
-
               if (progress > 0)
                 Positioned(
                   left: width * progress - 1,
                   top: -4,
                   child: Container(
                     width: 2,
-                    height: 40, 
+                    height: 40,
                     color: Colors.black,
                   ),
                 ),
@@ -118,7 +122,7 @@ class CalorieConsumptionWidget extends HookConsumerWidget {
         Align(
           alignment: Alignment.centerRight,
           child: Text(
-            '619 kkal',
+            '${calories.toString()} kkal',
             style: GoogleFonts.poppins(
               color: AppColor.darkGreen,
               fontSize: 11,
