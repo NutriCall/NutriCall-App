@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:nutri_call_app/core/provider/dio_provider.dart';
+import 'package:nutri_call_app/features/home/domain/entities/cal_today_model.dart';
 import 'package:nutri_call_app/features/home/domain/entities/current_user_model.dart';
 import 'package:nutri_call_app/features/home/domain/repository/current_user_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -32,6 +33,28 @@ class CurrentUserRepositoryImpl implements CurrentUserRepository {
         CurrentUserModel currentUserModel =
             CurrentUserModel.fromJson(response.data['data']);
         return Right(currentUserModel);
+      } else {
+        return Left('Failed to load data: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      final error = e.response?.data['message'] ?? 'Unknown error';
+      return Left(error);
+    } catch (e) {
+      return Left('Unexpected error: ${e.toString()}');
+    }
+  }
+
+  @override
+  Future<Either<String, CalTodayModel>> getCalToday() async {
+    try {
+      final response = await httpClient.get(
+        'progress/cal-today',
+      );
+
+      if (response.statusCode == 200) {
+        CalTodayModel calTodayModel =
+            CalTodayModel.fromJson(response.data['data']);
+        return Right(calTodayModel);
       } else {
         return Left('Failed to load data: ${response.statusCode}');
       }

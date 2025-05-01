@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:nutri_call_app/features/home/controllers/cal_today_controllers.dart';
 import 'package:nutri_call_app/features/home/controllers/current_user_controllers.dart';
 import 'package:nutri_call_app/features/home/widget/calorie_consumption_widget.dart';
 import 'package:nutri_call_app/features/home/widget/menu_home_widget.dart';
@@ -18,10 +19,12 @@ class HomePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dataUser = ref.watch(fetchCurrentUserNotifierProvider);
+    final calTodayAsync = ref.watch(fetchCalTodayNotifierProvider);
 
     useEffect(() {
       Future.microtask(() {
         ref.read(fetchCurrentUserNotifierProvider.notifier).fetch();
+        ref.read(fetchCalTodayNotifierProvider.notifier).fetch();
       });
       return null;
     }, []);
@@ -121,9 +124,22 @@ class HomePage extends HookConsumerWidget {
                 child: NutricallBanner(),
               ),
               const Gap(22),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: CalorieConsumptionWidget(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: calTodayAsync.when(
+                  data: (dataEither) => dataEither.fold(
+                    (error) => Text('Gagal memuat data: $error'),
+                    (data) => CalorieConsumptionWidget(
+                      calories: data.calories ?? 0,
+                      goal: data.goal ?? 1,
+                    ),
+                  ),
+                  loading: () => const Center(
+                      child: CircularProgressIndicator(
+                    color: AppColor.darkGreen,
+                  )),
+                  error: (e, _) => Text('Error: $e'),
+                ),
               ),
               const Gap(24),
               Padding(
