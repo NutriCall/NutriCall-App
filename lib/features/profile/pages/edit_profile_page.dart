@@ -67,6 +67,19 @@ class EditProfilePage extends HookConsumerWidget {
       final XFile? image = await picker.pickImage(source: source);
 
       if (image != null) {
+        final File file = File(image.path);
+        final int sizeInBytes = await file.length();
+        final double sizeInMb = sizeInBytes / (1024 * 1024);
+        if (sizeInMb > 2) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Ukuran gambar tidak boleh lebih dari 2 MB.'),
+              backgroundColor: Colors.red,
+            ),
+          );
+          return;
+        }
+
         pickedImage.value = image;
         print("Gambar dipilih: ${image.path}");
       } else {
@@ -103,7 +116,7 @@ class EditProfilePage extends HookConsumerWidget {
                 const Gap(24),
                 Button.filled(
                   onPressed: () {
-                    context.pushNamed(RouteName.main);
+                    context.pushReplacement(RouteName.main);
                   },
                   label: 'Ok',
                   color: AppColor.disabledGreen,

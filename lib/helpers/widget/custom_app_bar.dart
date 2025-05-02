@@ -26,18 +26,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: backgroundColor ?? AppColor.primaryColor, 
+      automaticallyImplyLeading: false,
+      backgroundColor: backgroundColor ?? AppColor.primaryColor,
       leadingWidth: onBack == null ? 0 : 65,
-      titleSpacing: 20, 
+      titleSpacing: 20,
       title: title != null
           ? Text(
               title ?? '',
               style: titleStyle ??
                   GoogleFonts.poppins(
-                  color: AppColor.darkGreen,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                ),
+                    color: AppColor.darkGreen,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                  ),
             )
           : null,
       leading: onBack != null
@@ -45,8 +46,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               padding: const EdgeInsets.only(left: 20),
               child: Container(
                 decoration: BoxDecoration(
-                  color: leadingBackgroundColor ?? AppColor.darkGreen, 
-                  borderRadius: leadingBorderRadius ?? BorderRadius.circular(50),
+                  color: leadingBackgroundColor ?? AppColor.darkGreen,
+                  borderRadius:
+                      leadingBorderRadius ?? BorderRadius.circular(50),
                 ),
                 child: IconButton(
                   icon: SvgPicture.asset(

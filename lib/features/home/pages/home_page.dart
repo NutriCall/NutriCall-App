@@ -127,17 +127,15 @@ class HomePage extends HookConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: calTodayAsync.when(
-                  data: (dataEither) => dataEither.fold(
-                    (error) => Text('Gagal memuat data: $error'),
-                    (data) => CalorieConsumptionWidget(
-                      calories: data.calories ?? 0,
-                      goal: data.goal ?? 1,
-                    ),
+                  data: (data) => CalorieConsumptionWidget(
+                    calories: data?.calories ?? 0,
+                    goal: data?.goal ?? 1,
                   ),
                   loading: () => const Center(
-                      child: CircularProgressIndicator(
-                    color: AppColor.darkGreen,
-                  )),
+                    child: CircularProgressIndicator(
+                      color: AppColor.darkGreen,
+                    ),
+                  ),
                   error: (e, _) => Text('Error: $e'),
                 ),
               ),

@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:nutri_call_app/features/home/data/current_user_repository_impl.dart';
 import 'package:nutri_call_app/features/home/domain/entities/cal_today_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -8,9 +7,8 @@ part 'cal_today_controllers.g.dart';
 @Riverpod(keepAlive: true)
 class FetchCalTodayNotifier extends _$FetchCalTodayNotifier {
   @override
-  Future<Either<String, CalTodayModel>> build() async {
-    final repository = ref.watch(currentUserRepositoryProvider);
-    return await repository.getCalToday();
+  Future<CalTodayModel?> build() async {
+    return null;
   }
 
   Future<void> fetch({
@@ -23,10 +21,11 @@ class FetchCalTodayNotifier extends _$FetchCalTodayNotifier {
     result.fold(
       (error) {
         state = AsyncError(error, StackTrace.current);
+        if (onFailed != null) onFailed();
       },
       (data) {
-        state = AsyncData(data as Either<String, CalTodayModel>);
-        onSuccess!();
+        state = AsyncData(data);
+        if (onSuccess != null) onSuccess();
       },
     );
   }
