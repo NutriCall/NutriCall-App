@@ -1,27 +1,47 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:nutri_call_app/features/progress/domain/entities/weight_progress_model.dart';
 import 'package:nutri_call_app/features/progress/widget/area_chart_widget.dart';
 import 'package:nutri_call_app/features/progress/widget/circular_percent_widget.dart';
 import 'package:nutri_call_app/features/progress/widget/line_percent_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
+import 'package:nutri_call_app/features/progress/controllers/nutrition_progress_controller.dart';
+import 'package:nutri_call_app/features/progress/controllers/weight_progress_controller.dart';
 
 class ProgressPage extends HookConsumerWidget {
   const ProgressPage({super.key});
 
-    Future<void> _refreshProgress() async {
-      await Future.delayed(const Duration(seconds: 2));
-    }
+  Future<void> _refreshProgress() async {
+    await Future.delayed(const Duration(seconds: 2));
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<ChartData> customChartData = generateChartData();
+    final nutritionProgressAsync =
+        ref.watch(fetchNutritionProgressNotifierProvider);
+    final weightProgressAsync = ref.watch(fetchWeightProgressNotifierProvider);
+    final customChartData = generateChartData(
+        weightProgressAsync.valueOrNull ?? const Left("Error"));
+
+    useEffect(() {
+      Future.microtask(() {
+        ref.read(fetchNutritionProgressNotifierProvider.notifier).fetch();
+        ref.read(fetchWeightProgressNotifierProvider.notifier).fetch();
+      });
+      return null;
+    }, []);
 
     return RefreshIndicator(
-      onRefresh: _refreshProgress,
+      onRefresh: () async {
+        ref.read(fetchNutritionProgressNotifierProvider.notifier).fetch();
+        ref.read(fetchWeightProgressNotifierProvider.notifier).fetch();
+      },
       color: AppColor.semiBlack,
       child: Scaffold(
         appBar: const CustomAppBar(
@@ -53,10 +73,10 @@ class ProgressPage extends HookConsumerWidget {
                       width: 1,
                     ),
                   ),
-                  child:Row(
+                  child: Row(
                     children: [
                       Expanded(
-                        flex: 3, 
+                        flex: 3,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -74,72 +94,154 @@ class ProgressPage extends HookConsumerWidget {
                                     ),
                                   ),
                                   const Gap(4),
-                                  RichText(
-                                    text: TextSpan(
-                                      style: GoogleFonts.poppins(
-                                        color: AppColor.semiBlack,
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: '615 ',
+                                  nutritionProgressAsync.when(
+                                    data: (nutritionProgress) {
+                                      double totalEnergy =
+                                          nutritionProgress.fold(
+                                        (error) => 0.0,
+                                        (nutritionProgressModel) =>
+                                            nutritionProgressModel
+                                                .totalEnergy ??
+                                            0.0,
+                                      );
+                                      return RichText(
+                                        text: TextSpan(
                                           style: GoogleFonts.poppins(
-                                              fontWeight: FontWeight.w600, fontSize: 20),
+                                            color: AppColor.semiBlack,
+                                          ),
+                                          children: [
+                                            TextSpan(
+                                              text: '$totalEnergy ',
+                                              style: GoogleFonts.poppins(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: 'kcal',
+                                              style: GoogleFonts.poppins(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        TextSpan(
-                                          text: 'kcal',
-                                          style: GoogleFonts.poppins(
-                                              fontWeight: FontWeight.w400, fontSize: 12),
-                                        ),
-                                      ],
-                                    ),
+                                      );
+                                    },
+                                    loading: () {
+                                      return const CircularProgressIndicator();
+                                    },
+                                    error: (error, stackTrace) {
+                                      return Text('Error: $error');
+                                    },
                                   ),
                                 ],
                               ),
                             ),
                             const Gap(12),
-                            const Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: LinePercentWidget(
-                                    title: 'Carbs',
-                                    percent: 0.2,
-                                    progressColor: AppColor.blue,
-                                    valueText: '13 / 228 g',
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: LinePercentWidget(
-                                    title: 'Protein',
-                                    percent: 0.4,
-                                    progressColor: AppColor.orange,
-                                    valueText: '27 / 91 g',
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: LinePercentWidget(
-                                    title: 'Fat',
-                                    percent: 0.7,
-                                    progressColor: AppColor.pink,
-                                    valueText: '52 / 61 g',
-                                  ),
-                                ),
-                              ],
-                            )
+                            nutritionProgressAsync.when(
+                              data: (data) {
+                                double totalCarbs = data.fold(
+                                  (error) => 0.0,
+                                  (nutritionProgressModel) =>
+                                      nutritionProgressModel.totalCarbs ?? 0.0,
+                                );
+                                double totalFat = data.fold(
+                                  (error) => 0.0,
+                                  (nutritionProgressModel) =>
+                                      nutritionProgressModel.totalFat ?? 0.0,
+                                );
+                                double totalProtein = data.fold(
+                                  (error) => 0.0,
+                                  (nutritionProgressModel) =>
+                                      nutritionProgressModel.totalProteins ??
+                                      0.0,
+                                );
+                                double dailyCarbs = data.fold(
+                                  (error) => 0.0,
+                                  (nutritionProgressModel) =>
+                                      nutritionProgressModel.dailyCarbs ?? 0.0,
+                                );
+                                double dailyFat = data.fold(
+                                  (error) => 0.0,
+                                  (nutritionProgressModel) =>
+                                      nutritionProgressModel.dailyFat ?? 0.0,
+                                );
+                                double dailyProtein = data.fold(
+                                  (error) => 0.0,
+                                  (nutritionProgressModel) =>
+                                      nutritionProgressModel.dailyProteins ??
+                                      0.0,
+                                );
+                                return Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: LinePercentWidget(
+                                        title: 'Carbs',
+                                        percent: totalCarbs / dailyCarbs,
+                                        progressColor: AppColor.blue,
+                                        valueText:
+                                            '$totalCarbs / $dailyCarbs g',
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: LinePercentWidget(
+                                        title: 'Protein',
+                                        percent: totalProtein / dailyProtein,
+                                        progressColor: AppColor.orange,
+                                        valueText:
+                                            '$totalProtein / $dailyProtein g',
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: LinePercentWidget(
+                                        title: 'Fat',
+                                        percent: totalFat / dailyFat,
+                                        progressColor: AppColor.pink,
+                                        valueText: '$totalFat / $dailyFat g',
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                              loading: () => const CircularProgressIndicator(),
+                              error: (error, stackTrace) =>
+                                  Text('Error: $error'),
+                            ),
                           ],
                         ),
                       ),
-                      const Expanded(
-                        flex: 2, 
-                        child: CircularPercentWidget(
-                          percent: 0.3,
-                          progressColor: AppColor.darkGreen,
-                          backgroundColor: AppColor.disabledGreen,
-                          value1: '1212',
-                          value2: 'kcal remaining',
-                        ),
+                      nutritionProgressAsync.when(
+                        data: (nutritionProgress) {
+                          int differenceEnergy = nutritionProgress
+                              .fold(
+                                (error) => 0.0,
+                                (nutritionProgressModel) =>
+                                    nutritionProgressModel.differenceEnergy ??
+                                    0.0,
+                              )
+                              .toInt();
+                          double percentageEnergy = nutritionProgress.fold(
+                            (error) => 0.0,
+                            (nutritionProgressModel) =>
+                                nutritionProgressModel.percentageEnergy ?? 0.0,
+                          );
+                          return Expanded(
+                            flex: 2,
+                            child: CircularPercentWidget(
+                              percent: percentageEnergy,
+                              progressColor: AppColor.darkGreen,
+                              backgroundColor: AppColor.disabledGreen,
+                              value1: '$differenceEnergy',
+                              value2: 'kcal remaining',
+                            ),
+                          );
+                        },
+                        loading: () => const CircularProgressIndicator(),
+                        error: (error, stackTrace) => Text('Error: $error'),
                       ),
                     ],
                   ),
@@ -164,10 +266,10 @@ class ProgressPage extends HookConsumerWidget {
                       width: 1,
                     ),
                   ),
-                  child:Row(
+                  child: Row(
                     children: [
                       Expanded(
-                        flex: 2, 
+                        flex: 2,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -183,33 +285,59 @@ class ProgressPage extends HookConsumerWidget {
                                   ),
                                 ),
                                 const Gap(4),
-                                RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: '46 / ',
+                                weightProgressAsync.when(
+                                  data: (weightProgress) {
+                                    int weight = weightProgress.fold(
+                                      (error) => 0,
+                                      (weightProgressModel) =>
+                                          (weightProgressModel.weight ?? 0.0)
+                                              .toInt(),
+                                    );
+                                    int weightTarget = weightProgress.fold(
+                                      (error) => 0,
+                                      (weightProgressModel) =>
+                                          (weightProgressModel.weightTarget ??
+                                                  0.0)
+                                              .toInt(),
+                                    );
+                                    return RichText(
+                                      text: TextSpan(
                                         style: GoogleFonts.poppins(
                                           color: AppColor.semiBlack,
-                                          fontWeight: FontWeight.w600, 
-                                          fontSize: 20
                                         ),
+                                        children: [
+                                          TextSpan(
+                                            text: '$weight /',
+                                            style: GoogleFonts.poppins(
+                                                color: AppColor.semiBlack,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 20),
+                                          ),
+                                          TextSpan(
+                                            text: ' $weightTarget kg',
+                                            style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 20,
+                                              color: AppColor.lightBlack,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      TextSpan(
-                                        text: '50 Kg',
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w600, 
-                                          fontSize: 20,
-                                          color: AppColor.lightBlack,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    );
+                                  },
+                                  loading: () {
+                                    return const CircularProgressIndicator();
+                                  },
+                                  error: (error, stackTrace) {
+                                    return Text('Error: $error');
+                                  },
                                 ),
                               ],
                             ),
                             const Gap(36),
                             Text(
-                              DateFormat("d MMMM y", "id").format(DateTime.now()),
+                              DateFormat("d MMMM y", "id")
+                                  .format(DateTime.now()),
                               style: GoogleFonts.poppins(
                                 color: AppColor.lightBlack,
                                 fontSize: 11,
@@ -220,7 +348,7 @@ class ProgressPage extends HookConsumerWidget {
                         ),
                       ),
                       Expanded(
-                        flex: 3, 
+                        flex: 3,
                         child: AreaChartWidget(chartData: customChartData),
                       ),
                     ],
@@ -234,20 +362,19 @@ class ProgressPage extends HookConsumerWidget {
     );
   }
 
-  List<ChartData> generateChartData() {
-    List<ChartData> chartData = [];
-    DateTime today = DateTime.now();
-    List<double> fixedValues = [55, 60, 70, 62, 68];
-    for (int i = 0; i < fixedValues.length; i++) {
-      DateTime date = today.subtract(Duration(days: 4 - i));
-      String formattedDate = DateFormat('dd/MM').format(date);
-      double customValue = fixedValues[i];
-      chartData.add(ChartData(formattedDate, customValue));
-    }
-    return chartData;
+  List<ChartData> generateChartData(
+      Either<String, WeightProgressModel> weightProgress) {
+    return weightProgress.fold(
+      (error) => [],
+      (weightModel) {
+        final traffic = weightModel.traffic ?? [];
+        return traffic.map((entry) {
+          final parsedDate =
+              DateTime.tryParse(entry.date.toString()) ?? DateTime.now();
+          final formattedDate = DateFormat('dd/MM').format(parsedDate);
+          return ChartData(formattedDate, entry.weight);
+        }).toList();
+      },
+    );
   }
 }
-
-
-
-
