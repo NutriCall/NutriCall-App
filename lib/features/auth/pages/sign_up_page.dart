@@ -106,7 +106,7 @@ class SignUpPage extends HookConsumerWidget {
                 const Gap(24),
                 Button.filled(
                   onPressed: () {
-                    context.pushNamed(RouteName.loginPage);
+                    context.pushReplacementNamed(RouteName.loginPage);
                   },
                   label: 'Ok',
                   color: AppColor.disabledGreen,

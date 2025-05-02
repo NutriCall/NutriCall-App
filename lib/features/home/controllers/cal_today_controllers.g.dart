@@ -7,12 +7,12 @@ part of 'cal_today_controllers.dart';
 // **************************************************************************
 
 String _$fetchCalTodayNotifierHash() =>
-    r'2e5b6b5542cd390107c8254b1d5a2cfa11ae6a5e';
+    r'750dab9ceb18a81e5774cd2ce17058a81419d555';
 
 /// See also [FetchCalTodayNotifier].
 @ProviderFor(FetchCalTodayNotifier)
-final fetchCalTodayNotifierProvider = AsyncNotifierProvider<
-    FetchCalTodayNotifier, Either<String, CalTodayModel>>.internal(
+final fetchCalTodayNotifierProvider =
+    AsyncNotifierProvider<FetchCalTodayNotifier, CalTodayModel?>.internal(
   FetchCalTodayNotifier.new,
   name: r'fetchCalTodayNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final fetchCalTodayNotifierProvider = AsyncNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$FetchCalTodayNotifier = AsyncNotifier<Either<String, CalTodayModel>>;
+typedef _$FetchCalTodayNotifier = AsyncNotifier<CalTodayModel?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

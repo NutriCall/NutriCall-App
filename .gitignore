@@ -45,7 +45,6 @@ android/
 ios/
 linux/
 web/
-.env
 
 # FVM Version Cache
 .fvm/

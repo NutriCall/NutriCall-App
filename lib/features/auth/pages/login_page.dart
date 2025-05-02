@@ -12,13 +12,12 @@ import 'package:nutri_call_app/routers/router_name.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 import 'package:nutri_call_app/utils/assets.gen.dart';
 
-final formkey = GlobalKey<FormState>();
-
 class LoginPage extends HookConsumerWidget {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final formKey = useMemoized(() => GlobalKey<FormState>());
     final username = useTextEditingController();
     final password = useTextEditingController();
     final auth = ref.watch(authenticationProvider);
@@ -94,7 +93,7 @@ class LoginPage extends HookConsumerWidget {
                   ),
                   const Gap(50),
                   Form(
-                    key: formkey,
+                    key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -111,7 +110,7 @@ class LoginPage extends HookConsumerWidget {
                         const Gap(65),
                         CustomButtonWidget(
                           onTap: () {
-                            if (formkey.currentState!.validate()) {
+                            if (formKey.currentState!.validate()) {
                               ref.read(authenticationProvider.notifier).login(
                                     username: username.text,
                                     password: password.text,
