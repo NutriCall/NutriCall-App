@@ -116,7 +116,9 @@ class TabContentMacros extends HookConsumerWidget {
                                 );
                               },
                               loading: () => const Center(
-                                  child: CircularProgressIndicator()),
+                                  child: CircularProgressIndicator(
+                                color: AppColor.darkGreen,
+                              )),
                               error: (error, _) => Text('Error: $error'),
                             ),
                             const Gap(6),
@@ -166,7 +168,9 @@ class TabContentMacros extends HookConsumerWidget {
                                 );
                               },
                               loading: () => const Center(
-                                  child: CircularProgressIndicator()),
+                                  child: CircularProgressIndicator(
+                                color: AppColor.darkGreen,
+                              )),
                               error: (error, _) => Text('Error: $error'),
                             ),
                           ],
@@ -235,7 +239,9 @@ class TabContentMacros extends HookConsumerWidget {
                                 );
                               },
                               loading: () => const Center(
-                                  child: CircularProgressIndicator()),
+                                  child: CircularProgressIndicator(
+                                color: AppColor.darkGreen,
+                              )),
                               error: (error, _) => Text('Error: $error'),
                             ),
                           ]),

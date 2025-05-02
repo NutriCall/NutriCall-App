@@ -109,7 +109,10 @@ class DetailRecipePage extends HookConsumerWidget {
         color: AppColor.semiBlack,
         onRefresh: () => _refreshRecipes(ref),
         child: recipeAsync.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const Center(
+              child: CircularProgressIndicator(
+            color: AppColor.darkGreen,
+          )),
           error: (err, stack) => Center(child: Text("Error: $err")),
           data: (recipe) {
             return LayoutBuilder(
@@ -130,10 +133,9 @@ class DetailRecipePage extends HookConsumerWidget {
                             TextSpan(
                               text: "by ",
                               style: GoogleFonts.poppins(
-                                fontSize: 13, 
-                                color: AppColor.lightBlack,
-                                fontWeight: FontWeight.w500
-                              ),
+                                  fontSize: 13,
+                                  color: AppColor.lightBlack,
+                                  fontWeight: FontWeight.w500),
                               children: [
                                 TextSpan(
                                   text: recipe["author"],
@@ -149,19 +151,17 @@ class DetailRecipePage extends HookConsumerWidget {
                           Text(
                             recipe["date"],
                             style: GoogleFonts.poppins(
-                              fontSize: 13, 
-                              color: AppColor.lightBlack,
-                              fontWeight: FontWeight.w500
-                            ),
+                                fontSize: 13,
+                                color: AppColor.lightBlack,
+                                fontWeight: FontWeight.w500),
                           ),
                           const Gap(16),
                           Text(
                             recipe["title"],
                             style: GoogleFonts.poppins(
-                              fontSize: 24, 
-                              fontWeight: FontWeight.w600,
-                              color: AppColor.semiBlack
-                            ),
+                                fontSize: 24,
+                                fontWeight: FontWeight.w600,
+                                color: AppColor.semiBlack),
                           ),
                           const Gap(12),
                           RecipeIngredientsWidget(

@@ -85,7 +85,9 @@ class TabContentCalorie extends HookConsumerWidget {
                                 );
                               },
                               loading: () => const Center(
-                                  child: CircularProgressIndicator()),
+                                  child: CircularProgressIndicator(
+                                color: AppColor.darkGreen,
+                              )),
                               error: (error, _) => Text('Error: $error'),
                             ),
                             const Gap(4),
@@ -123,7 +125,9 @@ class TabContentCalorie extends HookConsumerWidget {
                                     ]);
                               },
                               loading: () => const Center(
-                                  child: CircularProgressIndicator()),
+                                  child: CircularProgressIndicator(
+                                color: AppColor.darkGreen,
+                              )),
                               error: (error, _) => Text('Error: $error'),
                             ),
                             const Gap(4),
@@ -174,8 +178,10 @@ class TabContentCalorie extends HookConsumerWidget {
                               },
                               loading: () => const SizedBox(
                                 height: 130,
-                                child:
-                                    Center(child: CircularProgressIndicator()),
+                                child: Center(
+                                    child: CircularProgressIndicator(
+                                  color: AppColor.darkGreen,
+                                )),
                               ),
                               error: (error, _) =>
                                   Text('Error loading graph: $error'),
@@ -222,7 +228,9 @@ class TabContentCalorie extends HookConsumerWidget {
                                 );
                               },
                               loading: () => const Center(
-                                  child: CircularProgressIndicator()),
+                                  child: CircularProgressIndicator(
+                                color: AppColor.darkGreen,
+                              )),
                               error: (error, _) => Text('Error: $error'),
                             ),
                           ],
@@ -290,7 +298,9 @@ class TabContentCalorie extends HookConsumerWidget {
                                 );
                               },
                               loading: () => const Center(
-                                  child: CircularProgressIndicator()),
+                                  child: CircularProgressIndicator(
+                                color: AppColor.darkGreen,
+                              )),
                               error: (error, _) => Text('Error: $error'),
                             ),
                           ]),
