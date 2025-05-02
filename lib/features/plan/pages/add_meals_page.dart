@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:nutri_call_app/features/plan/controllers/get_composition_controllers.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
 import 'package:nutri_call_app/helpers/widget/custom_button_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_search_field.dart';
@@ -13,7 +15,7 @@ import 'package:nutri_call_app/features/plan/widget/meal_item_widget.dart';
 import 'package:nutri_call_app/routers/router_name.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
-class AddMealsPage extends StatefulWidget {
+class AddMealsPage extends ConsumerStatefulWidget {
   final String mealId;
 
   const AddMealsPage({super.key, required this.mealId});
@@ -22,7 +24,7 @@ class AddMealsPage extends StatefulWidget {
   _AddMealsPageState createState() => _AddMealsPageState();
 }
 
-class _AddMealsPageState extends State<AddMealsPage> {
+class _AddMealsPageState extends ConsumerState<AddMealsPage> {
   TextEditingController searchController = TextEditingController();
   List<MealItem> allMeals = [
     MealItem(id: 1, name: 'Milk', kcal: 101),
@@ -34,6 +36,8 @@ class _AddMealsPageState extends State<AddMealsPage> {
 
   XFile? _selectedImage;
 
+  OverlayEntry? overlayEntry;
+
   void _pickImage(ImageSource source) async {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: source);
@@ -43,6 +47,81 @@ class _AddMealsPageState extends State<AddMealsPage> {
         _selectedImage = image;
       });
     }
+  }
+
+  late String _lastSearchQuery = '';
+  void _debouncedSearch(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        filteredMeals = [];
+      });
+      if (overlayEntry != null) {
+        overlayEntry?.remove();
+        overlayEntry = null;
+      }
+      return;
+    }
+
+    if (_lastSearchQuery != query) {
+      _lastSearchQuery = query;
+      _searchMeals(query);
+      _searchCompositions(query);
+    }
+  }
+
+  void _searchMeals(String query) {
+    setState(() {
+      filteredMeals = allMeals
+          .where(
+              (meal) => meal.name.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    });
+
+    if (filteredMeals.isEmpty) {
+      if (overlayEntry != null) {
+        overlayEntry?.remove();
+        overlayEntry = null;
+      }
+    } else {
+      _showOverlay();
+    }
+  }
+
+  void _showOverlay() {
+    if (overlayEntry == null) {
+      overlayEntry = OverlayEntry(
+        builder: (context) => Positioned(
+          top: 200.0,
+          left: 100.0,
+          child: Material(
+            color: Colors.transparent,
+            child: Container(
+              color: Colors.black.withOpacity(0.5),
+              child: const Text('Loading...'),
+            ),
+          ),
+        ),
+      );
+      Overlay.of(context).insert(overlayEntry!);
+    }
+  }
+
+  void _searchCompositions(String query) {
+    ref
+        .read(fetchCompositionControllersProvider.notifier)
+        .fetch(namaBahan: query);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    filteredMeals = List.from(allMeals);
+
+    searchController.addListener(() {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        _debouncedSearch(searchController.text);
+      });
+    });
   }
 
   void _showImagePickerOptions() {
@@ -79,21 +158,6 @@ class _AddMealsPageState extends State<AddMealsPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    filteredMeals = List.from(allMeals);
-  }
-
-  void _searchMeals(String query) {
-    setState(() {
-      filteredMeals = allMeals
-          .where(
-              (meal) => meal.name.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
@@ -103,64 +167,96 @@ class _AddMealsPageState extends State<AddMealsPage> {
         },
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  widget.mealId,
-                  style: GoogleFonts.poppins(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: AppColor.semiBlack
-                  ),
-                ),
-                TextButton.icon(
-                  onPressed: _showImagePickerOptions,
-                  icon: const Icon(Icons.add_a_photo, color: AppColor.darkGreen),
-                  label: Text("Add Image",
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.mealId,
                     style: GoogleFonts.poppins(
-                      color: AppColor.darkGreen,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500
-                    )
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.semiBlack),
                   ),
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  TextButton.icon(
+                    onPressed: _showImagePickerOptions,
+                    icon: const Icon(Icons.add_a_photo,
+                        color: AppColor.darkGreen),
+                    label: Text("Add Image",
+                        style: GoogleFonts.poppins(
+                            color: AppColor.darkGreen,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500)),
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 5),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            if (_selectedImage != null)
-              Image.file(File(_selectedImage!.path), height: 100),
-            const Gap(5),
-            CustomSearchField(
-              hintText: "Search meals..",
-              controller: searchController,
-              onSearch: () => _searchMeals(searchController.text),
-            ),
-            const Gap(20),
-            Expanded(
-              child: MealListWidget(
-                meals: filteredMeals,
-                onSelectionChanged: (selected) {},
+                ],
               ),
-            ),
-            const Gap(10),
-            CustomButtonWidget(
-              text: 'Save',
-              onTap: () {
-                context.pushNamed(RouteName.planPage);
-              },
-            ),
-            const Gap(20),
-          ],
-        ),
-      ),
+              if (_selectedImage != null)
+                Image.file(File(_selectedImage!.path), height: 100),
+              const Gap(5),
+              CustomSearchField(
+                hintText: "Search meals..",
+                controller: searchController,
+                onSearch: () {
+                  _debouncedSearch(searchController.text);
+                },
+              ),
+              Consumer(
+                builder: (context, ref, child) {
+                  final state = ref.watch(fetchCompositionControllersProvider);
+                  return Column(
+                    children: [
+                      if (state is AsyncLoading &&
+                          state.value != null &&
+                          state.value!.isEmpty)
+                        const CircularProgressIndicator(),
+                      if (state is AsyncData &&
+                          state.value != null &&
+                          state.value!.isNotEmpty)
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: state.value!.length,
+                          itemBuilder: (context, index) {
+                            final composition = state.value![index];
+                            return ListTile(
+                              title: Text(composition.namaBahan ?? ""),
+                              onTap: () {},
+                            );
+                          },
+                        ),
+                      if (state is AsyncError)
+                        Text(state.error.toString(),
+                            style: const TextStyle(color: Colors.red)),
+                    ],
+                  );
+                },
+              ),
+              const Gap(20),
+              Flexible(
+                child: MealListWidget(
+                  meals: filteredMeals,
+                  onSelectionChanged: (selected) {},
+                ),
+              ),
+              const Gap(10),
+              CustomButtonWidget(
+                text: 'Save',
+                onTap: () {
+                  context.pushNamed(RouteName.planPage);
+                },
+              ),
+              const Gap(20),
+            ],
+          )),
     );
   }
 }
