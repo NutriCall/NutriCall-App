@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:nutri_call_app/features/report/controllers/daily_calorie_report_controller.dart';
+import 'package:nutri_call_app/features/report/controllers/food_eaten_report_controller.dart';
 import 'package:nutri_call_app/features/report/widget/bar_chart_widget.dart';
 import 'package:nutri_call_app/features/report/widget/custom_table_widget.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
@@ -9,41 +12,24 @@ import 'package:nutri_call_app/utils/app_color.dart';
 class TabContentCalorie extends HookConsumerWidget {
   const TabContentCalorie({super.key});
 
-    Future<void> _refreshCalorie() async {
-      await Future.delayed(const Duration(seconds: 2));
-    }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final calorieAsync = ref.watch(fetchDailyCalorieReportNotifierProvider);
+    final foodAsync = ref.watch(fetchFoodEatenReportNotifierProvider);
 
-    final List<List<String>> dataCalorie = [
-      ["A1", "Breakfast", "20%", "105"],
-      ["A2", "Lunch", "37%", "195"],
-      ["A3", "Dinner", "35%", "150"],
-      ["A4", "Snacks/other", "8%", "75"],
-    ];
-
-    final List<List<String>> modifiedDataCalorie = dataCalorie.map((row) {
-      return List<String>.from(row)..[3] += " kcal";
-    }).toList();
-
-    final List<List<String>> dataFoods = [
-      ["Foods", "Time\nEatean", "Cals"],
-      ["Chicken Breast", "x1", "195"],
-      ["Banana", "x1", "105"],
-      ["Total", "x2", "300"],
-    ];
-
-    final List<List<String>> modifiedDataFoods = dataFoods.asMap().map((rowIndex, row) {
-      return MapEntry(
-        rowIndex,
-        List<String>.from(row)..[2] = (rowIndex != 0) ? "${row[2]} kcal" : row[2],
-      );
-    }).values.toList();
-
+    useEffect(() {
+      Future.microtask(() {
+        ref.read(fetchDailyCalorieReportNotifierProvider.notifier).fetch();
+        ref.read(fetchFoodEatenReportNotifierProvider.notifier).fetch();
+      });
+      return null;
+    }, []);
 
     return RefreshIndicator(
-      onRefresh: _refreshCalorie,
+      onRefresh: () async {
+        ref.read(fetchDailyCalorieReportNotifierProvider.notifier).fetch();
+        ref.read(fetchFoodEatenReportNotifierProvider.notifier).fetch();
+      },
       color: AppColor.semiBlack,
       child: Scaffold(
         body: Padding(
@@ -82,51 +68,117 @@ class TabContentCalorie extends HookConsumerWidget {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            Text(
-                              '105',
-                              style: GoogleFonts.poppins(
-                                color: AppColor.semiBlack,
-                                fontSize: 24,
-                                fontWeight: FontWeight.w600,
+                            calorieAsync.when(
+                              data: (calorieData) {
+                                double totalCalories = calorieData.fold(
+                                  (error) => 0.0,
+                                  (report) => report.totalCalToday ?? 0.0,
+                                );
+
+                                return Text(
+                                  '${totalCalories.toStringAsFixed(0)} kcal',
+                                  style: GoogleFonts.poppins(
+                                    color: AppColor.semiBlack,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                );
+                              },
+                              loading: () => const Center(
+                                  child: CircularProgressIndicator()),
+                              error: (error, _) => Text('Error: $error'),
+                            ),
+                            const Gap(4),
+                            calorieAsync.when(
+                              data: (calorieData) {
+                                double goalCalories = calorieData.fold(
+                                  (error) => 0.0,
+                                  (report) => report.goal ?? 0.0,
+                                );
+                                double average = calorieData.fold(
+                                  (error) => 0.0,
+                                  (report) => report.average ?? 0.0,
+                                );
+
+                                return Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Daily Average: ${average.toStringAsFixed(0)}',
+                                        style: GoogleFonts.poppins(
+                                          color: AppColor.grey,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Goal: ${goalCalories.toStringAsFixed(0)} kcal',
+                                        style: GoogleFonts.poppins(
+                                          color: AppColor.grey,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ]);
+                              },
+                              loading: () => const Center(
+                                  child: CircularProgressIndicator()),
+                              error: (error, _) => Text('Error: $error'),
+                            ),
+                            const Gap(4),
+                            calorieAsync.when(
+                              data: (calorieData) {
+                                final graphData = calorieData.fold(
+                                  (error) => <List<double>>[],
+                                  (report) {
+                                    final graph = report.graph;
+                                    return graph?.map((day) {
+                                          final total = (day.breakfast ?? 0.0) +
+                                              (day.lunch ?? 0.0) +
+                                              (day.dinner ?? 0.0) +
+                                              (day.snacksOther ?? 0.0);
+                                          return total > 0
+                                              ? [
+                                                  (day.breakfast ?? 0.0) /
+                                                      total *
+                                                      100,
+                                                  (day.lunch ?? 0.0) /
+                                                      total *
+                                                      100,
+                                                  (day.dinner ?? 0.0) /
+                                                      total *
+                                                      100,
+                                                  (day.snacksOther ?? 0.0) /
+                                                      total *
+                                                      100,
+                                                ]
+                                              : [0.0, 0.0, 0.0, 0.0];
+                                        }).toList() ??
+                                        [];
+                                  },
+                                );
+
+                                return SizedBox(
+                                  height: 130,
+                                  child: BarChartWidget(
+                                    yValues: graphData,
+                                    colors: const [
+                                      AppColor.blue,
+                                      AppColor.orange,
+                                      AppColor.pink,
+                                      AppColor.purple,
+                                    ],
+                                  ),
+                                );
+                              },
+                              loading: () => const SizedBox(
+                                height: 130,
+                                child:
+                                    Center(child: CircularProgressIndicator()),
                               ),
-                            ),
-                            const Gap(4),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Daily Average: 105',
-                                  style: GoogleFonts.poppins(
-                                    color: AppColor.grey,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                Text(
-                                  'Goal: 2200kcal',
-                                  style: GoogleFonts.poppins(
-                                    color: AppColor.grey,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const Gap(4),
-                            const SizedBox(
-                              height: 130,
-                              child: BarChartWidget(
-                                yValues: [
-                                  [10, 15, 20, 10],  
-                                  [12, 18, 25, 20], 
-                                  [14, 10, 22, 10], 
-                                  [16, 12, 28, 15],  
-                                  [18, 14, 30, 16], 
-                                  [20, 16, 35, 5], 
-                                  [22, 18, 40, 9],  
-                                ],
-                                colors: [AppColor.blue, AppColor.orange, AppColor.pink, AppColor.purple],
-                              )
+                              error: (error, _) =>
+                                  Text('Error loading graph: $error'),
                             ),
                             const Gap(6),
                             Text(
@@ -138,11 +190,41 @@ class TabContentCalorie extends HookConsumerWidget {
                               ),
                             ),
                             const Gap(6),
-                            CustomTableWidget(
-                              rowCount: 4,
-                              columnCount: 4,
-                              data: modifiedDataCalorie
-                            )
+                            calorieAsync.when(
+                              data: (calorieData) {
+                                final todayCalories = calorieData.fold(
+                                  (error) => [],
+                                  (report) => report.todayCalories,
+                                );
+                                final modifiedDataCalorie = todayCalories
+                                    ?.asMap()
+                                    .entries
+                                    .map((entry) {
+                                      final index = entry.key;
+                                      final item = entry.value;
+                                      final code = "A${index + 1}";
+                                      return [
+                                        code,
+                                        item.type,
+                                        "${item.percentage}%",
+                                        "${item.calories.toStringAsFixed(0)} kcal",
+                                      ];
+                                    })
+                                    .toList()
+                                    .map((row) =>
+                                        row.map((e) => e.toString()).toList())
+                                    .toList();
+
+                                return CustomTableWidget(
+                                  rowCount: modifiedDataCalorie?.length ?? 0,
+                                  columnCount: 4,
+                                  data: modifiedDataCalorie ?? [],
+                                );
+                              },
+                              loading: () => const Center(
+                                  child: CircularProgressIndicator()),
+                              error: (error, _) => Text('Error: $error'),
+                            ),
                           ],
                         ),
                       ),
@@ -164,24 +246,54 @@ class TabContentCalorie extends HookConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Today’s Food Eatean',
-                            style: GoogleFonts.poppins(
-                              color: AppColor.semiBlack,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Today’s Food Eatean',
+                              style: GoogleFonts.poppins(
+                                color: AppColor.semiBlack,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                          const Gap(8),
-                          CustomTableWidget(
-                            rowCount: 4,
-                            columnCount: 3,
-                            data: modifiedDataFoods
-                          )
-                        ]
-                      ),
+                            const Gap(8),
+                            foodAsync.when(
+                              data: (foodData) {
+                                final items = foodData.fold(
+                                  (error) => [],
+                                  (report) => report.items,
+                                );
+
+                                final modifiedFoodData = items
+                                    ?.asMap()
+                                    .entries
+                                    .map((entry) {
+                                      final item = entry.value;
+                                      return [
+                                        item.name,
+                                        "x${item.count.toString()}",
+                                        "${item.calories.toStringAsFixed(0)} kcal",
+                                      ];
+                                    })
+                                    .map((row) =>
+                                        row.map((e) => e.toString()).toList())
+                                    .toList();
+
+                                final tableData = [
+                                  ["Food", "Time/Eaten", "Calories"],
+                                  ...?modifiedFoodData,
+                                ];
+                                return CustomTableWidget(
+                                  rowCount: (modifiedFoodData?.length ?? 0) + 1,
+                                  columnCount: 3,
+                                  data: tableData,
+                                );
+                              },
+                              loading: () => const Center(
+                                  child: CircularProgressIndicator()),
+                              error: (error, _) => Text('Error: $error'),
+                            ),
+                          ]),
                     ],
                   ),
                 ),
