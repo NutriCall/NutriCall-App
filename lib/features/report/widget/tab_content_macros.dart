@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:nutri_call_app/features/report/domain/entities/macronutrient_report_model.dart';
 import 'package:nutri_call_app/features/report/widget/bar_chart_widget.dart';
 import 'package:nutri_call_app/features/report/widget/custom_table_widget.dart';
+import 'package:nutri_call_app/features/report/controllers/food_eaten_report_controller.dart';
+import 'package:nutri_call_app/features/report/controllers/macronutrient_report_controller.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
 class TabContentMacros extends HookConsumerWidget {
   const TabContentMacros({super.key});
 
-    Future<void> _refreshCalorie() async {
-      await Future.delayed(const Duration(seconds: 2));
-    }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final foodEatenReportAsync =
+        ref.watch(fetchFoodEatenReportNotifierProvider);
+    final macronutrientReportAsync =
+        ref.watch(fetchMacronutrientReportNotifierProvider);
 
-    final List<List<String>> dataMacro = [
-      ["", "", "Total", "Goal"],
-      ["A1", "Carbs", "35%", "50%"],
-      ["A2", "Protein", "24%", "30%"],
-      ["A3", "Fat", "41%", "20%"],
-    ];
-
-    final List<List<String>> dataFoods = [
-      ["Foods", "Carbs\n(g)", "Prot\n(g)", "Fat\n(g)"],
-      ["Chicken Breast", "26.95", "1.29", "0.39"],
-      ["Banana", "0.00", "7.72", "7.72"],
-      ["Total", "26.95", "8.11", "30.84"],
-    ];
+    useEffect(() {
+      Future.microtask(() {
+        ref.read(fetchFoodEatenReportNotifierProvider.notifier).fetch();
+        ref.read(fetchMacronutrientReportNotifierProvider.notifier).fetch();
+      });
+      return null;
+    }, []);
 
     return RefreshIndicator(
-      onRefresh: _refreshCalorie,
+      onRefresh: () async {
+        ref.read(fetchFoodEatenReportNotifierProvider.notifier).fetch();
+      },
       color: AppColor.semiBlack,
       child: Scaffold(
         body: Padding(
@@ -71,20 +71,53 @@ class TabContentMacros extends HookConsumerWidget {
                               ),
                             ),
                             const Gap(8),
-                            const SizedBox(
-                              height: 130,
-                              child: BarChartWidget(
-                                yValues: [
-                                  [10, 15, 20],  
-                                  [12, 18, 25], 
-                                  [14, 10, 22], 
-                                  [16, 12, 28],  
-                                  [18, 14, 30], 
-                                  [20, 16, 35], 
-                                  [22, 18, 40],  
-                                ],
-                                colors: [AppColor.blue, AppColor.orange, AppColor.pink],
-                              )
+                            macronutrientReportAsync.when(
+                              data: (data) {
+                                final report =
+                                    data.fold<MacronutrientReportModel?>(
+                                  (error) => null,
+                                  (report) => report,
+                                );
+                                List<List<double>> normalizeValues(
+                                    List<MacronutrientGraphModel> graph) {
+                                  return graph.map((e) {
+                                    final carbs = e.carbs ?? 0;
+                                    final proteins = e.proteins ?? 0;
+                                    final fats = e.fats ?? 0;
+
+                                    final total = carbs + proteins + fats;
+                                    if (total == 0) {
+                                      return [0.0, 0.0, 0.0];
+                                    }
+
+                                    final scale = 100 / total;
+
+                                    return [
+                                      (carbs * scale).toDouble(),
+                                      (proteins * scale).toDouble(),
+                                      (fats * scale).toDouble(),
+                                    ];
+                                  }).toList();
+                                }
+
+                                final normalizedYValues =
+                                    normalizeValues(report?.graph ?? []);
+
+                                return SizedBox(
+                                  height: 130,
+                                  child: BarChartWidget(
+                                    yValues: normalizedYValues,
+                                    colors: const [
+                                      AppColor.blue,
+                                      AppColor.orange,
+                                      AppColor.pink,
+                                    ],
+                                  ),
+                                );
+                              },
+                              loading: () => const Center(
+                                  child: CircularProgressIndicator()),
+                              error: (error, _) => Text('Error: $error'),
                             ),
                             const Gap(6),
                             Text(
@@ -96,11 +129,46 @@ class TabContentMacros extends HookConsumerWidget {
                               ),
                             ),
                             const Gap(6),
-                            CustomTableWidget(
-                              rowCount: 4,
-                              columnCount: 4,
-                              data: dataMacro
-                            )
+                            macronutrientReportAsync.when(
+                              data: (data) {
+                                final report =
+                                    data.fold<MacronutrientReportModel?>(
+                                  (error) => null,
+                                  (report) => report,
+                                );
+
+                                final todayMacro = report?.todayMacro;
+
+                                return CustomTableWidget(
+                                  rowCount: 4,
+                                  columnCount: 4,
+                                  data: [
+                                    const ["", "", "Total", "Goal Percent"],
+                                    [
+                                      "A1",
+                                      "Carbs",
+                                      "${todayMacro?.carbs?.value?.toStringAsFixed(1) ?? '0.0'}g",
+                                      "${todayMacro?.carbs?.percentage?.toStringAsFixed(1) ?? '0.0'}%",
+                                    ],
+                                    [
+                                      "A2",
+                                      "Protein",
+                                      "${todayMacro?.proteins?.value?.toStringAsFixed(1) ?? '0.0'}g",
+                                      "${todayMacro?.proteins?.percentage?.toStringAsFixed(1) ?? '0.0'}%",
+                                    ],
+                                    [
+                                      "A3",
+                                      "Fat",
+                                      "${todayMacro?.fats?.value?.toStringAsFixed(1) ?? '0.0'}g",
+                                      "${todayMacro?.fats?.percentage?.toStringAsFixed(1) ?? '0.0'}%",
+                                    ],
+                                  ],
+                                );
+                              },
+                              loading: () => const Center(
+                                  child: CircularProgressIndicator()),
+                              error: (error, _) => Text('Error: $error'),
+                            ),
                           ],
                         ),
                       ),
@@ -122,24 +190,55 @@ class TabContentMacros extends HookConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Today’s Food Eatean',
-                            style: GoogleFonts.poppins(
-                              color: AppColor.semiBlack,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Today’s Food Eatean',
+                              style: GoogleFonts.poppins(
+                                color: AppColor.semiBlack,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                          const Gap(8),
-                          CustomTableWidget(
-                            rowCount: 4,
-                            columnCount: 4,
-                            data: dataFoods
-                          )
-                        ]
-                      ),
+                            const Gap(8),
+                            foodEatenReportAsync.when(
+                              data: (foodData) {
+                                final items = foodData.fold(
+                                  (error) => [],
+                                  (report) => report.items,
+                                );
+
+                                final modifiedFoodData = items
+                                    ?.asMap()
+                                    .entries
+                                    .map((entry) {
+                                      final item = entry.value;
+                                      return [
+                                        item.name,
+                                        "${item.carbs}",
+                                        "${item.proteins}",
+                                        "${item.fats}",
+                                      ];
+                                    })
+                                    .map((row) =>
+                                        row.map((e) => e.toString()).toList())
+                                    .toList();
+
+                                final tableData = [
+                                  ["Food", "Carbs(g)", "Prot(g)", "Fat(g)"],
+                                  ...?modifiedFoodData,
+                                ];
+                                return CustomTableWidget(
+                                  rowCount: (modifiedFoodData?.length ?? 0) + 1,
+                                  columnCount: 4,
+                                  data: tableData,
+                                );
+                              },
+                              loading: () => const Center(
+                                  child: CircularProgressIndicator()),
+                              error: (error, _) => Text('Error: $error'),
+                            ),
+                          ]),
                     ],
                   ),
                 ),

@@ -17,10 +17,6 @@ import 'package:nutri_call_app/features/progress/controllers/weight_progress_con
 class ProgressPage extends HookConsumerWidget {
   const ProgressPage({super.key});
 
-  Future<void> _refreshProgress() async {
-    await Future.delayed(const Duration(seconds: 2));
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final nutritionProgressAsync =
@@ -141,38 +137,56 @@ class ProgressPage extends HookConsumerWidget {
                             const Gap(12),
                             nutritionProgressAsync.when(
                               data: (data) {
-                                double totalCarbs = data.fold(
-                                  (error) => 0.0,
-                                  (nutritionProgressModel) =>
-                                      nutritionProgressModel.totalCarbs ?? 0.0,
-                                );
-                                double totalFat = data.fold(
-                                  (error) => 0.0,
-                                  (nutritionProgressModel) =>
-                                      nutritionProgressModel.totalFat ?? 0.0,
-                                );
-                                double totalProtein = data.fold(
-                                  (error) => 0.0,
-                                  (nutritionProgressModel) =>
-                                      nutritionProgressModel.totalProteins ??
-                                      0.0,
-                                );
-                                double dailyCarbs = data.fold(
-                                  (error) => 0.0,
-                                  (nutritionProgressModel) =>
-                                      nutritionProgressModel.dailyCarbs ?? 0.0,
-                                );
-                                double dailyFat = data.fold(
-                                  (error) => 0.0,
-                                  (nutritionProgressModel) =>
-                                      nutritionProgressModel.dailyFat ?? 0.0,
-                                );
-                                double dailyProtein = data.fold(
-                                  (error) => 0.0,
-                                  (nutritionProgressModel) =>
-                                      nutritionProgressModel.dailyProteins ??
-                                      0.0,
-                                );
+                                double totalCarbs = double.parse(data
+                                    .fold(
+                                      (error) => 0.0,
+                                      (nutritionProgressModel) =>
+                                          nutritionProgressModel.totalCarbs ??
+                                          0.0,
+                                    )
+                                    .toStringAsFixed(2));
+                                double totalFat = double.parse(data
+                                    .fold(
+                                      (error) => 0.0,
+                                      (nutritionProgressModel) =>
+                                          nutritionProgressModel.totalFat ??
+                                          0.0,
+                                    )
+                                    .toStringAsFixed(2));
+                                double totalProtein = double.parse(data
+                                    .fold(
+                                      (error) => 0.0,
+                                      (nutritionProgressModel) =>
+                                          nutritionProgressModel
+                                              .totalProteins ??
+                                          0.0,
+                                    )
+                                    .toStringAsFixed(2));
+                                double dailyCarbs = double.parse(data
+                                    .fold(
+                                      (error) => 0.0,
+                                      (nutritionProgressModel) =>
+                                          nutritionProgressModel.dailyCarbs ??
+                                          0.0,
+                                    )
+                                    .toStringAsFixed(2));
+                                double dailyFat = double.parse(data
+                                    .fold(
+                                      (error) => 0.0,
+                                      (nutritionProgressModel) =>
+                                          nutritionProgressModel.dailyFat ??
+                                          0.0,
+                                    )
+                                    .toStringAsFixed(2));
+                                double dailyProtein = double.parse(data
+                                    .fold(
+                                      (error) => 0.0,
+                                      (nutritionProgressModel) =>
+                                          nutritionProgressModel
+                                              .dailyProteins ??
+                                          0.0,
+                                    )
+                                    .toStringAsFixed(2));
                                 return Row(
                                   children: [
                                     Expanded(
@@ -232,7 +246,7 @@ class ProgressPage extends HookConsumerWidget {
                           return Expanded(
                             flex: 2,
                             child: CircularPercentWidget(
-                              percent: percentageEnergy,
+                              percent: percentageEnergy / 100,
                               progressColor: AppColor.darkGreen,
                               backgroundColor: AppColor.disabledGreen,
                               value1: '$differenceEnergy',
