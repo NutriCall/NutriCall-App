@@ -217,7 +217,9 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
                       if (state is AsyncLoading &&
                           state.value != null &&
                           state.value!.isEmpty)
-                        const CircularProgressIndicator(),
+                        const CircularProgressIndicator(
+                          color: AppColor.darkGreen,
+                        ),
                       if (state is AsyncData &&
                           state.value != null &&
                           state.value!.isNotEmpty)

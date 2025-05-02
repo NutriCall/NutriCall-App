@@ -54,7 +54,10 @@ class PreviewRecipePage extends HookConsumerWidget {
         color: AppColor.semiBlack,
         onRefresh: () => _refreshRecipes(ref),
         child: recipeAsync.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const Center(
+              child: CircularProgressIndicator(
+            color: AppColor.darkGreen,
+          )),
           error: (err, stack) =>
               Center(child: Text("Error: $err", style: GoogleFonts.poppins())),
           data: (recipe) {
