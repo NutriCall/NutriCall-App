@@ -44,4 +44,27 @@ class AppColor {
   static const yellow = Color(0xFFFFD05A);
   static const darkWhite2 = Color(0xFFEDEDED);
   static const darkWhite3 = Color(0xFFDADADA);
+  static const List<Color> defaultColorPalette = [
+    blue,
+    spanishGrey,
+    darkBlue,
+    orange,
+    russianViolet,
+    purple,
+    yellow,
+    darkWhite,
+    grey,
+    neon,
+    darkWhite2,
+    lightGreen,
+    pink,
+    lightBlue,
+    green,
+    lightOrange,
+    lightTeal,
+    lightGrey,
+    lightRed,
+    lightPurple,
+    lightBlack,
+  ];
 }
