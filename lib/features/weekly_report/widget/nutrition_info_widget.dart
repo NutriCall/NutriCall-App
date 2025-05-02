@@ -33,7 +33,7 @@ class NutritionInfoWidget extends StatelessWidget {
               percentage,
               style: GoogleFonts.poppins(
                 color: Colors.white,
-                fontSize: 14,
+                fontSize: 13,
                 fontWeight: FontWeight.w600,
               ),
             ),

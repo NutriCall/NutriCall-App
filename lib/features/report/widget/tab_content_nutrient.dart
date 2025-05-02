@@ -22,22 +22,6 @@ class TabContentNutrient extends HookConsumerWidget {
       return null;
     }, []);
 
-    final List<List<String>> dataNutrient = [
-      ["Nutrient", "Total", "Goal", "[+/-]"],
-      ["Calories (kcal)", "300", "15400", "-15100"],
-      ["Protein (g)", "31", "700", "-669"],
-      ["Carbohydrate (g)", "27", "1750", "-1723"],
-      ["Fiber (g)", "3", "-", "-"],
-      ["Sugar (g)", "14", "-", "-"],
-      ["Fat (g)", "8", "469", "-461"],
-      ["Saturated Fat (g)", "2", "-", "-"],
-      ["Polyunsaturated Fat (g)", "2", "-", "-"],
-      ["Monounsaturated Fat (g)", "3", "-", "-"],
-      ["Cholesterol (mg)", "83", "-", "-"],
-      ["Sodium (mg)", "394", "-", "-"],
-      ["Potassium (mg)", "665", "-", "-"],
-    ];
-
     return RefreshIndicator(
       onRefresh: () async {
         ref.read(fetchNutrientReportNotifierProvider.notifier).fetch();

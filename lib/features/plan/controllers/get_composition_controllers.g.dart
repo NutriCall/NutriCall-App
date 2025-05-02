@@ -7,7 +7,7 @@ part of 'get_composition_controllers.dart';
 // **************************************************************************
 
 String _$fetchCompositionControllersHash() =>
-    r'88b09b2f9e70f1ba8cbb4be373e5e6b98f8a234e';
+    r'e558302a4d9557ff834e1aef0e0d46360416844e';
 
 /// See also [FetchCompositionControllers].
 @ProviderFor(FetchCompositionControllers)
