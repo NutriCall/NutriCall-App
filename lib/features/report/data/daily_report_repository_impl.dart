@@ -4,6 +4,7 @@ import 'package:nutri_call_app/core/provider/dio_provider.dart';
 import 'package:nutri_call_app/features/report/domain/entities/daily_calorie_report_model.dart';
 import 'package:nutri_call_app/features/report/domain/entities/food_eaten_report_model.dart';
 import 'package:nutri_call_app/features/report/domain/entities/macronutrient_report_model.dart';
+import 'package:nutri_call_app/features/report/domain/entities/nutrient_model.dart';
 import 'package:nutri_call_app/features/report/domain/repository/daily_report_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -70,6 +71,28 @@ class DailyReportRepositoryImpl implements DailyReportRepository {
       if (response.statusCode == 200) {
         MacronutrientReportModel model =
             MacronutrientReportModel.fromJson(response.data['data']);
+        return Right(model);
+      } else {
+        return Left('Failed to load data: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      final error = e.response?.data['message'] ?? 'Unknown error';
+      return Left(error);
+    } catch (e) {
+      return Left('Unexpected error: ${e.toString()}');
+    }
+  }
+
+  @override
+  Future<Either<String, List<NutrientItemModel>>> getNutrientReport() async {
+    try {
+      final response = await httpClient.get('daily-report/nutrien');
+
+      if (response.statusCode == 200) {
+        final data = response.data['data'];
+        final nutrients = data['nutrients'] as List<dynamic>;
+        List<NutrientItemModel> model =
+            nutrients.map((e) => NutrientItemModel.fromJson(e)).toList();
         return Right(model);
       } else {
         return Left('Failed to load data: ${response.statusCode}');
