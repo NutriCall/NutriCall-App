@@ -1,25 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nutri_call_app/features/plan/widget/calendar_widget.dart';
 import 'package:nutri_call_app/features/plan/widget/plan_meal_widget.dart';
+import 'package:nutri_call_app/features/plan/controllers/meal_plan_controller.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
 class PlanPage extends HookConsumerWidget {
   const PlanPage({super.key});
 
-  Future<void> _refreshPlan() async {
-    await Future.delayed(const Duration(seconds: 2));
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final mealPlanController = ref.watch(fetchMealPlanNotifierProvider);
+
+    useEffect(() {
+      Future.microtask(() {
+        ref.read(fetchMealPlanNotifierProvider.notifier).fetch();
+      });
+      return null;
+    }, []);
+
     return Scaffold(
       appBar: const CustomAppBar(title: 'Meal Plan'),
       body: RefreshIndicator(
-        onRefresh: _refreshPlan,
+        onRefresh: () async {
+          await ref.read(fetchMealPlanNotifierProvider.notifier).fetch();
+        },
         child: Column(
           children: [
             Padding(
@@ -29,10 +38,9 @@ class PlanPage extends HookConsumerWidget {
                 child: Text(
                   "Today",
                   style: GoogleFonts.poppins(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: AppColor.semiBlack
-                  ),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.semiBlack),
                 ),
               ),
             ),
@@ -48,90 +56,45 @@ class PlanPage extends HookConsumerWidget {
                 child: Text(
                   "Plan Meal",
                   style: GoogleFonts.poppins(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: AppColor.semiBlack
-                  ),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.semiBlack),
                 ),
               ),
             ),
             const Gap(10),
             Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                children: const [
-                  PlanMealWidget(
-                    label: "Breakfast",
-                    kcal: "311",
-                    items: [
-                      {
-                        "name": "Milk",
-                        "calories": 101,
-                        "carbs": 59.8,
-                        "protein": 2.6,
-                        "fat": 0.8
-                      },
-                      {
-                        "name": "Banana",
-                        "calories": 210,
-                        "carbs": 59.8,
-                        "protein": 2.6,
-                        "fat": 0.8
-                      },
-                    ],
+              child: mealPlanController.when(
+                data: (either) => either.fold(
+                  (error) => Center(child: Text('Error: $error')),
+                  (mealPlanList) => ListView.separated(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    itemCount: mealPlanList.length,
+                    separatorBuilder: (_, __) => const Gap(10),
+                    itemBuilder: (context, index) {
+                      final plan = mealPlanList[index];
+                      return PlanMealWidget(
+                        label: plan.type,
+                        kcal: plan.totalEnergi.toStringAsFixed(0),
+                        items: plan.meals.map((meal) {
+                          final fc = meal.foodComposition;
+                          return {
+                            "name": fc.namaBahan,
+                            "calories": fc.energi,
+                            "carbs": fc.karbohidrat,
+                            "protein": fc.protein,
+                            "fat": fc.lemak,
+                          };
+                        }).toList(),
+                      );
+                    },
                   ),
-                  Gap(10),
-                  PlanMealWidget(
-                    label: "Lunch",
-                    kcal: "0",
-                    items: [],
-                  ),
-                  Gap(10),
-                  PlanMealWidget(
-                    label: "Dinner",
-                    kcal: "450",
-                    items: [
-                      {
-                        "name": "Fish",
-                        "calories": 200,
-                        "carbs": 0,
-                        "protein": 25,
-                        "fat": 5
-                      },
-                      {
-                        "name": "Veggies",
-                        "calories": 50,
-                        "carbs": 10,
-                        "protein": 2,
-                        "fat": 0
-                      },
-                    ],
-                  ),
-                  Gap(10),
-                  PlanMealWidget(
-                    label: "Snacks/Other",
-                    kcal: "150",
-                    items: [
-                      {
-                        "name": "Apple",
-                        "calories": 50,
-                        "carbs": 10,
-                        "protein": 2,
-                        "fat": 0
-                      },
-                      {
-                        "name": "Orange",
-                        "calories": 100,
-                        "carbs": 20,
-                        "protein": 5,
-                        "fat": 0
-                      },
-                    ],
-                  ),
-                  Gap(20)
-                ],
+                ),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (e, _) => Center(child: Text('Error: $e')),
               ),
-            ),
+            )
           ],
         ),
       ),

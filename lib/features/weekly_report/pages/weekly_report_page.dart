@@ -232,9 +232,13 @@ class WeeklyReportPage extends HookConsumerWidget {
                       final labels = <String>[];
                       final colors = <Color>[];
 
+                      final totalNonZero = filteredEntries.fold<double>(
+                          0, (sum, entry) => sum + entry.value);
+
                       for (var i = 0; i < filteredEntries.length; i++) {
                         final entry = filteredEntries[i];
-                        percentages.add(entry.value / 100);
+                        percentages
+                            .add(entry.value / totalNonZero); // normalized
                         labels.add(_mapKeyToLabel(entry.key));
                         colors.add(AppColor.defaultColorPalette[
                             i % AppColor.defaultColorPalette.length]);

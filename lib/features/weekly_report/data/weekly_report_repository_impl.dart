@@ -64,27 +64,6 @@ class WeeklyReportRepositoryImpl implements WeeklyReportRepository {
   }
 
   @override
-  Future<Either<String, WeeklyMacrosReportModel>> getWeeklyMacrosReportByDate(
-      String date) async {
-    try {
-      final response = await httpClient.get('weekly-report/eaten/$date');
-
-      if (response.statusCode == 200) {
-        WeeklyMacrosReportModel model =
-            WeeklyMacrosReportModel.fromJson(response.data['data']);
-        return Right(model);
-      } else {
-        return Left('Failed to load data: ${response.statusCode}');
-      }
-    } on DioException catch (e) {
-      final error = e.response?.data['message'] ?? 'Unknown error';
-      return Left(error);
-    } catch (e) {
-      return Left('Unexpected error: ${e.toString()}');
-    }
-  }
-
-  @override
   Future<Either<String, WeeklyGraphCaloriesModel>>
       getWeeklyGraphCaloriesReport() async {
     try {

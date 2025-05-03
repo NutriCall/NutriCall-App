@@ -27,11 +27,10 @@ class CircularPercentWeelyWidget extends HookConsumerWidget {
         CircularPercentIndicator(
           radius: 80.0,
           lineWidth: 45.0,
-          percent: 1.0, 
+          percent: 1.0,
           backgroundColor: backgroundColor,
           progressColor: backgroundColor,
         ),
-        
         ..._buildSegmentedProgress(),
         ..._buildLabels(),
       ],
@@ -41,19 +40,19 @@ class CircularPercentWeelyWidget extends HookConsumerWidget {
   List<Widget> _buildSegmentedProgress() {
     List<Widget> progressSegments = [];
     double startAngle = 0.0;
-    
+
     for (int i = 0; i < percentages.length; i++) {
       progressSegments.add(
         Positioned.fill(
           child: RotatedBox(
-            quarterTurns: 3, 
+            quarterTurns: 3,
             child: CircularPercentIndicator(
               radius: 80.0,
               lineWidth: 45.0,
               percent: percentages[i],
               backgroundColor: Colors.transparent,
               progressColor: progressColors[i],
-              startAngle: startAngle, 
+              startAngle: startAngle,
             ),
           ),
         ),
@@ -67,12 +66,12 @@ class CircularPercentWeelyWidget extends HookConsumerWidget {
 
   List<Widget> _buildLabels() {
     List<Widget> labelWidgets = [];
-    double startAngle = -180.0; 
-    double radius = 105.0; 
+    double startAngle = -180.0;
+    double radius = 105.0;
 
     for (int i = 0; i < percentages.length; i++) {
-      double midAngle = startAngle + (percentages[i] * 180); 
-      double radian = (midAngle * pi) / 180; 
+      double midAngle = startAngle + (percentages[i] * 180);
+      double radian = (midAngle * pi) / 180;
 
       double x = cos(radian) * radius;
       double y = sin(radian) * radius;
@@ -85,7 +84,7 @@ class CircularPercentWeelyWidget extends HookConsumerWidget {
             children: [
               Text(
                 labels[i],
-                style:  GoogleFonts.poppins(
+                style: GoogleFonts.poppins(
                   color: Colors.black,
                   fontSize: 7,
                   fontWeight: FontWeight.w400,
@@ -93,7 +92,7 @@ class CircularPercentWeelyWidget extends HookConsumerWidget {
               ),
               Text(
                 "${(percentages[i] * 100).toStringAsFixed(0)}%",
-                style:  GoogleFonts.poppins(
+                style: GoogleFonts.poppins(
                   color: Colors.black,
                   fontSize: 7,
                   fontWeight: FontWeight.w400,
