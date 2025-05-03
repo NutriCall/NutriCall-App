@@ -1,55 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nutri_call_app/features/plan/widget/quantity_selector.dart';
-import 'package:nutri_call_app/features/plan/widget/size_dropdown.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
 import 'package:nutri_call_app/helpers/widget/custom_button_widget.dart';
 import 'package:nutri_call_app/routers/router_name.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
+import 'package:nutri_call_app/features/plan/controllers/post_calculate_nutrients_controller.dart';
 
-class ItemDetailMealPage extends StatefulWidget {
+class ItemDetailMealPage extends HookConsumerWidget {
   final String id;
   final String name;
-  final int initialQuantity;
   final String initialSize;
   final bool isEditable;
+  final String type;
 
   const ItemDetailMealPage({
     super.key,
     required this.id,
     required this.name,
-    this.initialQuantity = 1,
-    this.initialSize = 'medium',
+    this.initialSize = 'gram',
     this.isEditable = true,
+    required this.type,
   });
 
   @override
-  _ItemDetailMealPageState createState() => _ItemDetailMealPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sizeState = useState<int>(0);
 
-class _ItemDetailMealPageState extends State<ItemDetailMealPage> {
-  late int quantity;
-  late String size;
+    Future<void> _refresh() async {
+      await Future.delayed(const Duration(seconds: 2));
+    }
 
-  @override
-  void initState() {
-    super.initState();
-    quantity = widget.initialQuantity;
-    size = widget.initialSize;
-  }
+    useEffect(() {
+      if (sizeState.value > 0) {
+        Future.microtask(() {
+          ref.read(postCalculateNutrientsNotifierProvider.notifier).fetch(
+                params: CalculateNutrientParams(
+                  namaBahan: name,
+                  size: sizeState.value.toDouble(),
+                ),
+                onSuccess: (data) {
+                  // Handle success logic here
+                },
+                onFailed: (err) {
+                  // Handle failure logic here
+                },
+              );
+        });
+      }
+      return null;
+    }, []);
 
-  Future<void> _refresh() async {
-    await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      quantity = widget.initialQuantity;
-      size = widget.initialSize;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Search Meal',
@@ -65,11 +69,11 @@ class _ItemDetailMealPageState extends State<ItemDetailMealPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.name,
+                name,
                 style: GoogleFonts.poppins(
                   color: AppColor.semiBlack,
                   fontSize: 18,
-                  fontWeight: FontWeight.w600
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               const Gap(10),
@@ -80,7 +84,7 @@ class _ItemDetailMealPageState extends State<ItemDetailMealPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Quantity',
+                          'Size per gram',
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500,
                             fontSize: 13,
@@ -88,31 +92,33 @@ class _ItemDetailMealPageState extends State<ItemDetailMealPage> {
                           ),
                         ),
                         const Gap(8),
-                        QuantitySelector(
-                          initialValue: quantity,
-                          onChanged: (value) => setState(() => quantity = value),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Gap(16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Size',
-                          style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 13,
-                            color: AppColor.darkGreen,
+                        TextFormField(
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: 'Enter amount',
+                            hintStyle: GoogleFonts.poppins(fontSize: 14),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  const BorderSide(color: AppColor.darkGreen),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 14),
+                            suffixText: 'gram',
+                            suffixStyle: GoogleFonts.poppins(
+                              fontSize: 14,
+                              color: AppColor.darkGreen,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                        const Gap(8),
-                        SizeDropdown(
-                          initialSize: size,
-                          isEditable: widget.isEditable,
-                          onChanged: (value) => setState(() => size = value),
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            color: AppColor.darkGreen,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          onChanged: (val) {
+                            sizeState.value = int.tryParse(val) ?? 0;
+                          },
                         ),
                       ],
                     ),
@@ -122,14 +128,37 @@ class _ItemDetailMealPageState extends State<ItemDetailMealPage> {
               const Gap(30),
               CustomButtonWidget(
                 text: 'Preview',
-                onTap: () {
-                  context.pushNamed(
-                    RouteName.itemPreviewMealPage,
-                    pathParameters: {
-                      'id': widget.id,
-                      'name': widget.name,
-                    },
-                  );
+                onTap: () async {
+                  await ref
+                      .read(postCalculateNutrientsNotifierProvider.notifier)
+                      .fetch(
+                        params: CalculateNutrientParams(
+                          namaBahan: name,
+                          size: sizeState.value.toDouble(),
+                        ),
+                        onSuccess: (data) {
+                          context.pushNamed(
+                            RouteName.itemPreviewMealPage,
+                            pathParameters: {
+                              'id': data['id'].toString(),
+                              'name': name,
+                              'type': type,
+                            },
+                            extra: {
+                              'size': data['size'],
+                              'calories': data['energi'],
+                              'carbs': data['karbohidrat'],
+                              'protein': data['protein'],
+                              'fat': data['lemak'],
+                            },
+                          );
+                        },
+                        onFailed: (err) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Gagal: $err')),
+                          );
+                        },
+                      );
                 },
               ),
               const Gap(30),

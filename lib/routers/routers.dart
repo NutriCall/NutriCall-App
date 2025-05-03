@@ -126,21 +126,34 @@ Raw<GoRouter> router(RouterRef ref) {
         },
       ),
       GoRoute(
-        path: '/item-detail-meal/:id/:name',
+        path: '/item-detail-meal/:id/:name/:type',
         name: RouteName.itemDetailMealPage,
         builder: (context, state) {
           final id = state.pathParameters['id']!;
           final name = state.pathParameters['name']!;
-          return ItemDetailMealPage(id: id, name: name);
+          final type = state.pathParameters['type']!;
+          return ItemDetailMealPage(id: id, name: name, type: type);
         },
       ),
       GoRoute(
-        path: '/item-preview-meal/:id/:name',
+        path: '/item-preview-meal/:id/:name/:type',
         name: RouteName.itemPreviewMealPage,
         builder: (context, state) {
           final id = state.pathParameters['id']!;
           final name = state.pathParameters['name']!;
-          return ItemPreviewMealPage(id: id, name: name);
+          final type = state.pathParameters['type']!;
+          final extra = state.extra as Map<String, dynamic>;
+
+          return ItemPreviewMealPage(
+            id: id,
+            name: name,
+            type: type,
+            size: (extra['size'] ?? 0).toDouble(),
+            calories: (extra['calories'] ?? 0).toDouble(),
+            carbs: (extra['carbs'] ?? 0).toDouble(),
+            protein: (extra['protein'] ?? 0).toDouble(),
+            fat: (extra['fat'] ?? 0).toDouble(),
+          );
         },
       ),
     ],

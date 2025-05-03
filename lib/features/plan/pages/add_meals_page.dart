@@ -219,7 +219,16 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
                                   ),
                                 ],
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                context.pushNamed(
+                                  RouteName.itemDetailMealPage,
+                                  pathParameters: {
+                                    'id': composition.id.toString(),
+                                    'name': composition.namaBahan ?? '',
+                                    'type': widget.mealId,
+                                  },
+                                );
+                              },
                             );
                           },
                         ),
