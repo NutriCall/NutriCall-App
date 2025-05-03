@@ -65,7 +65,7 @@ class _GenderDropdownState extends State<GenderDropdown> {
                         gender,
                         style: GoogleFonts.poppins(
                             color: AppColor.semiBlack,
-                            fontSize: 14,
+                            fontSize: 12,
                             fontWeight: FontWeight.w500),
                       ),
                     ))

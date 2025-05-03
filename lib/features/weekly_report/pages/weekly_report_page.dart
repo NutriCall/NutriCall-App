@@ -69,27 +69,40 @@ class WeeklyReportPage extends HookConsumerWidget {
                 const Gap(8),
                 weeklyCaloriesAsync.when(
                   data: (either) => either.fold(
-                    (errorMessage) => Text('Error: $errorMessage'),
-                    (data) => Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CaloriesInfoWidget(
-                          calories: data.weeklyGoal.toStringAsFixed(0),
-                          description: "Target Calories",
-                        ),
-                        CaloriesInfoWidget(
-                          calories: data.weeklyConsumed.toStringAsFixed(0),
-                          description: "Calories Recorded",
-                        ),
-                        CaloriesInfoWidget(
-                          calories: data.difference.toStringAsFixed(0),
-                          description: "Calories Left",
-                        ),
-                      ],
-                    ),
-                  ),
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
+                      (errorMessage) => Text('Error: $errorMessage'),
+                      (data) => Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: CaloriesInfoWidget(
+                                  calories: data.weeklyGoal.toStringAsFixed(0),
+                                  description: "Target Calories",
+                                ),
+                              ),
+                              const Gap(10),
+                              Expanded(
+                                flex: 1,
+                                child: CaloriesInfoWidget(
+                                  calories:
+                                      data.weeklyConsumed.toStringAsFixed(0),
+                                  description: "Calories Recorded",
+                                ),
+                              ),
+                              const Gap(10),
+                              Expanded(
+                                flex: 1,
+                                child: CaloriesInfoWidget(
+                                  calories: data.difference.toStringAsFixed(0),
+                                  description: "Calories Left",
+                                ),
+                              ),
+                            ],
+                          )),
+                  loading: () => const Center(
+                      child: CircularProgressIndicator(
+                    color: AppColor.darkGreen,
+                  )),
                   error: (error, stackTrace) => Text('Error: $error'),
                 ),
                 const Gap(20),
@@ -119,7 +132,7 @@ class WeeklyReportPage extends HookConsumerWidget {
 
                       return Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.fromLTRB(10, 16, 10, 16),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
@@ -154,8 +167,10 @@ class WeeklyReportPage extends HookConsumerWidget {
                       );
                     },
                   ),
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
+                  loading: () => const Center(
+                      child: CircularProgressIndicator(
+                    color: AppColor.darkGreen,
+                  )),
                   error: (error, stackTrace) => Text('Error: $error'),
                 ),
                 const Gap(20),
@@ -189,8 +204,10 @@ class WeeklyReportPage extends HookConsumerWidget {
                       return AreaChartWeeklyWidget(chartData: chartData);
                     },
                   ),
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
+                  loading: () => const Center(
+                      child: CircularProgressIndicator(
+                    color: AppColor.darkGreen,
+                  )),
                   error: (err, stack) => Center(child: Text(err.toString())),
                 ),
                 const Gap(20),
@@ -233,8 +250,10 @@ class WeeklyReportPage extends HookConsumerWidget {
                       );
                     },
                   ),
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
+                  loading: () => const Center(
+                      child: CircularProgressIndicator(
+                    color: AppColor.darkGreen,
+                  )),
                   error: (e, _) => Center(child: Text('Error: $e')),
                 ),
                 const Gap(100),

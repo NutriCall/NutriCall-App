@@ -250,7 +250,9 @@ class TabContentNutrient extends HookConsumerWidget {
                                 );
                               },
                               loading: () => const Center(
-                                  child: CircularProgressIndicator()),
+                                  child: CircularProgressIndicator(
+                                color: AppColor.darkGreen,
+                              )),
                               error: (error, _) => Text('Error: $error'),
                             ),
                           ]),

@@ -32,7 +32,6 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
     MealItem(id: 3, name: 'Oats', kcal: 150),
     MealItem(id: 4, name: 'Egg', kcal: 155),
   ];
-  List<MealItem> filteredMeals = [];
 
   XFile? _selectedImage;
 
@@ -52,13 +51,12 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
   late String _lastSearchQuery = '';
   void _debouncedSearch(String query) {
     if (query.isEmpty) {
-      setState(() {
-        filteredMeals = [];
-      });
       if (overlayEntry != null) {
         overlayEntry?.remove();
         overlayEntry = null;
       }
+      ref.read(fetchCompositionControllersProvider.notifier).clear();
+
       return;
     }
 
@@ -70,39 +68,9 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
   }
 
   void _searchMeals(String query) {
-    setState(() {
-      filteredMeals = allMeals
-          .where(
-              (meal) => meal.name.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    });
-
-    if (filteredMeals.isEmpty) {
-      if (overlayEntry != null) {
-        overlayEntry?.remove();
-        overlayEntry = null;
-      }
-    } else {
-      _showOverlay();
-    }
-  }
-
-  void _showOverlay() {
-    if (overlayEntry == null) {
-      overlayEntry = OverlayEntry(
-        builder: (context) => Positioned(
-          top: 200.0,
-          left: 100.0,
-          child: Material(
-            color: Colors.transparent,
-            child: Container(
-              color: Colors.black.withOpacity(0.5),
-              child: const Text('Loading...'),
-            ),
-          ),
-        ),
-      );
-      Overlay.of(context).insert(overlayEntry!);
+    if (overlayEntry != null) {
+      overlayEntry?.remove();
+      overlayEntry = null;
     }
   }
 
@@ -115,7 +83,6 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
   @override
   void initState() {
     super.initState();
-    filteredMeals = List.from(allMeals);
 
     searchController.addListener(() {
       Future.delayed(const Duration(milliseconds: 500), () {
@@ -166,7 +133,7 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
           Navigator.of(context).pop();
         },
       ),
-      body: Padding(
+      body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -230,7 +197,28 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
                           itemBuilder: (context, index) {
                             final composition = state.value![index];
                             return ListTile(
-                              title: Text(composition.namaBahan ?? ""),
+                              title: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      composition.namaBahan ?? "",
+                                      style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15,
+                                        color: AppColor.darkGreen,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  const Icon(
+                                    Icons.north_east,
+                                    size: 20,
+                                    color: AppColor.darkGreen,
+                                  ),
+                                ],
+                              ),
                               onTap: () {},
                             );
                           },
@@ -243,13 +231,13 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
                 },
               ),
               const Gap(20),
-              Flexible(
+              SizedBox(
+                height: 300,
                 child: MealListWidget(
-                  meals: filteredMeals,
+                  meals: allMeals,
                   onSelectionChanged: (selected) {},
                 ),
               ),
-              const Gap(10),
               CustomButtonWidget(
                 text: 'Save',
                 onTap: () {

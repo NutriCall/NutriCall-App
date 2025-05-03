@@ -44,7 +44,6 @@ class PreviewMealPage extends ConsumerStatefulWidget {
   _PreviewMealPageState createState() => _PreviewMealPageState();
 }
 
-
 class _PreviewMealPageState extends ConsumerState<PreviewMealPage> {
   late String image;
 
@@ -87,7 +86,7 @@ class _PreviewMealPageState extends ConsumerState<PreviewMealPage> {
                 child: Text(
                   widget.initialDescription,
                   style: GoogleFonts.poppins(
-                    fontSize: 12, 
+                    fontSize: 12,
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
                   ),
@@ -111,16 +110,18 @@ class _PreviewMealPageState extends ConsumerState<PreviewMealPage> {
                         const Gap(8),
                         Container(
                           height: 50,
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            border: Border.all(color: AppColor.darkGreen, width: 1.5),
+                            border: Border.all(
+                                color: AppColor.darkGreen, width: 1.5),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Center(
                             child: Text(
                               widget.initialQuantity.toString(),
                               style: GoogleFonts.poppins(
-                                fontSize: 13, 
+                                fontSize: 13,
                                 color: AppColor.darkGreen,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -146,16 +147,18 @@ class _PreviewMealPageState extends ConsumerState<PreviewMealPage> {
                         const Gap(8),
                         Container(
                           height: 50,
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            border: Border.all(color: AppColor.darkGreen, width: 1.5),
+                            border: Border.all(
+                                color: AppColor.darkGreen, width: 1.5),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Center(
                             child: Text(
                               widget.initialSize,
                               style: GoogleFonts.poppins(
-                                fontSize: 13, 
+                                fontSize: 13,
                                 color: AppColor.darkGreen,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -170,10 +173,15 @@ class _PreviewMealPageState extends ConsumerState<PreviewMealPage> {
               const Gap(16),
               mealState.when(
                 data: (meal) {
-                  final nutritionData = meal["nutritionData"] as Map<String, String>? ?? {};
-                  return RecipeNutritionTableWidget(nutritionData: nutritionData);
+                  final nutritionData =
+                      meal["nutritionData"] as Map<String, String>? ?? {};
+                  return RecipeNutritionTableWidget(
+                      nutritionData: nutritionData);
                 },
-                loading: () => const Center(child: CircularProgressIndicator()),
+                loading: () => const Center(
+                    child: CircularProgressIndicator(
+                  color: AppColor.darkGreen,
+                )),
                 error: (error, _) => Text(
                   'Failed to load nutrition data',
                   style: GoogleFonts.poppins(color: Colors.red),

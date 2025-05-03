@@ -285,70 +285,82 @@ class SignUpPage extends HookConsumerWidget {
               ),
               const Gap(20),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
+                      flex: 1,
                       child: CustomTextField(
-                    label: 'Age',
-                    suffixText: 'Y.O',
-                    controller: ageController,
-                    errorText:
-                        (isTouched.value['age']! || isButtonEnabled.value) &&
+                        label: 'Age',
+                        suffixText: 'Y.O',
+                        controller: ageController,
+                        errorText: (isTouched.value['age']! ||
+                                    isButtonEnabled.value) &&
                                 ageController.text.isEmpty
                             ? 'Age is required'
                             : null,
-                    onTap: () =>
-                        isTouched.value = {...isTouched.value, 'age': true},
-                  )),
-                  const Gap(16),
+                        onTap: () =>
+                            isTouched.value = {...isTouched.value, 'age': true},
+                      )),
+                  const Gap(10),
                   Expanded(
+                      flex: 1,
                       child: CustomTextField(
-                    label: 'Weight',
-                    suffixText: 'Kg',
-                    controller: weightController,
-                    errorText:
-                        (isTouched.value['weight']! || isButtonEnabled.value) &&
+                        label: 'Weight',
+                        suffixText: 'Kg',
+                        controller: weightController,
+                        errorText: (isTouched.value['weight']! ||
+                                    isButtonEnabled.value) &&
                                 weightController.text.isEmpty
                             ? 'Weight is required'
                             : null,
-                    onTap: () =>
-                        isTouched.value = {...isTouched.value, 'weight': true},
-                  )),
-                  const Gap(16),
+                        onTap: () => isTouched.value = {
+                          ...isTouched.value,
+                          'weight': true
+                        },
+                      )),
+                  const Gap(10),
                   Expanded(
+                      flex: 1,
                       child: CustomTextField(
-                    label: 'Weight Target',
-                    suffixText: 'Kg',
-                    controller: weightTargetController,
-                    errorText: (isTouched.value['weightTarget']! ||
-                                isButtonEnabled.value) &&
-                            weightTargetController.text.isEmpty
-                        ? 'Weight target is required'
-                        : null,
-                    onTap: () => isTouched.value = {
-                      ...isTouched.value,
-                      'weightTarget': true
-                    },
-                  )),
+                        label: 'Weight Target',
+                        suffixText: 'Kg',
+                        controller: weightTargetController,
+                        errorText: (isTouched.value['weightTarget']! ||
+                                    isButtonEnabled.value) &&
+                                weightTargetController.text.isEmpty
+                            ? 'Weight target is required'
+                            : null,
+                        onTap: () => isTouched.value = {
+                          ...isTouched.value,
+                          'weightTarget': true
+                        },
+                      )),
                 ],
               ),
               const Gap(20),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                      child: CustomTextField(
-                    label: 'Height',
-                    suffixText: 'cm',
-                    controller: heightController,
-                    errorText:
-                        (isTouched.value['height']! || isButtonEnabled.value) &&
-                                heightController.text.isEmpty
-                            ? 'Height is required'
-                            : null,
-                    onTap: () =>
-                        isTouched.value = {...isTouched.value, 'height': true},
-                  )),
-                  const Gap(16),
+                    flex: 1,
+                    child: CustomTextField(
+                      label: 'Height',
+                      suffixText: 'cm',
+                      controller: heightController,
+                      errorText: (isTouched.value['height']! ||
+                                  isButtonEnabled.value) &&
+                              heightController.text.isEmpty
+                          ? 'Height is required'
+                          : null,
+                      onTap: () => isTouched.value = {
+                        ...isTouched.value,
+                        'height': true
+                      },
+                    ),
+                  ),
+                  const Gap(10),
                   Expanded(
+                    flex: 1,
                     child: GenderDropdown(
                       onSelected: (value) {
                         selectedGender.value = value;
@@ -356,14 +368,16 @@ class SignUpPage extends HookConsumerWidget {
                       },
                     ),
                   ),
-                  const Gap(16),
+                  const Gap(10),
                   Expanded(
-                      child: CustomTextField(
-                    label: 'BMI',
-                    suffixText: 'Kg/m2',
-                    controller: bmiController,
-                    readOnly: true,
-                  )),
+                    flex: 1,
+                    child: CustomTextField(
+                      label: 'BMI',
+                      suffixText: 'Kg/m2',
+                      controller: bmiController,
+                      readOnly: true,
+                    ),
+                  ),
                 ],
               ),
               const Gap(65),

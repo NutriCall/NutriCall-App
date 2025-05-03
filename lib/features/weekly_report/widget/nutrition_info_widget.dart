@@ -46,7 +46,7 @@ class NutritionInfoWidget extends StatelessWidget {
             description,
             style: GoogleFonts.poppins(
               color: AppColor.semiBlack,
-              fontSize: 10,
+              fontSize: 9,
               fontWeight: FontWeight.w500,
             ),
           ),

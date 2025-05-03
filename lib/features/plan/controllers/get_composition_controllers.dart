@@ -33,4 +33,8 @@ class FetchCompositionControllers extends _$FetchCompositionControllers {
       state = AsyncValue.error(error, StackTrace.current);
     }
   }
+
+  void clear() {
+    state = const AsyncData([]);
+  }
 }

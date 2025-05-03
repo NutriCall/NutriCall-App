@@ -15,31 +15,31 @@ class CaloriesInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+      padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: AppColor.darkGreen,
       ),
       child: Center(
         child: Column(
-          mainAxisSize: MainAxisSize.min, 
+          mainAxisSize: MainAxisSize.min,
           children: [
             RichText(
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: calories, 
+                    text: calories,
                     style: GoogleFonts.poppins(
                       color: Colors.white,
-                      fontSize: 22,
+                      fontSize: 18,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   TextSpan(
-                    text: 'kcal', 
+                    text: 'kcal',
                     style: GoogleFonts.poppins(
                       color: Colors.white,
-                      fontSize: 9,
+                      fontSize: 6,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -50,7 +50,7 @@ class CaloriesInfoWidget extends StatelessWidget {
               description,
               style: GoogleFonts.poppins(
                 color: Colors.white,
-                fontSize: 10,
+                fontSize: 8,
                 fontWeight: FontWeight.w500,
               ),
             )
