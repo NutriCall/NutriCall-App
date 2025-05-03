@@ -88,11 +88,10 @@ Raw<GoRouter> router(RouterRef ref) {
         builder: (context, state) => const PreviewRecipePage(),
       ),
       GoRoute(
-        path: '/recipes/:id',
+        path: '/recipes',
         name: RouteName.detailRecipePage,
         builder: (context, state) {
-          final id = state.pathParameters['id']!;
-          return DetailRecipePage(id: id);
+          return const DetailRecipePage();
         },
       ),
       GoRoute(

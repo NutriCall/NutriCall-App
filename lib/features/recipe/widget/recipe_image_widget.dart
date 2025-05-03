@@ -12,7 +12,7 @@ class RecipeImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: Image.asset(
+      child: Image.network(
         imageUrl,
         width: double.infinity,
         height: 200,

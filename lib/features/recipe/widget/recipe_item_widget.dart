@@ -33,7 +33,7 @@ class RecipeItem extends StatelessWidget {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage(avatarUrl),
+                  backgroundImage: NetworkImage(avatarUrl),
                   radius: 16,
                 ),
                 const Gap(8),
@@ -46,15 +46,11 @@ class RecipeItem extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: 'by ',
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w400
-                        ),
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w400),
                       ),
                       TextSpan(
                         text: author,
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w600
-                        ),
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
@@ -64,11 +60,14 @@ class RecipeItem extends StatelessWidget {
             const Gap(10),
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
+              child: Image.network(
                 imageUrl,
                 width: double.infinity,
                 height: 180,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Text('Failed to load image');
+                },
               ),
             ),
             const Gap(8),
@@ -89,10 +88,9 @@ class RecipeItem extends StatelessWidget {
                   child: Text(
                     date,
                     style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      color: AppColor.lightBlack,
-                      fontWeight: FontWeight.w400
-                    ),
+                        fontSize: 13,
+                        color: AppColor.lightBlack,
+                        fontWeight: FontWeight.w400),
                   ),
                 ),
               ],
