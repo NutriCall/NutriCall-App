@@ -2,22 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:nutri_call_app/features/plan/pages/add_meals_page.dart';
 import 'package:nutri_call_app/features/recipe/widget/recipe_nutrition_table_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
 import 'package:nutri_call_app/helpers/widget/custom_button_widget.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 import 'package:nutri_call_app/utils/assets.gen.dart';
-
-final itemPreviewMealProvider = FutureProvider<Map<String, dynamic>>((ref) async {
-  return {
-    "nutritionData": {
-      "Calories": "210 (4%)",
-      "Total Fat": "0,8g",
-      "Total Carbohydrates": "53,8g",
-      "Proteins": "2,6g"
-    }
-  };
-});
+import 'package:nutri_call_app/features/plan/controllers/post_temporary_controller.dart';
 
 class ItemPreviewMealPage extends ConsumerStatefulWidget {
   final String id;
@@ -27,6 +18,12 @@ class ItemPreviewMealPage extends ConsumerStatefulWidget {
   final String initialSize;
   final String initialDescription;
   final bool isEditable;
+  final double size;
+  final double calories;
+  final double protein;
+  final double fat;
+  final double carbs;
+  final String type;
 
   const ItemPreviewMealPage({
     super.key,
@@ -34,15 +31,20 @@ class ItemPreviewMealPage extends ConsumerStatefulWidget {
     required this.name,
     this.initialImage,
     this.initialQuantity = 1,
-    this.initialSize = '500 gr',
+    this.initialSize = 'gram',
     this.initialDescription = 'a piece of chicken with rice',
     this.isEditable = false,
+    this.size = 0.0,
+    this.calories = 0.0,
+    this.protein = 0.0,
+    this.fat = 0.0,
+    this.carbs = 0.0,
+    required this.type,
   });
 
   @override
   _ItemPreviewMealPageState createState() => _ItemPreviewMealPageState();
 }
-
 
 class _ItemPreviewMealPageState extends ConsumerState<ItemPreviewMealPage> {
   late String image;
@@ -55,7 +57,14 @@ class _ItemPreviewMealPageState extends ConsumerState<ItemPreviewMealPage> {
 
   @override
   Widget build(BuildContext context) {
-    final mealState = ref.watch(itemPreviewMealProvider);
+    final mealState = AsyncValue.data({
+      "nutritionData": {
+        "Calories": widget.calories.toString() + ' kcal',
+        "Total Fat": widget.fat.toString() + ' g',
+        "Total Carbohydrates": widget.carbs.toString() + ' g',
+        "Proteins": widget.protein.toString() + ' g',
+      }
+    });
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -64,7 +73,7 @@ class _ItemPreviewMealPageState extends ConsumerState<ItemPreviewMealPage> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          ref.invalidate(itemPreviewMealProvider);
+          await Future.delayed(const Duration(seconds: 2));
         },
         color: AppColor.semiBlack,
         child: SingleChildScrollView(
@@ -76,10 +85,9 @@ class _ItemPreviewMealPageState extends ConsumerState<ItemPreviewMealPage> {
               Text(
                 widget.name,
                 style: GoogleFonts.poppins(
-                  color: AppColor.semiBlack,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600
-                ),
+                    color: AppColor.semiBlack,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600),
               ),
               const Gap(10),
               Row(
@@ -89,7 +97,7 @@ class _ItemPreviewMealPageState extends ConsumerState<ItemPreviewMealPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Quantity',
+                          'Size per gram',
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500,
                             fontSize: 13,
@@ -99,51 +107,20 @@ class _ItemPreviewMealPageState extends ConsumerState<ItemPreviewMealPage> {
                         const Gap(8),
                         Container(
                           height: 50,
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            border: Border.all(color: AppColor.darkGreen, width: 1.5),
+                            border: Border.all(
+                                color: AppColor.darkGreen, width: 1.5),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Center(
                             child: Text(
-                              widget.initialQuantity.toString(),
+                              widget.size.toInt().toString() +
+                                  ' ' +
+                                  widget.initialSize,
                               style: GoogleFonts.poppins(
-                                fontSize: 13, 
-                                color: AppColor.darkGreen,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Gap(16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Size',
-                          style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 13,
-                            color: AppColor.darkGreen,
-                          ),
-                        ),
-                        const Gap(8),
-                        Container(
-                          height: 50,
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppColor.darkGreen, width: 1.5),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Center(
-                            child: Text(
-                              widget.initialSize,
-                              style: GoogleFonts.poppins(
-                                fontSize: 13, 
+                                fontSize: 13,
                                 color: AppColor.darkGreen,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -158,8 +135,9 @@ class _ItemPreviewMealPageState extends ConsumerState<ItemPreviewMealPage> {
               const Gap(16),
               mealState.when(
                 data: (meal) {
-                  final nutritionData = meal["nutritionData"] as Map<String, String>? ?? {};
-                  return RecipeNutritionTableWidget(nutritionData: nutritionData);
+                  final nutritionData = meal["nutritionData"] ?? {};
+                  return RecipeNutritionTableWidget(
+                      nutritionData: nutritionData);
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, _) => Text(
@@ -168,7 +146,31 @@ class _ItemPreviewMealPageState extends ConsumerState<ItemPreviewMealPage> {
                 ),
               ),
               const Gap(36),
-              const CustomButtonWidget(text: 'Add to List'),
+              CustomButtonWidget(
+                text: 'Add to List',
+                onTap: () {
+                  ref.read(postTemporaryNotifierProvider.notifier).post(
+                        params: PostTemporaryParams(
+                          compositionId: widget.id,
+                          type: widget.type,
+                        ),
+                        onSuccess: (data) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  AddMealsPage(mealId: widget.type),
+                            ),
+                          );
+                        },
+                        onFailed: (error) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Failed: $error')),
+                          );
+                        },
+                      );
+                },
+              ),
               const Gap(30),
             ],
           ),
