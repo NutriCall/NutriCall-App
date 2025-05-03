@@ -416,8 +416,10 @@ class EditProfilePage extends HookConsumerWidget {
                   ),
                   const Gap(20),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
+                        flex: 1,
                         child: CustomTextField(
                           label: 'Age',
                           suffixText: 'Y.O',
@@ -435,6 +437,7 @@ class EditProfilePage extends HookConsumerWidget {
                       ),
                       const Gap(10),
                       Expanded(
+                        flex: 1,
                         child: CustomTextField(
                           label: 'Weight',
                           suffixText: 'Kg',
@@ -452,6 +455,7 @@ class EditProfilePage extends HookConsumerWidget {
                       ),
                       const Gap(10),
                       Expanded(
+                        flex: 1,
                         child: CustomTextField(
                             label: 'Weight Target',
                             suffixText: 'Kg',
@@ -470,8 +474,10 @@ class EditProfilePage extends HookConsumerWidget {
                   ),
                   const Gap(20),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
+                        flex: 1,
                         child: CustomTextField(
                           label: 'Height',
                           suffixText: 'cm',
@@ -489,6 +495,7 @@ class EditProfilePage extends HookConsumerWidget {
                       ),
                       const Gap(10),
                       Expanded(
+                        flex: 1,
                         child: GenderDropdown(
                           onSelected: (value) {
                             selectedGender.value = value;
@@ -499,6 +506,7 @@ class EditProfilePage extends HookConsumerWidget {
                       ),
                       const Gap(10),
                       Expanded(
+                        flex: 1,
                         child: CustomTextField(
                           label: 'BMI',
                           suffixText: 'Kg/m2',

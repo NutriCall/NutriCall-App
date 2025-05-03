@@ -7,7 +7,7 @@ class MenuHomeWidget extends StatelessWidget {
   final String assetPath;
   final Color backgroundColor;
   final Color textColor;
-  final double imageScale; 
+  final double imageScale;
 
   const MenuHomeWidget({
     super.key,
@@ -15,7 +15,7 @@ class MenuHomeWidget extends StatelessWidget {
     required this.assetPath,
     required this.backgroundColor,
     required this.textColor,
-    this.imageScale = 0.7, 
+    this.imageScale = 0.7,
   });
 
   @override
@@ -39,12 +39,17 @@ class MenuHomeWidget extends StatelessWidget {
                 ),
               ),
               const Gap(10),
-              Text(
-                title,
-                style: GoogleFonts.poppins(
-                  color: textColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
+              Expanded(
+                child: Text(
+                  title,
+                  style: GoogleFonts.poppins(
+                    color: textColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  softWrap: false,
                 ),
               ),
             ],
@@ -54,4 +59,3 @@ class MenuHomeWidget extends StatelessWidget {
     );
   }
 }
-

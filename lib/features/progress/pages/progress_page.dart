@@ -125,7 +125,9 @@ class ProgressPage extends HookConsumerWidget {
                                       );
                                     },
                                     loading: () {
-                                      return const CircularProgressIndicator();
+                                      return const CircularProgressIndicator(
+                                        color: AppColor.darkGreen,
+                                      );
                                     },
                                     error: (error, stackTrace) {
                                       return Text('Error: $error');
@@ -344,7 +346,9 @@ class ProgressPage extends HookConsumerWidget {
                                     );
                                   },
                                   loading: () {
-                                    return const CircularProgressIndicator();
+                                    return const CircularProgressIndicator(
+                                      color: AppColor.darkGreen,
+                                    );
                                   },
                                   error: (error, stackTrace) {
                                     return Text('Error: $error');

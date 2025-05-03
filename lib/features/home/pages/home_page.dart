@@ -141,7 +141,7 @@ class HomePage extends HookConsumerWidget {
               ),
               const Gap(24),
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: GestureDetector(
                     onTap: () {
                       context.pushNamed(RouteName.weeklyReportPage);
@@ -155,7 +155,7 @@ class HomePage extends HookConsumerWidget {
                   )),
               const Gap(16),
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: GestureDetector(
                     onTap: () {
                       context.pushNamed(RouteName.recipePage);
