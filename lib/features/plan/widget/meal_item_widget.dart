@@ -7,7 +7,7 @@ import 'package:nutri_call_app/utils/app_color.dart';
 class MealItem {
   final int id;
   final String name;
-  final int kcal;
+  final double kcal;
   bool isSelected;
 
   MealItem({
@@ -31,36 +31,30 @@ class MealItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: RichText(text: 
+      title: RichText(
+          text: TextSpan(children: [
         TextSpan(
-          children: [
-            TextSpan(
-              text: '${meal.name} (${meal.kcal}',
-              style: GoogleFonts.poppins(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: AppColor.darkGreen
-              ),
-            ),
-            TextSpan(
-              text: 'kcal',
-              style: GoogleFonts.poppins(
-                fontSize: 9,
-                fontWeight: FontWeight.w500,
-                color: AppColor.darkGreen
-              ),
-            ),
-            TextSpan(
-              text: ')',
-              style: GoogleFonts.poppins(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: AppColor.darkGreen
-              ),
-            )
-          ]
+          text: '${meal.name} (${meal.kcal}',
+          style: GoogleFonts.poppins(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: AppColor.darkGreen),
+        ),
+        TextSpan(
+          text: 'kcal',
+          style: GoogleFonts.poppins(
+              fontSize: 9,
+              fontWeight: FontWeight.w500,
+              color: AppColor.darkGreen),
+        ),
+        TextSpan(
+          text: ')',
+          style: GoogleFonts.poppins(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: AppColor.darkGreen),
         )
-      ),
+      ])),
       trailing: Checkbox(
         value: meal.isSelected,
         onChanged: onChanged,
@@ -69,7 +63,7 @@ class MealItemWidget extends StatelessWidget {
       ),
       onTap: () {
         context.pushNamed(
-          RouteName.itemDetailMealPage, 
+          RouteName.itemDetailMealPage,
           pathParameters: {
             'id': meal.id.toString(),
             'name': meal.name,

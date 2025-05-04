@@ -76,7 +76,7 @@ class TabContentCalorie extends HookConsumerWidget {
                                 );
 
                                 return Text(
-                                  '${totalCalories.toStringAsFixed(0)} kcal',
+                                  '$totalCalories kcal',
                                   style: GoogleFonts.poppins(
                                     color: AppColor.semiBlack,
                                     fontSize: 24,
@@ -107,7 +107,7 @@ class TabContentCalorie extends HookConsumerWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        'Daily Average: ${average.toStringAsFixed(0)} kcal',
+                                        'Daily Average: $average kcal',
                                         style: GoogleFonts.poppins(
                                           color: AppColor.grey,
                                           fontSize: 12,
@@ -115,7 +115,7 @@ class TabContentCalorie extends HookConsumerWidget {
                                         ),
                                       ),
                                       Text(
-                                        'Goal: ${goalCalories.toStringAsFixed(0)} kcal',
+                                        'Goal: $goalCalories kcal',
                                         style: GoogleFonts.poppins(
                                           color: AppColor.grey,
                                           fontSize: 12,
@@ -213,7 +213,7 @@ class TabContentCalorie extends HookConsumerWidget {
                                         code,
                                         item.type,
                                         "${item.percentage}%",
-                                        "${item.calories.toStringAsFixed(0)} kcal",
+                                        "${item.calories} kcal",
                                       ];
                                     })
                                     .toList()
@@ -279,8 +279,8 @@ class TabContentCalorie extends HookConsumerWidget {
                                       final item = entry.value;
                                       return [
                                         item.name,
-                                        "x${item.count.toString()}",
-                                        "${item.calories.toStringAsFixed(0)} kcal",
+                                        "x${item.count}",
+                                        "${item.calories} kcal",
                                       ];
                                     })
                                     .map((row) =>

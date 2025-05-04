@@ -73,7 +73,7 @@ class EditProfilePage extends HookConsumerWidget {
         if (sizeInMb > 2) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Ukuran gambar tidak boleh lebih dari 2 MB.'),
+              content: Text('The image size should not exceed 2 MB.'),
               backgroundColor: Colors.red,
             ),
           );
@@ -185,7 +185,7 @@ class EditProfilePage extends HookConsumerWidget {
       if (weight != null && heightCm != null && age != null && age > 18) {
         final heightM = heightCm / 100;
         final bmi = weight / (heightM * heightM);
-        bmiController.text = bmi.toStringAsFixed(2);
+        bmiController.text = bmi.toString();
       } else {
         bmiController.clear();
       }

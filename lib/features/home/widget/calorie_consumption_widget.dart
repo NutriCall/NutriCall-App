@@ -122,7 +122,7 @@ class CalorieConsumptionWidget extends HookConsumerWidget {
         Align(
           alignment: Alignment.centerRight,
           child: Text(
-            '${calories.toString()} kcal',
+            '$calories kcal',
             style: GoogleFonts.poppins(
               color: AppColor.darkGreen,
               fontSize: 11,

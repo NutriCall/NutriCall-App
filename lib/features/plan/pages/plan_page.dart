@@ -156,7 +156,7 @@ class PlanPage extends HookConsumerWidget {
                           });
                         },
                         label: plan.type,
-                        kcal: plan.totalEnergi.toStringAsFixed(0),
+                        kcal: plan.totalEnergi.toString(),
                         items: plan.meals.map((meal) {
                           final fc = meal.foodComposition;
                           return {

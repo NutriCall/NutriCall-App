@@ -77,11 +77,11 @@ class CircularPercentWeelyWidget extends HookConsumerWidget {
       double y = sin(radian) * radius;
 
       if (i % 2 == 0) {
-        y -= 8;
-        x += 8;
+        y -= 2;
+        x += 12;
       } else {
-        y += 6;
-        x -= 8;
+        y += 12;
+        x -= 25;
       }
 
       labelWidgets.add(

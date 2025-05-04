@@ -76,7 +76,7 @@ class WeeklyReportPage extends HookConsumerWidget {
                               Expanded(
                                 flex: 1,
                                 child: CaloriesInfoWidget(
-                                  calories: data.weeklyGoal!.toStringAsFixed(0),
+                                  calories: data.weeklyGoal!.toString(),
                                   description: "Target Calories",
                                 ),
                               ),
@@ -84,8 +84,7 @@ class WeeklyReportPage extends HookConsumerWidget {
                               Expanded(
                                 flex: 1,
                                 child: CaloriesInfoWidget(
-                                  calories:
-                                      data.weeklyConsumed!.toStringAsFixed(0),
+                                  calories: data.weeklyConsumed!.toString(),
                                   description: "Calories Recorded",
                                 ),
                               ),
@@ -93,7 +92,7 @@ class WeeklyReportPage extends HookConsumerWidget {
                               Expanded(
                                 flex: 1,
                                 child: CaloriesInfoWidget(
-                                  calories: data.difference.toStringAsFixed(0),
+                                  calories: data.difference.toString(),
                                   description: "Calories Left",
                                 ),
                               ),
@@ -297,9 +296,9 @@ class WeeklyReportPage extends HookConsumerWidget {
       'total_fosfor': 'Phosphorus',
       'total_besi': 'Iron',
       'total_natrium': 'Natrium',
-      'total_kalium': 'Kalium',
       'total_tembaga': 'Copper',
       'total_seng': 'Zinc',
+      'total_kalium': 'Kalium',
       'total_retinol': 'Vitamin A',
       'total_beta_karoten': 'Beta Carotene',
       'total_karoten_total': 'Total Carotene',

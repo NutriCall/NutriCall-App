@@ -150,20 +150,20 @@ class TabContentMacros extends HookConsumerWidget {
                                     [
                                       "A1",
                                       "Carbs",
-                                      "${todayMacro?.carbs?.value?.toStringAsFixed(1) ?? '0.0'}g",
-                                      "${todayMacro?.carbs?.percentage?.toStringAsFixed(1) ?? '0.0'}%",
+                                      "${todayMacro?.carbs?.value?.toString() ?? '0.0'}g",
+                                      "${todayMacro?.carbs?.percentage?.toString() ?? '0.0'}%",
                                     ],
                                     [
                                       "A2",
                                       "Protein",
-                                      "${todayMacro?.proteins?.value?.toStringAsFixed(1) ?? '0.0'}g",
-                                      "${todayMacro?.proteins?.percentage?.toStringAsFixed(1) ?? '0.0'}%",
+                                      "${todayMacro?.proteins?.value?.toString() ?? '0.0'}g",
+                                      "${todayMacro?.proteins?.percentage?.toString() ?? '0.0'}%",
                                     ],
                                     [
                                       "A3",
                                       "Fat",
-                                      "${todayMacro?.fats?.value?.toStringAsFixed(1) ?? '0.0'}g",
-                                      "${todayMacro?.fats?.percentage?.toStringAsFixed(1) ?? '0.0'}%",
+                                      "${todayMacro?.fats?.value?.toString() ?? '0.0'}g",
+                                      "${todayMacro?.fats?.percentage?.toString() ?? '0.0'}%",
                                     ],
                                   ],
                                 );

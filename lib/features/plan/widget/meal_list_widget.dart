@@ -43,18 +43,17 @@ class _MealListWidgetState extends State<MealListWidget> {
           ),
         ),
         const Gap(10),
-        SizedBox(
-          height: 250,
-          child: ListView.builder(
-            itemCount: widget.meals.length,
-            itemBuilder: (context, index) {
-              final meal = widget.meals[index];
-              return MealItemWidget(
-                meal: meal,
-                onChanged: (isChecked) => _updateSelection(meal, isChecked),
-              );
-            },
-          ),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: widget.meals.length,
+          itemBuilder: (context, index) {
+            final meal = widget.meals[index];
+            return MealItemWidget(
+              meal: meal,
+              onChanged: (isChecked) => _updateSelection(meal, isChecked),
+            );
+          },
         ),
       ],
     );
