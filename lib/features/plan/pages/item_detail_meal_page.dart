@@ -9,6 +9,7 @@ import 'package:nutri_call_app/helpers/widget/custom_button_widget.dart';
 import 'package:nutri_call_app/routers/router_name.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 import 'package:nutri_call_app/features/plan/controllers/post_calculate_nutrients_controller.dart';
+import 'package:nutri_call_app/helpers/widget/custom_text_field.dart';
 
 class ItemDetailMealPage extends HookConsumerWidget {
   final String id;
@@ -29,9 +30,74 @@ class ItemDetailMealPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sizeState = useState<int>(0);
+    final TextEditingController sizeController = useTextEditingController();
 
-    Future<void> _refresh() async {
-      await Future.delayed(const Duration(seconds: 2));
+    final isTouched = useState({
+      'size': false,
+    });
+
+    final isButtonEnabled = useState(false);
+    final isLoading = useState(false);
+
+    void validateInputs() {
+      bool isValid = sizeController.text.isNotEmpty;
+
+      isButtonEnabled.value = isValid;
+
+      print("Button Enabled: $isButtonEnabled");
+    }
+
+    useEffect(() {
+      sizeController.addListener(() {
+        validateInputs();
+        isTouched.value = {...isTouched.value, 'fullName': true};
+      });
+      return () {
+        sizeController.removeListener(() {
+          validateInputs();
+        });
+      };
+    }, [sizeController]);
+
+    final postCalculateNutrient =
+        ref.read(postCalculateNutrientsNotifierProvider.notifier);
+
+    void handleCalculateNutrient() {
+      if (!isButtonEnabled.value || isLoading.value) return;
+
+      isLoading.value = true;
+      final calculateNutrientParams = CalculateNutrientParams(
+        namaBahan: name,
+        size: sizeState.value.toDouble(),
+      );
+
+      postCalculateNutrient.fetch(
+        params: calculateNutrientParams,
+        onSuccess: (data) {
+          isLoading.value = false;
+          context.pushNamed(
+            RouteName.itemPreviewMealPage,
+            pathParameters: {
+              'id': data['id'].toString(),
+              'name': name,
+              'type': type,
+            },
+            extra: {
+              'size': data['size'],
+              'calories': data['energi'],
+              'carbs': data['karbohidrat'],
+              'protein': data['protein'],
+              'fat': data['lemak'],
+            },
+          );
+        },
+        onFailed: (err) {
+          isLoading.value = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Gagal: $err')),
+          );
+        },
+      );
     }
 
     useEffect(() {
@@ -60,7 +126,9 @@ class ItemDetailMealPage extends HookConsumerWidget {
         onBack: () => Navigator.of(context).pop(),
       ),
       body: RefreshIndicator(
-        onRefresh: _refresh,
+        onRefresh: () async {
+          await Future.delayed(const Duration(seconds: 2));
+        },
         color: AppColor.semiBlack,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -83,42 +151,22 @@ class ItemDetailMealPage extends HookConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Size per gram',
-                          style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 13,
-                            color: AppColor.darkGreen,
-                          ),
-                        ),
-                        const Gap(8),
-                        TextFormField(
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            hintText: 'Enter amount',
-                            hintStyle: GoogleFonts.poppins(fontSize: 14),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide:
-                                  const BorderSide(color: AppColor.darkGreen),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 14),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: CustomTextField(
+                            label: 'Size per gram',
                             suffixText: 'gram',
-                            suffixStyle: GoogleFonts.poppins(
-                              fontSize: 14,
-                              color: AppColor.darkGreen,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            controller: sizeController,
+                            errorText: (isTouched.value['size']! ||
+                                        isButtonEnabled.value) &&
+                                    sizeController.text.isEmpty
+                                ? 'Size is required'
+                                : null,
+                            onTap: () => isTouched.value = {
+                              ...isTouched.value,
+                              'size': true
+                            },
                           ),
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            color: AppColor.darkGreen,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          onChanged: (val) {
-                            sizeState.value = int.tryParse(val) ?? 0;
-                          },
                         ),
                       ],
                     ),
@@ -128,37 +176,17 @@ class ItemDetailMealPage extends HookConsumerWidget {
               const Gap(30),
               CustomButtonWidget(
                 text: 'Preview',
-                onTap: () async {
-                  await ref
-                      .read(postCalculateNutrientsNotifierProvider.notifier)
-                      .fetch(
-                        params: CalculateNutrientParams(
-                          namaBahan: name,
-                          size: sizeState.value.toDouble(),
-                        ),
-                        onSuccess: (data) {
-                          context.pushNamed(
-                            RouteName.itemPreviewMealPage,
-                            pathParameters: {
-                              'id': data['id'].toString(),
-                              'name': name,
-                              'type': type,
-                            },
-                            extra: {
-                              'size': data['size'],
-                              'calories': data['energi'],
-                              'carbs': data['karbohidrat'],
-                              'protein': data['protein'],
-                              'fat': data['lemak'],
-                            },
-                          );
-                        },
-                        onFailed: (err) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Gagal: $err')),
-                          );
-                        },
-                      );
+                onTap: () {
+                  if (isButtonEnabled.value) {
+                    sizeState.value = int.parse(sizeController.text);
+                    handleCalculateNutrient();
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please fill in the required fields'),
+                      ),
+                    );
+                  }
                 },
               ),
               const Gap(30),

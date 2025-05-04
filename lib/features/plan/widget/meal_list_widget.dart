@@ -39,11 +39,12 @@ class _MealListWidgetState extends State<MealListWidget> {
           style: GoogleFonts.poppins(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: AppColor.semiBlack
+            color: AppColor.semiBlack,
           ),
         ),
         const Gap(10),
-        Expanded(
+        SizedBox(
+          height: 250,
           child: ListView.builder(
             itemCount: widget.meals.length,
             itemBuilder: (context, index) {

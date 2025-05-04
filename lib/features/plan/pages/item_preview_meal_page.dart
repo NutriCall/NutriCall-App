@@ -9,6 +9,7 @@ import 'package:nutri_call_app/helpers/widget/custom_button_widget.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 import 'package:nutri_call_app/utils/assets.gen.dart';
 import 'package:nutri_call_app/features/plan/controllers/post_temporary_controller.dart';
+import 'package:nutri_call_app/helpers/widget/custom_text_field.dart';
 
 class ItemPreviewMealPage extends ConsumerStatefulWidget {
   final String id;
@@ -96,35 +97,15 @@ class _ItemPreviewMealPageState extends ConsumerState<ItemPreviewMealPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Size per gram',
-                          style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 13,
-                            color: AppColor.darkGreen,
-                          ),
-                        ),
-                        const Gap(8),
-                        Container(
-                          height: 50,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: AppColor.darkGreen, width: 1.5),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Center(
-                            child: Text(
-                              widget.size.toInt().toString() +
-                                  ' ' +
-                                  widget.initialSize,
-                              style: GoogleFonts.poppins(
-                                fontSize: 13,
-                                color: AppColor.darkGreen,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: CustomTextField(
+                            label: 'Size per gram',
+                            suffixText: 'gram',
+                            controller: TextEditingController(
+                                text: widget.size.toString()),
+                            errorText: null,
+                            readOnly: true,
                           ),
                         ),
                       ],

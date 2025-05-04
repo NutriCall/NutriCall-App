@@ -7,6 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nutri_call_app/features/plan/controllers/get_composition_controllers.dart';
+import 'package:nutri_call_app/features/plan/controllers/get_temporary_meals_controller.dart';
+import 'package:nutri_call_app/features/plan/controllers/post_add_meals_controller.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
 import 'package:nutri_call_app/helpers/widget/custom_button_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_search_field.dart';
@@ -26,12 +28,6 @@ class AddMealsPage extends ConsumerStatefulWidget {
 
 class _AddMealsPageState extends ConsumerState<AddMealsPage> {
   TextEditingController searchController = TextEditingController();
-  List<MealItem> allMeals = [
-    MealItem(id: 1, name: 'Milk', kcal: 101),
-    MealItem(id: 2, name: 'Banana', kcal: 210),
-    MealItem(id: 3, name: 'Oats', kcal: 150),
-    MealItem(id: 4, name: 'Egg', kcal: 155),
-  ];
 
   XFile? _selectedImage;
 
@@ -84,6 +80,10 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
   void initState() {
     super.initState();
 
+    ref
+        .read(fetchTemporaryMealsControllerProvider.notifier)
+        .fetch(type: widget.mealId);
+
     searchController.addListener(() {
       Future.delayed(const Duration(milliseconds: 500), () {
         _debouncedSearch(searchController.text);
@@ -126,6 +126,35 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final temporaryMealsState =
+        ref.watch(fetchTemporaryMealsControllerProvider);
+    List<int> selectedCompositionIds = [];
+
+    Widget mealListSection;
+    if (temporaryMealsState is AsyncLoading) {
+      mealListSection = const Center(child: CircularProgressIndicator());
+    } else if (temporaryMealsState is AsyncError) {
+      mealListSection = Text(
+        'Failed to load meals: ${temporaryMealsState.error}',
+        style: const TextStyle(color: Colors.red),
+      );
+    } else if (temporaryMealsState is AsyncData &&
+        temporaryMealsState.value != null &&
+        temporaryMealsState.value!.isNotEmpty) {
+      final meals = temporaryMealsState.value!
+          .map((e) => MealItem(
+              id: e.compositionId, name: e.namaBahan, kcal: e.energi.toInt()))
+          .toList();
+
+      mealListSection = MealListWidget(
+        meals: meals,
+        onSelectionChanged: (selected) {
+          selectedCompositionIds = selected.map((e) => e.id).toList();
+        },
+      );
+    } else {
+      mealListSection = const Text("No meals available.");
+    }
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Search Meal',
@@ -242,15 +271,29 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
               const Gap(20),
               SizedBox(
                 height: 300,
-                child: MealListWidget(
-                  meals: allMeals,
-                  onSelectionChanged: (selected) {},
-                ),
+                child: mealListSection,
               ),
               CustomButtonWidget(
                 text: 'Save',
                 onTap: () {
-                  context.pushNamed(RouteName.planPage);
+                  ref.read(postAddMealsNotifierProvider.notifier).fetch(
+                        params: AddMealsParams(
+                          compositions: selectedCompositionIds,
+                          type: widget.mealId,
+                        ),
+                        onSuccess: (data) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Successfully added plan')),
+                          );
+                          context.pushNamed(RouteName.planPage);
+                        },
+                        onFailed: (error) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(error)),
+                          );
+                        },
+                      );
                 },
               ),
               const Gap(20),
