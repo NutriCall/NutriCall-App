@@ -1,9 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:nutri_call_app/core/provider/dio_provider.dart';
+import 'package:nutri_call_app/features/plan/controllers/post_add_meals_controller.dart';
 import 'package:nutri_call_app/features/plan/controllers/post_calculate_nutrients_controller.dart';
 import 'package:nutri_call_app/features/plan/controllers/post_temporary_controller.dart';
 import 'package:nutri_call_app/features/plan/domain/entities/list_composition_model.dart';
+import 'package:nutri_call_app/features/plan/domain/entities/temporary_meal_model.dart';
 import 'package:nutri_call_app/features/plan/domain/repository/plan_repository.dart';
 import 'package:nutri_call_app/features/plan/domain/entities/meal_plan_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -117,6 +119,62 @@ class PlanRepositoryImpl implements PlanRepository {
       return Left(e.response?.data["message"] ?? 'Unexpected error');
     } catch (e) {
       return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, List<TemporaryMealModel>>> getTemporaryMeals({
+    required String type,
+  }) async {
+    try {
+      final response = await httpClient.get(
+        '/temporary',
+        queryParameters: {'type': type},
+      );
+
+      if (response.statusCode == 200) {
+        final temporaryList = (response.data['data'] as List)
+            .map((e) => TemporaryMealModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+        return Right(temporaryList);
+      } else {
+        return Left('Failed to load data: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      final error = e.response?.data['message'] ?? 'Unknown error';
+      return Left(error);
+    } catch (e) {
+      return Left('Unexpected error: ${e.toString()}');
+    }
+  }
+
+  @override
+  Future<Either<String, List<dynamic>>> postAddMeals({
+    required AddMealsParams params,
+  }) async {
+    final data = {
+      'compositions': params.compositions,
+      'type': params.type,
+    };
+
+    try {
+      final response = await httpClient.post(
+        '/meals/add',
+        data: data,
+        options: Options(
+          headers: {'Content-Type': 'application/json'},
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        return Right(response.data['data']);
+      } else {
+        return Left('Failed with status: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      return Left('${e.response?.data["message"] ?? e.message}');
+    } catch (e) {
+      return Left('Error: $e');
     }
   }
 }

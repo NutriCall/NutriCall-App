@@ -26,6 +26,7 @@ class PlanPage extends HookConsumerWidget {
     return Scaffold(
       appBar: const CustomAppBar(title: 'Meal Plan'),
       body: RefreshIndicator(
+        color: AppColor.semiBlack,
         onRefresh: () async {
           await ref.read(fetchMealPlanNotifierProvider.notifier).fetch();
         },
@@ -91,7 +92,9 @@ class PlanPage extends HookConsumerWidget {
                     },
                   ),
                 ),
-                loading: () => const Center(child: CircularProgressIndicator()),
+                loading: () => const Center(
+                    child:
+                        CircularProgressIndicator(color: AppColor.darkGreen)),
                 error: (e, _) => Center(child: Text('Error: $e')),
               ),
             )
