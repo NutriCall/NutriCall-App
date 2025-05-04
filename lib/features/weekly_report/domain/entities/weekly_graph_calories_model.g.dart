@@ -9,8 +9,8 @@ part of 'weekly_graph_calories_model.dart';
 _$WeeklyGraphCaloriesModelImpl _$$WeeklyGraphCaloriesModelImplFromJson(
         Map<String, dynamic> json) =>
     _$WeeklyGraphCaloriesModelImpl(
-      graph: (json['graph'] as List<dynamic>)
-          .map((e) => GraphCaloriesItem.fromJson(e as Map<String, dynamic>))
+      graph: (json['graph'] as List<dynamic>?)
+          ?.map((e) => GraphCaloriesItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -24,8 +24,8 @@ _$GraphCaloriesItemImpl _$$GraphCaloriesItemImplFromJson(
         Map<String, dynamic> json) =>
     _$GraphCaloriesItemImpl(
       date: json['date'] as String,
-      totalEnergy: (json['total_energy'] as num).toDouble(),
-      percentageOfGoal: (json['percentage_of_goal'] as num).toDouble(),
+      totalEnergy: (json['total_energy'] as num?)?.toDouble(),
+      percentageOfGoal: (json['percentage_of_goal'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$GraphCaloriesItemImplToJson(

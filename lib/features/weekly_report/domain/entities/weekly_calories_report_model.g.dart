@@ -9,8 +9,8 @@ part of 'weekly_calories_report_model.dart';
 _$WeeklyCaloriesReportModelImpl _$$WeeklyCaloriesReportModelImplFromJson(
         Map<String, dynamic> json) =>
     _$WeeklyCaloriesReportModelImpl(
-      weeklyGoal: (json['weekly_goal'] as num).toDouble(),
-      weeklyConsumed: (json['weekly_consumed'] as num).toDouble(),
+      weeklyGoal: (json['weekly_goal'] as num?)?.toDouble(),
+      weeklyConsumed: (json['weekly_consumed'] as num?)?.toDouble(),
       difference: (json['difference'] as num).toDouble(),
     );
 

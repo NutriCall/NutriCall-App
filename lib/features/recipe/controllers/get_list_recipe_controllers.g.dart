@@ -7,7 +7,7 @@ part of 'get_list_recipe_controllers.dart';
 // **************************************************************************
 
 String _$fetchListRecipeControllersHash() =>
-    r'5dee00a71c8663ed7181409980f600873984ec9a';
+    r'17d6160befea808fbe5870c7595938a6952b77f1';
 
 /// See also [FetchListRecipeControllers].
 @ProviderFor(FetchListRecipeControllers)

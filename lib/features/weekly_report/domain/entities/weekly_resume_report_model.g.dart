@@ -9,7 +9,7 @@ part of 'weekly_resume_report_model.dart';
 _$WeeklyResumeReportModelImpl _$$WeeklyResumeReportModelImplFromJson(
         Map<String, dynamic> json) =>
     _$WeeklyResumeReportModelImpl(
-      totalAll: (json['total_all'] as num).toDouble(),
+      totalAll: (json['total_all'] as num?)?.toDouble(),
       nutrientPercentage: _filterNonZeroMap(
           json['nutrient_percentage'] as Map<String, dynamic>),
     );

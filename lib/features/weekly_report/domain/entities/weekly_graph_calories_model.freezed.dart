@@ -21,7 +21,8 @@ WeeklyGraphCaloriesModel _$WeeklyGraphCaloriesModelFromJson(
 
 /// @nodoc
 mixin _$WeeklyGraphCaloriesModel {
-  List<GraphCaloriesItem> get graph => throw _privateConstructorUsedError;
+  @JsonKey(name: 'graph')
+  List<GraphCaloriesItem>? get graph => throw _privateConstructorUsedError;
 
   /// Serializes this WeeklyGraphCaloriesModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +40,7 @@ abstract class $WeeklyGraphCaloriesModelCopyWith<$Res> {
           $Res Function(WeeklyGraphCaloriesModel) then) =
       _$WeeklyGraphCaloriesModelCopyWithImpl<$Res, WeeklyGraphCaloriesModel>;
   @useResult
-  $Res call({List<GraphCaloriesItem> graph});
+  $Res call({@JsonKey(name: 'graph') List<GraphCaloriesItem>? graph});
 }
 
 /// @nodoc
@@ -58,13 +59,13 @@ class _$WeeklyGraphCaloriesModelCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? graph = null,
+    Object? graph = freezed,
   }) {
     return _then(_value.copyWith(
-      graph: null == graph
+      graph: freezed == graph
           ? _value.graph
           : graph // ignore: cast_nullable_to_non_nullable
-              as List<GraphCaloriesItem>,
+              as List<GraphCaloriesItem>?,
     ) as $Val);
   }
 }
@@ -78,7 +79,7 @@ abstract class _$$WeeklyGraphCaloriesModelImplCopyWith<$Res>
       __$$WeeklyGraphCaloriesModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<GraphCaloriesItem> graph});
+  $Res call({@JsonKey(name: 'graph') List<GraphCaloriesItem>? graph});
 }
 
 /// @nodoc
@@ -96,13 +97,13 @@ class __$$WeeklyGraphCaloriesModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? graph = null,
+    Object? graph = freezed,
   }) {
     return _then(_$WeeklyGraphCaloriesModelImpl(
-      graph: null == graph
+      graph: freezed == graph
           ? _value._graph
           : graph // ignore: cast_nullable_to_non_nullable
-              as List<GraphCaloriesItem>,
+              as List<GraphCaloriesItem>?,
     ));
   }
 }
@@ -111,18 +112,21 @@ class __$$WeeklyGraphCaloriesModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$WeeklyGraphCaloriesModelImpl implements _WeeklyGraphCaloriesModel {
   const _$WeeklyGraphCaloriesModelImpl(
-      {required final List<GraphCaloriesItem> graph})
+      {@JsonKey(name: 'graph') final List<GraphCaloriesItem>? graph})
       : _graph = graph;
 
   factory _$WeeklyGraphCaloriesModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$WeeklyGraphCaloriesModelImplFromJson(json);
 
-  final List<GraphCaloriesItem> _graph;
+  final List<GraphCaloriesItem>? _graph;
   @override
-  List<GraphCaloriesItem> get graph {
+  @JsonKey(name: 'graph')
+  List<GraphCaloriesItem>? get graph {
+    final value = _graph;
+    if (value == null) return null;
     if (_graph is EqualUnmodifiableListView) return _graph;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_graph);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -162,14 +166,15 @@ class _$WeeklyGraphCaloriesModelImpl implements _WeeklyGraphCaloriesModel {
 
 abstract class _WeeklyGraphCaloriesModel implements WeeklyGraphCaloriesModel {
   const factory _WeeklyGraphCaloriesModel(
-          {required final List<GraphCaloriesItem> graph}) =
+          {@JsonKey(name: 'graph') final List<GraphCaloriesItem>? graph}) =
       _$WeeklyGraphCaloriesModelImpl;
 
   factory _WeeklyGraphCaloriesModel.fromJson(Map<String, dynamic> json) =
       _$WeeklyGraphCaloriesModelImpl.fromJson;
 
   @override
-  List<GraphCaloriesItem> get graph;
+  @JsonKey(name: 'graph')
+  List<GraphCaloriesItem>? get graph;
 
   /// Create a copy of WeeklyGraphCaloriesModel
   /// with the given fields replaced by the non-null parameter values.
@@ -187,9 +192,9 @@ GraphCaloriesItem _$GraphCaloriesItemFromJson(Map<String, dynamic> json) {
 mixin _$GraphCaloriesItem {
   String get date => throw _privateConstructorUsedError;
   @JsonKey(name: 'total_energy')
-  double get totalEnergy => throw _privateConstructorUsedError;
+  double? get totalEnergy => throw _privateConstructorUsedError;
   @JsonKey(name: 'percentage_of_goal')
-  double get percentageOfGoal => throw _privateConstructorUsedError;
+  double? get percentageOfGoal => throw _privateConstructorUsedError;
 
   /// Serializes this GraphCaloriesItem to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -209,8 +214,8 @@ abstract class $GraphCaloriesItemCopyWith<$Res> {
   @useResult
   $Res call(
       {String date,
-      @JsonKey(name: 'total_energy') double totalEnergy,
-      @JsonKey(name: 'percentage_of_goal') double percentageOfGoal});
+      @JsonKey(name: 'total_energy') double? totalEnergy,
+      @JsonKey(name: 'percentage_of_goal') double? percentageOfGoal});
 }
 
 /// @nodoc
@@ -229,22 +234,22 @@ class _$GraphCaloriesItemCopyWithImpl<$Res, $Val extends GraphCaloriesItem>
   @override
   $Res call({
     Object? date = null,
-    Object? totalEnergy = null,
-    Object? percentageOfGoal = null,
+    Object? totalEnergy = freezed,
+    Object? percentageOfGoal = freezed,
   }) {
     return _then(_value.copyWith(
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as String,
-      totalEnergy: null == totalEnergy
+      totalEnergy: freezed == totalEnergy
           ? _value.totalEnergy
           : totalEnergy // ignore: cast_nullable_to_non_nullable
-              as double,
-      percentageOfGoal: null == percentageOfGoal
+              as double?,
+      percentageOfGoal: freezed == percentageOfGoal
           ? _value.percentageOfGoal
           : percentageOfGoal // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
     ) as $Val);
   }
 }
@@ -259,8 +264,8 @@ abstract class _$$GraphCaloriesItemImplCopyWith<$Res>
   @useResult
   $Res call(
       {String date,
-      @JsonKey(name: 'total_energy') double totalEnergy,
-      @JsonKey(name: 'percentage_of_goal') double percentageOfGoal});
+      @JsonKey(name: 'total_energy') double? totalEnergy,
+      @JsonKey(name: 'percentage_of_goal') double? percentageOfGoal});
 }
 
 /// @nodoc
@@ -277,22 +282,22 @@ class __$$GraphCaloriesItemImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? date = null,
-    Object? totalEnergy = null,
-    Object? percentageOfGoal = null,
+    Object? totalEnergy = freezed,
+    Object? percentageOfGoal = freezed,
   }) {
     return _then(_$GraphCaloriesItemImpl(
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as String,
-      totalEnergy: null == totalEnergy
+      totalEnergy: freezed == totalEnergy
           ? _value.totalEnergy
           : totalEnergy // ignore: cast_nullable_to_non_nullable
-              as double,
-      percentageOfGoal: null == percentageOfGoal
+              as double?,
+      percentageOfGoal: freezed == percentageOfGoal
           ? _value.percentageOfGoal
           : percentageOfGoal // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
     ));
   }
 }
@@ -302,8 +307,8 @@ class __$$GraphCaloriesItemImplCopyWithImpl<$Res>
 class _$GraphCaloriesItemImpl implements _GraphCaloriesItem {
   const _$GraphCaloriesItemImpl(
       {required this.date,
-      @JsonKey(name: 'total_energy') required this.totalEnergy,
-      @JsonKey(name: 'percentage_of_goal') required this.percentageOfGoal});
+      @JsonKey(name: 'total_energy') this.totalEnergy,
+      @JsonKey(name: 'percentage_of_goal') this.percentageOfGoal});
 
   factory _$GraphCaloriesItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$GraphCaloriesItemImplFromJson(json);
@@ -312,10 +317,10 @@ class _$GraphCaloriesItemImpl implements _GraphCaloriesItem {
   final String date;
   @override
   @JsonKey(name: 'total_energy')
-  final double totalEnergy;
+  final double? totalEnergy;
   @override
   @JsonKey(name: 'percentage_of_goal')
-  final double percentageOfGoal;
+  final double? percentageOfGoal;
 
   @override
   String toString() {
@@ -359,9 +364,9 @@ class _$GraphCaloriesItemImpl implements _GraphCaloriesItem {
 abstract class _GraphCaloriesItem implements GraphCaloriesItem {
   const factory _GraphCaloriesItem(
       {required final String date,
-      @JsonKey(name: 'total_energy') required final double totalEnergy,
+      @JsonKey(name: 'total_energy') final double? totalEnergy,
       @JsonKey(name: 'percentage_of_goal')
-      required final double percentageOfGoal}) = _$GraphCaloriesItemImpl;
+      final double? percentageOfGoal}) = _$GraphCaloriesItemImpl;
 
   factory _GraphCaloriesItem.fromJson(Map<String, dynamic> json) =
       _$GraphCaloriesItemImpl.fromJson;
@@ -370,10 +375,10 @@ abstract class _GraphCaloriesItem implements GraphCaloriesItem {
   String get date;
   @override
   @JsonKey(name: 'total_energy')
-  double get totalEnergy;
+  double? get totalEnergy;
   @override
   @JsonKey(name: 'percentage_of_goal')
-  double get percentageOfGoal;
+  double? get percentageOfGoal;
 
   /// Create a copy of GraphCaloriesItem
   /// with the given fields replaced by the non-null parameter values.

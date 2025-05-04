@@ -22,9 +22,9 @@ WeeklyResumeReportModel _$WeeklyResumeReportModelFromJson(
 /// @nodoc
 mixin _$WeeklyResumeReportModel {
   @JsonKey(name: 'total_all')
-  double get totalAll => throw _privateConstructorUsedError;
+  double? get totalAll => throw _privateConstructorUsedError;
   @JsonKey(name: 'nutrient_percentage', fromJson: _filterNonZeroMap)
-  Map<String, double> get nutrientPercentage =>
+  Map<String, double>? get nutrientPercentage =>
       throw _privateConstructorUsedError;
 
   /// Serializes this WeeklyResumeReportModel to a JSON map.
@@ -44,9 +44,9 @@ abstract class $WeeklyResumeReportModelCopyWith<$Res> {
       _$WeeklyResumeReportModelCopyWithImpl<$Res, WeeklyResumeReportModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'total_all') double totalAll,
+      {@JsonKey(name: 'total_all') double? totalAll,
       @JsonKey(name: 'nutrient_percentage', fromJson: _filterNonZeroMap)
-      Map<String, double> nutrientPercentage});
+      Map<String, double>? nutrientPercentage});
 }
 
 /// @nodoc
@@ -65,18 +65,18 @@ class _$WeeklyResumeReportModelCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? totalAll = null,
-    Object? nutrientPercentage = null,
+    Object? totalAll = freezed,
+    Object? nutrientPercentage = freezed,
   }) {
     return _then(_value.copyWith(
-      totalAll: null == totalAll
+      totalAll: freezed == totalAll
           ? _value.totalAll
           : totalAll // ignore: cast_nullable_to_non_nullable
-              as double,
-      nutrientPercentage: null == nutrientPercentage
+              as double?,
+      nutrientPercentage: freezed == nutrientPercentage
           ? _value.nutrientPercentage
           : nutrientPercentage // ignore: cast_nullable_to_non_nullable
-              as Map<String, double>,
+              as Map<String, double>?,
     ) as $Val);
   }
 }
@@ -91,9 +91,9 @@ abstract class _$$WeeklyResumeReportModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'total_all') double totalAll,
+      {@JsonKey(name: 'total_all') double? totalAll,
       @JsonKey(name: 'nutrient_percentage', fromJson: _filterNonZeroMap)
-      Map<String, double> nutrientPercentage});
+      Map<String, double>? nutrientPercentage});
 }
 
 /// @nodoc
@@ -111,18 +111,18 @@ class __$$WeeklyResumeReportModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? totalAll = null,
-    Object? nutrientPercentage = null,
+    Object? totalAll = freezed,
+    Object? nutrientPercentage = freezed,
   }) {
     return _then(_$WeeklyResumeReportModelImpl(
-      totalAll: null == totalAll
+      totalAll: freezed == totalAll
           ? _value.totalAll
           : totalAll // ignore: cast_nullable_to_non_nullable
-              as double,
-      nutrientPercentage: null == nutrientPercentage
+              as double?,
+      nutrientPercentage: freezed == nutrientPercentage
           ? _value._nutrientPercentage
           : nutrientPercentage // ignore: cast_nullable_to_non_nullable
-              as Map<String, double>,
+              as Map<String, double>?,
     ));
   }
 }
@@ -131,9 +131,9 @@ class __$$WeeklyResumeReportModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$WeeklyResumeReportModelImpl implements _WeeklyResumeReportModel {
   const _$WeeklyResumeReportModelImpl(
-      {@JsonKey(name: 'total_all') required this.totalAll,
+      {@JsonKey(name: 'total_all') this.totalAll,
       @JsonKey(name: 'nutrient_percentage', fromJson: _filterNonZeroMap)
-      required final Map<String, double> nutrientPercentage})
+      final Map<String, double>? nutrientPercentage})
       : _nutrientPercentage = nutrientPercentage;
 
   factory _$WeeklyResumeReportModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -141,15 +141,17 @@ class _$WeeklyResumeReportModelImpl implements _WeeklyResumeReportModel {
 
   @override
   @JsonKey(name: 'total_all')
-  final double totalAll;
-  final Map<String, double> _nutrientPercentage;
+  final double? totalAll;
+  final Map<String, double>? _nutrientPercentage;
   @override
   @JsonKey(name: 'nutrient_percentage', fromJson: _filterNonZeroMap)
-  Map<String, double> get nutrientPercentage {
+  Map<String, double>? get nutrientPercentage {
+    final value = _nutrientPercentage;
+    if (value == null) return null;
     if (_nutrientPercentage is EqualUnmodifiableMapView)
       return _nutrientPercentage;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_nutrientPercentage);
+    return EqualUnmodifiableMapView(value);
   }
 
   @override
@@ -192,9 +194,9 @@ class _$WeeklyResumeReportModelImpl implements _WeeklyResumeReportModel {
 
 abstract class _WeeklyResumeReportModel implements WeeklyResumeReportModel {
   const factory _WeeklyResumeReportModel(
-          {@JsonKey(name: 'total_all') required final double totalAll,
+          {@JsonKey(name: 'total_all') final double? totalAll,
           @JsonKey(name: 'nutrient_percentage', fromJson: _filterNonZeroMap)
-          required final Map<String, double> nutrientPercentage}) =
+          final Map<String, double>? nutrientPercentage}) =
       _$WeeklyResumeReportModelImpl;
 
   factory _WeeklyResumeReportModel.fromJson(Map<String, dynamic> json) =
@@ -202,10 +204,10 @@ abstract class _WeeklyResumeReportModel implements WeeklyResumeReportModel {
 
   @override
   @JsonKey(name: 'total_all')
-  double get totalAll;
+  double? get totalAll;
   @override
   @JsonKey(name: 'nutrient_percentage', fromJson: _filterNonZeroMap)
-  Map<String, double> get nutrientPercentage;
+  Map<String, double>? get nutrientPercentage;
 
   /// Create a copy of WeeklyResumeReportModel
   /// with the given fields replaced by the non-null parameter values.
