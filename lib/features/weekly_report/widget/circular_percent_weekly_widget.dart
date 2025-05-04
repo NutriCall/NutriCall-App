@@ -99,7 +99,7 @@ class CircularPercentWeelyWidget extends HookConsumerWidget {
                 ),
               ),
               Text(
-                "${(percentages[i] * 100).toStringAsFixed(0)}%",
+                "${(percentages[i] * 100).toString()}%",
                 style: GoogleFonts.poppins(
                   color: Colors.black,
                   fontSize: 7,

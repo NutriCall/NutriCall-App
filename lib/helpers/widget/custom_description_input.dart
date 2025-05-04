@@ -6,7 +6,7 @@ import 'package:nutri_call_app/utils/app_color.dart';
 class CustomDescriptionInput extends StatelessWidget {
   final String label;
   final String placeholder;
-  final TextStyle? hintStyle; 
+  final TextStyle? hintStyle;
 
   const CustomDescriptionInput({
     super.key,
@@ -31,21 +31,23 @@ class CustomDescriptionInput extends StatelessWidget {
         const Gap(6),
         TextField(
           cursorColor: AppColor.semiBlack,
-          maxLines: 10,
           decoration: InputDecoration(
             hintText: placeholder,
-            hintStyle: hintStyle ?? GoogleFonts.poppins( // Gunakan hintStyle dari parameter jika ada
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: AppColor.darkGreen,
-            ),
+            hintStyle: hintStyle ??
+                GoogleFonts.poppins(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: AppColor.darkGreen,
+                ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: AppColor.darkGreen, width: 1.5),
+              borderSide:
+                  const BorderSide(color: AppColor.darkGreen, width: 1.5),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: AppColor.darkGreen, width: 1.5),
+              borderSide:
+                  const BorderSide(color: AppColor.darkGreen, width: 1.5),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),

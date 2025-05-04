@@ -146,7 +146,7 @@ class ProgressPage extends HookConsumerWidget {
                                           nutritionProgressModel.totalCarbs ??
                                           0.0,
                                     )
-                                    .toStringAsFixed(2));
+                                    .toString());
                                 double totalFat = double.parse(data
                                     .fold(
                                       (error) => 0.0,
@@ -154,7 +154,7 @@ class ProgressPage extends HookConsumerWidget {
                                           nutritionProgressModel.totalFat ??
                                           0.0,
                                     )
-                                    .toStringAsFixed(2));
+                                    .toString());
                                 double totalProtein = double.parse(data
                                     .fold(
                                       (error) => 0.0,
@@ -163,7 +163,7 @@ class ProgressPage extends HookConsumerWidget {
                                               .totalProteins ??
                                           0.0,
                                     )
-                                    .toStringAsFixed(2));
+                                    .toString());
                                 double dailyCarbs = double.parse(data
                                     .fold(
                                       (error) => 0.0,
@@ -171,7 +171,7 @@ class ProgressPage extends HookConsumerWidget {
                                           nutritionProgressModel.dailyCarbs ??
                                           0.0,
                                     )
-                                    .toStringAsFixed(2));
+                                    .toString());
                                 double dailyFat = double.parse(data
                                     .fold(
                                       (error) => 0.0,
@@ -179,7 +179,7 @@ class ProgressPage extends HookConsumerWidget {
                                           nutritionProgressModel.dailyFat ??
                                           0.0,
                                     )
-                                    .toStringAsFixed(2));
+                                    .toString());
                                 double dailyProtein = double.parse(data
                                     .fold(
                                       (error) => 0.0,
@@ -188,7 +188,7 @@ class ProgressPage extends HookConsumerWidget {
                                               .dailyProteins ??
                                           0.0,
                                     )
-                                    .toStringAsFixed(2));
+                                    .toString());
                                 return Row(
                                   children: [
                                     Expanded(

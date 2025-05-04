@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nutri_call_app/helpers/widget/add_ingredients_widget.dart';
+import 'package:nutri_call_app/helpers/widget/add_steps_widget.dart';
 import 'package:nutri_call_app/routers/router_name.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
 import 'package:nutri_call_app/helpers/widget/custom_button_widget.dart';
-import 'package:nutri_call_app/helpers/widget/custom_description_input.dart';
 import 'package:nutri_call_app/helpers/widget/custom_image_input.dart';
 import 'package:nutri_call_app/helpers/widget/custom_text_input.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
@@ -73,16 +73,14 @@ class AddRecipePage extends HookConsumerWidget {
                   label: "Title",
                   placeholder: "Enter Recipe Title",
                 ),
+                const Gap(8),
                 AddIngredientsWidget(
                   onTap: () {
                     context.pushNamed(RouteName.addIngredientPage);
                   },
                 ),
                 const Gap(16),
-                const CustomDescriptionInput(
-                  label: "Step by Step",
-                  placeholder: "Describe the steps...",
-                ),
+                const AddStepsWidget(),
                 const Gap(20),
                 CustomButtonWidget(
                   text: 'Preview',

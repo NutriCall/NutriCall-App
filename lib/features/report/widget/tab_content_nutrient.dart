@@ -72,7 +72,7 @@ class TabContentNutrient extends HookConsumerWidget {
 
                                 String formatValue(dynamic value) {
                                   if (value is num) {
-                                    return value.toStringAsFixed(1);
+                                    return value.toString();
                                   } else {
                                     return value.toString();
                                   }
@@ -115,10 +115,15 @@ class TabContentNutrient extends HookConsumerWidget {
                                 }
 
                                 return CustomTableWidget(
-                                  rowCount: 13,
+                                  rowCount: 23,
                                   columnCount: 4,
                                   data: [
-                                    ["Nutrient", "Total", "Goal", "[+/-]"],
+                                    const [
+                                      "Nutrient",
+                                      "Total",
+                                      "Goal",
+                                      "[+/-]"
+                                    ],
                                     [
                                       "Calories (kcal)",
                                       formatValue(getConsumed("energi")),
@@ -202,6 +207,12 @@ class TabContentNutrient extends HookConsumerWidget {
                                       formatValue(getConsumed("tembaga)")),
                                       formatValue(getGoal("tembaga")),
                                       formatValue(getDifference("tembaga"))
+                                    ],
+                                    [
+                                      "Tiamin (mcg)",
+                                      formatValue(getConsumed("tiamin)")),
+                                      formatValue(getGoal("tiamin")),
+                                      formatValue(getDifference("tiamin"))
                                     ],
                                     [
                                       "Vitamin A (mcg)",
