@@ -22,9 +22,9 @@ WeeklyCaloriesReportModel _$WeeklyCaloriesReportModelFromJson(
 /// @nodoc
 mixin _$WeeklyCaloriesReportModel {
   @JsonKey(name: 'weekly_goal')
-  double get weeklyGoal => throw _privateConstructorUsedError;
+  double? get weeklyGoal => throw _privateConstructorUsedError;
   @JsonKey(name: 'weekly_consumed')
-  double get weeklyConsumed => throw _privateConstructorUsedError;
+  double? get weeklyConsumed => throw _privateConstructorUsedError;
   double get difference => throw _privateConstructorUsedError;
 
   /// Serializes this WeeklyCaloriesReportModel to a JSON map.
@@ -44,8 +44,8 @@ abstract class $WeeklyCaloriesReportModelCopyWith<$Res> {
       _$WeeklyCaloriesReportModelCopyWithImpl<$Res, WeeklyCaloriesReportModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'weekly_goal') double weeklyGoal,
-      @JsonKey(name: 'weekly_consumed') double weeklyConsumed,
+      {@JsonKey(name: 'weekly_goal') double? weeklyGoal,
+      @JsonKey(name: 'weekly_consumed') double? weeklyConsumed,
       double difference});
 }
 
@@ -65,19 +65,19 @@ class _$WeeklyCaloriesReportModelCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? weeklyGoal = null,
-    Object? weeklyConsumed = null,
+    Object? weeklyGoal = freezed,
+    Object? weeklyConsumed = freezed,
     Object? difference = null,
   }) {
     return _then(_value.copyWith(
-      weeklyGoal: null == weeklyGoal
+      weeklyGoal: freezed == weeklyGoal
           ? _value.weeklyGoal
           : weeklyGoal // ignore: cast_nullable_to_non_nullable
-              as double,
-      weeklyConsumed: null == weeklyConsumed
+              as double?,
+      weeklyConsumed: freezed == weeklyConsumed
           ? _value.weeklyConsumed
           : weeklyConsumed // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
       difference: null == difference
           ? _value.difference
           : difference // ignore: cast_nullable_to_non_nullable
@@ -96,8 +96,8 @@ abstract class _$$WeeklyCaloriesReportModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'weekly_goal') double weeklyGoal,
-      @JsonKey(name: 'weekly_consumed') double weeklyConsumed,
+      {@JsonKey(name: 'weekly_goal') double? weeklyGoal,
+      @JsonKey(name: 'weekly_consumed') double? weeklyConsumed,
       double difference});
 }
 
@@ -116,19 +116,19 @@ class __$$WeeklyCaloriesReportModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? weeklyGoal = null,
-    Object? weeklyConsumed = null,
+    Object? weeklyGoal = freezed,
+    Object? weeklyConsumed = freezed,
     Object? difference = null,
   }) {
     return _then(_$WeeklyCaloriesReportModelImpl(
-      weeklyGoal: null == weeklyGoal
+      weeklyGoal: freezed == weeklyGoal
           ? _value.weeklyGoal
           : weeklyGoal // ignore: cast_nullable_to_non_nullable
-              as double,
-      weeklyConsumed: null == weeklyConsumed
+              as double?,
+      weeklyConsumed: freezed == weeklyConsumed
           ? _value.weeklyConsumed
           : weeklyConsumed // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
       difference: null == difference
           ? _value.difference
           : difference // ignore: cast_nullable_to_non_nullable
@@ -141,8 +141,8 @@ class __$$WeeklyCaloriesReportModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$WeeklyCaloriesReportModelImpl implements _WeeklyCaloriesReportModel {
   const _$WeeklyCaloriesReportModelImpl(
-      {@JsonKey(name: 'weekly_goal') required this.weeklyGoal,
-      @JsonKey(name: 'weekly_consumed') required this.weeklyConsumed,
+      {@JsonKey(name: 'weekly_goal') this.weeklyGoal,
+      @JsonKey(name: 'weekly_consumed') this.weeklyConsumed,
       required this.difference});
 
   factory _$WeeklyCaloriesReportModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -150,10 +150,10 @@ class _$WeeklyCaloriesReportModelImpl implements _WeeklyCaloriesReportModel {
 
   @override
   @JsonKey(name: 'weekly_goal')
-  final double weeklyGoal;
+  final double? weeklyGoal;
   @override
   @JsonKey(name: 'weekly_consumed')
-  final double weeklyConsumed;
+  final double? weeklyConsumed;
   @override
   final double difference;
 
@@ -199,8 +199,8 @@ class _$WeeklyCaloriesReportModelImpl implements _WeeklyCaloriesReportModel {
 
 abstract class _WeeklyCaloriesReportModel implements WeeklyCaloriesReportModel {
   const factory _WeeklyCaloriesReportModel(
-      {@JsonKey(name: 'weekly_goal') required final double weeklyGoal,
-      @JsonKey(name: 'weekly_consumed') required final double weeklyConsumed,
+      {@JsonKey(name: 'weekly_goal') final double? weeklyGoal,
+      @JsonKey(name: 'weekly_consumed') final double? weeklyConsumed,
       required final double difference}) = _$WeeklyCaloriesReportModelImpl;
 
   factory _WeeklyCaloriesReportModel.fromJson(Map<String, dynamic> json) =
@@ -208,10 +208,10 @@ abstract class _WeeklyCaloriesReportModel implements WeeklyCaloriesReportModel {
 
   @override
   @JsonKey(name: 'weekly_goal')
-  double get weeklyGoal;
+  double? get weeklyGoal;
   @override
   @JsonKey(name: 'weekly_consumed')
-  double get weeklyConsumed;
+  double? get weeklyConsumed;
   @override
   double get difference;
 

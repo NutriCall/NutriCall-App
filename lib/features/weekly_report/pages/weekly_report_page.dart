@@ -51,7 +51,7 @@ class WeeklyReportPage extends HookConsumerWidget {
             .fetch();
         ref.read(fetchWeeklyResumeReportNotifierProvider.notifier).fetch();
       },
-      color: AppColor.semiBlack,
+      color: AppColor.darkGreen,
       child: Scaffold(
         appBar: CustomAppBar(
           title: 'Weekly Report',
@@ -76,7 +76,7 @@ class WeeklyReportPage extends HookConsumerWidget {
                               Expanded(
                                 flex: 1,
                                 child: CaloriesInfoWidget(
-                                  calories: data.weeklyGoal.toStringAsFixed(0),
+                                  calories: data.weeklyGoal!.toStringAsFixed(0),
                                   description: "Target Calories",
                                 ),
                               ),
@@ -85,7 +85,7 @@ class WeeklyReportPage extends HookConsumerWidget {
                                 flex: 1,
                                 child: CaloriesInfoWidget(
                                   calories:
-                                      data.weeklyConsumed.toStringAsFixed(0),
+                                      data.weeklyConsumed!.toStringAsFixed(0),
                                   description: "Calories Recorded",
                                 ),
                               ),
@@ -187,7 +187,7 @@ class WeeklyReportPage extends HookConsumerWidget {
                   data: (either) => either.fold(
                     (error) => Center(child: Text(error)),
                     (data) {
-                      final chartData = data.graph.map((item) {
+                      final chartData = data.graph!.map((item) {
                         final day = DateTime.parse(item.date).weekday % 7;
                         final dayName = [
                           'SUN',
@@ -198,7 +198,8 @@ class WeeklyReportPage extends HookConsumerWidget {
                           'FRI',
                           'SAT'
                         ][day];
-                        return ChartDataWeekly(dayName, item.percentageOfGoal);
+                        return ChartDataWeekly(
+                            dayName, item.percentageOfGoal ?? 0.0);
                       }).toList();
 
                       return AreaChartWeeklyWidget(chartData: chartData);
@@ -224,7 +225,7 @@ class WeeklyReportPage extends HookConsumerWidget {
                   data: (either) => either.fold(
                     (error) => Center(child: Text('Error: $error')),
                     (data) {
-                      final filteredEntries = data.nutrientPercentage.entries
+                      final filteredEntries = data.nutrientPercentage?.entries
                           .where((entry) => entry.value > 0)
                           .toList();
 
@@ -232,13 +233,12 @@ class WeeklyReportPage extends HookConsumerWidget {
                       final labels = <String>[];
                       final colors = <Color>[];
 
-                      final totalNonZero = filteredEntries.fold<double>(
+                      final totalNonZero = filteredEntries?.fold<double>(
                           0, (sum, entry) => sum + entry.value);
 
-                      for (var i = 0; i < filteredEntries.length; i++) {
+                      for (var i = 0; i < filteredEntries!.length; i++) {
                         final entry = filteredEntries[i];
-                        percentages
-                            .add(entry.value / totalNonZero); // normalized
+                        percentages.add(entry.value / totalNonZero!);
                         labels.add(_mapKeyToLabel(entry.key));
                         colors.add(AppColor.defaultColorPalette[
                             i % AppColor.defaultColorPalette.length]);

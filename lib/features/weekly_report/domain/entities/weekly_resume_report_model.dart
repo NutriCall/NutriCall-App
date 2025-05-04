@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'weekly_resume_report_model.freezed.dart';
@@ -6,12 +8,12 @@ part 'weekly_resume_report_model.g.dart';
 @freezed
 class WeeklyResumeReportModel with _$WeeklyResumeReportModel {
   const factory WeeklyResumeReportModel({
-    @JsonKey(name: 'total_all') required double totalAll,
+    @JsonKey(name: 'total_all') double? totalAll,
     @JsonKey(
       name: 'nutrient_percentage',
       fromJson: _filterNonZeroMap,
     )
-    required Map<String, double> nutrientPercentage,
+    Map<String, double>? nutrientPercentage,
   }) = _WeeklyResumeReportModel;
 
   factory WeeklyResumeReportModel.fromJson(Map<String, dynamic> json) =>
