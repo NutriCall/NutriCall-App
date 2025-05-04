@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:nutri_call_app/features/recipe/controllers/add_meal_recipe_controllers.dart';
 import 'package:nutri_call_app/features/recipe/controllers/detail_recipe_controllers.dart';
 import 'package:nutri_call_app/features/recipe/widget/meal_dropdown.dart';
 import 'package:nutri_call_app/features/recipe/widget/recipe_image_widget.dart';
@@ -11,7 +13,6 @@ import 'package:nutri_call_app/features/recipe/widget/recipe_nutrition_table_wid
 import 'package:nutri_call_app/features/recipe/widget/recipe_steps_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
 import 'package:nutri_call_app/helpers/widget/custom_button_widget.dart';
-import 'package:nutri_call_app/routers/router_name.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
 class DetailRecipePage extends HookConsumerWidget {
@@ -20,6 +21,8 @@ class DetailRecipePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final detailRecipe = ref.watch(fetchDetailRecipeNotifierProvider);
+    final selectedMealType = useState<String>('Breakfast');
+    final isLoading = useState(false);
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -114,12 +117,58 @@ class DetailRecipePage extends HookConsumerWidget {
                             },
                           ),
                           const Gap(30),
-                          const MealDropdown(),
+                          MealDropdown(
+                            selectedMeal: selectedMealType.value,
+                            onChanged: (value) =>
+                                selectedMealType.value = value,
+                          ),
                           const Gap(24),
                           CustomButtonWidget(
-                            text: 'Add to Meal Plan',
+                            text: isLoading.value
+                                ? 'Loading..'
+                                : 'Add to Meal Plan',
                             onTap: () {
-                              context.pushNamed(RouteName.recipePage);
+                              final compositionId = recipe.compositionId;
+                              if (compositionId == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text("Composition ID tidak tersedia."),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              final params = RecipeParams(
+                                compositions: [compositionId],
+                                type: selectedMealType.value,
+                              );
+                              isLoading.value = true;
+
+                              ref
+                                  .read(postMealRecipeNotifierProvider.notifier)
+                                  .fetch(
+                                    params: params,
+                                    onSuccess: (data) {
+                                      isLoading.value = false;
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text("Added to meal plan!"),
+                                        ),
+                                      );
+                                      context.pop();
+                                    },
+                                    onFailed: (error) {
+                                      isLoading.value = false;
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text("Failed: $error"),
+                                        ),
+                                      );
+                                    },
+                                  );
                             },
                           ),
                           const Gap(20),

@@ -20,10 +20,6 @@ import 'package:nutri_call_app/utils/assets.gen.dart';
 class ProfilePage extends HookConsumerWidget {
   const ProfilePage({super.key});
 
-  Future<void> _refreshProfile() async {
-    await Future.delayed(const Duration(seconds: 2));
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final logout = ref.watch(authenticationProvider);
@@ -40,8 +36,10 @@ class ProfilePage extends HookConsumerWidget {
       child: Scaffold(
         appBar: const CustomAppBar(title: 'Profile Page'),
         body: RefreshIndicator(
-          color: AppColor.semiBlack,
-          onRefresh: _refreshProfile,
+          color: AppColor.darkGreen,
+          onRefresh: () async {
+            await ref.read(fetchCurrentUserNotifierProvider.notifier).fetch();
+          },
           child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 20.0),

@@ -26,7 +26,7 @@ class TabContentNutrient extends HookConsumerWidget {
       onRefresh: () async {
         ref.read(fetchNutrientReportNotifierProvider.notifier).fetch();
       },
-      color: AppColor.semiBlack,
+      color: AppColor.darkGreen,
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.only(top: 20),

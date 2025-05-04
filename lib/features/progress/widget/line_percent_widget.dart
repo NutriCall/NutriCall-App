@@ -47,7 +47,7 @@ class LinePercentWidget extends HookConsumerWidget {
           valueText,
           style: GoogleFonts.poppins(
             color: Colors.black,
-            fontSize: 8,
+            fontSize: 6,
             fontWeight: FontWeight.w500,
           ),
         ),

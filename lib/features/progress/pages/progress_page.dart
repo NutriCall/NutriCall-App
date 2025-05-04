@@ -38,7 +38,7 @@ class ProgressPage extends HookConsumerWidget {
         ref.read(fetchNutritionProgressNotifierProvider.notifier).fetch();
         ref.read(fetchWeightProgressNotifierProvider.notifier).fetch();
       },
-      color: AppColor.semiBlack,
+      color: AppColor.darkGreen,
       child: Scaffold(
         appBar: const CustomAppBar(
           title: 'Progress',
@@ -195,7 +195,8 @@ class ProgressPage extends HookConsumerWidget {
                                       flex: 1,
                                       child: LinePercentWidget(
                                         title: 'Carbs',
-                                        percent: totalCarbs / dailyCarbs,
+                                        percent: (totalCarbs / dailyCarbs)
+                                            .clamp(0.0, 1.0),
                                         progressColor: AppColor.blue,
                                         valueText:
                                             '$totalCarbs / $dailyCarbs g',
@@ -205,7 +206,8 @@ class ProgressPage extends HookConsumerWidget {
                                       flex: 1,
                                       child: LinePercentWidget(
                                         title: 'Protein',
-                                        percent: totalProtein / dailyProtein,
+                                        percent: (totalProtein / dailyProtein)
+                                            .clamp(0.0, 1.0),
                                         progressColor: AppColor.orange,
                                         valueText:
                                             '$totalProtein / $dailyProtein g',
@@ -215,7 +217,8 @@ class ProgressPage extends HookConsumerWidget {
                                       flex: 1,
                                       child: LinePercentWidget(
                                         title: 'Fat',
-                                        percent: totalFat / dailyFat,
+                                        percent: (totalFat / dailyFat)
+                                            .clamp(0.0, 1.0),
                                         progressColor: AppColor.pink,
                                         valueText: '$totalFat / $dailyFat g',
                                       ),
@@ -250,7 +253,7 @@ class ProgressPage extends HookConsumerWidget {
                           return Expanded(
                             flex: 2,
                             child: CircularPercentWidget(
-                              percent: percentageEnergy / 100,
+                              percent: (percentageEnergy / 100).clamp(0.0, 1.0),
                               progressColor: AppColor.darkGreen,
                               backgroundColor: AppColor.disabledGreen,
                               value1: '$differenceEnergy',

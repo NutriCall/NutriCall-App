@@ -38,7 +38,13 @@ class HomePage extends HookConsumerWidget {
         children: [
           Scaffold(
             body: RefreshIndicator(
-              onRefresh: () async {},
+              color: AppColor.darkGreen,
+              onRefresh: () async {
+                await ref
+                    .read(fetchCurrentUserNotifierProvider.notifier)
+                    .fetch();
+                await ref.read(fetchCalTodayNotifierProvider.notifier).fetch();
+              },
               child: ListView(
                 children: [
                   dataUser.when(

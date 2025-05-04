@@ -23,10 +23,11 @@ class FetchListRecipeControllers extends _$FetchListRecipeControllers {
       result.fold(
         (error) {
           state = AsyncError(error, StackTrace.current);
+          onFailed?.call();
         },
         (data) {
           state = AsyncData(data as List<ListRecipeModel>?);
-          onSuccess!();
+          onSuccess?.call();
         },
       );
     } catch (error) {
