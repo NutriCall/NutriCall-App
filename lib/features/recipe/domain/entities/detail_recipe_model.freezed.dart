@@ -35,13 +35,13 @@ mixin _$DetailRecipeModel {
   @JsonKey(name: "date")
   String? get date => throw _privateConstructorUsedError;
   @JsonKey(name: "energi")
-  int? get energi => throw _privateConstructorUsedError;
+  double? get energi => throw _privateConstructorUsedError;
   @JsonKey(name: "protein")
   double? get protein => throw _privateConstructorUsedError;
   @JsonKey(name: "lemak")
   double? get lemak => throw _privateConstructorUsedError;
   @JsonKey(name: "karbohidrat")
-  int? get karbohidrat => throw _privateConstructorUsedError;
+  double? get karbohidrat => throw _privateConstructorUsedError;
   @JsonKey(name: "ingredients")
   List<IngredientModel>? get ingredients => throw _privateConstructorUsedError;
   @JsonKey(name: "steps")
@@ -71,10 +71,10 @@ abstract class $DetailRecipeModelCopyWith<$Res> {
       @JsonKey(name: "sumber") String? sumber,
       @JsonKey(name: "image_url") String? imageUrl,
       @JsonKey(name: "date") String? date,
-      @JsonKey(name: "energi") int? energi,
+      @JsonKey(name: "energi") double? energi,
       @JsonKey(name: "protein") double? protein,
       @JsonKey(name: "lemak") double? lemak,
-      @JsonKey(name: "karbohidrat") int? karbohidrat,
+      @JsonKey(name: "karbohidrat") double? karbohidrat,
       @JsonKey(name: "ingredients") List<IngredientModel>? ingredients,
       @JsonKey(name: "steps") List<String>? steps});
 }
@@ -140,7 +140,7 @@ class _$DetailRecipeModelCopyWithImpl<$Res, $Val extends DetailRecipeModel>
       energi: freezed == energi
           ? _value.energi
           : energi // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       protein: freezed == protein
           ? _value.protein
           : protein // ignore: cast_nullable_to_non_nullable
@@ -152,7 +152,7 @@ class _$DetailRecipeModelCopyWithImpl<$Res, $Val extends DetailRecipeModel>
       karbohidrat: freezed == karbohidrat
           ? _value.karbohidrat
           : karbohidrat // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       ingredients: freezed == ingredients
           ? _value.ingredients
           : ingredients // ignore: cast_nullable_to_non_nullable
@@ -181,10 +181,10 @@ abstract class _$$DetailRecipeModelImplCopyWith<$Res>
       @JsonKey(name: "sumber") String? sumber,
       @JsonKey(name: "image_url") String? imageUrl,
       @JsonKey(name: "date") String? date,
-      @JsonKey(name: "energi") int? energi,
+      @JsonKey(name: "energi") double? energi,
       @JsonKey(name: "protein") double? protein,
       @JsonKey(name: "lemak") double? lemak,
-      @JsonKey(name: "karbohidrat") int? karbohidrat,
+      @JsonKey(name: "karbohidrat") double? karbohidrat,
       @JsonKey(name: "ingredients") List<IngredientModel>? ingredients,
       @JsonKey(name: "steps") List<String>? steps});
 }
@@ -248,7 +248,7 @@ class __$$DetailRecipeModelImplCopyWithImpl<$Res>
       energi: freezed == energi
           ? _value.energi
           : energi // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       protein: freezed == protein
           ? _value.protein
           : protein // ignore: cast_nullable_to_non_nullable
@@ -260,7 +260,7 @@ class __$$DetailRecipeModelImplCopyWithImpl<$Res>
       karbohidrat: freezed == karbohidrat
           ? _value.karbohidrat
           : karbohidrat // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       ingredients: freezed == ingredients
           ? _value._ingredients
           : ingredients // ignore: cast_nullable_to_non_nullable
@@ -319,7 +319,7 @@ class _$DetailRecipeModelImpl implements _DetailRecipeModel {
   final String? date;
   @override
   @JsonKey(name: "energi")
-  final int? energi;
+  final double? energi;
   @override
   @JsonKey(name: "protein")
   final double? protein;
@@ -328,7 +328,7 @@ class _$DetailRecipeModelImpl implements _DetailRecipeModel {
   final double? lemak;
   @override
   @JsonKey(name: "karbohidrat")
-  final int? karbohidrat;
+  final double? karbohidrat;
   final List<IngredientModel>? _ingredients;
   @override
   @JsonKey(name: "ingredients")
@@ -424,10 +424,10 @@ abstract class _DetailRecipeModel implements DetailRecipeModel {
       @JsonKey(name: "sumber") final String? sumber,
       @JsonKey(name: "image_url") final String? imageUrl,
       @JsonKey(name: "date") final String? date,
-      @JsonKey(name: "energi") final int? energi,
+      @JsonKey(name: "energi") final double? energi,
       @JsonKey(name: "protein") final double? protein,
       @JsonKey(name: "lemak") final double? lemak,
-      @JsonKey(name: "karbohidrat") final int? karbohidrat,
+      @JsonKey(name: "karbohidrat") final double? karbohidrat,
       @JsonKey(name: "ingredients") final List<IngredientModel>? ingredients,
       @JsonKey(name: "steps")
       final List<String>? steps}) = _$DetailRecipeModelImpl;
@@ -458,7 +458,7 @@ abstract class _DetailRecipeModel implements DetailRecipeModel {
   String? get date;
   @override
   @JsonKey(name: "energi")
-  int? get energi;
+  double? get energi;
   @override
   @JsonKey(name: "protein")
   double? get protein;
@@ -467,7 +467,7 @@ abstract class _DetailRecipeModel implements DetailRecipeModel {
   double? get lemak;
   @override
   @JsonKey(name: "karbohidrat")
-  int? get karbohidrat;
+  double? get karbohidrat;
   @override
   @JsonKey(name: "ingredients")
   List<IngredientModel>? get ingredients;

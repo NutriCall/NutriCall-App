@@ -15,10 +15,10 @@ class DetailRecipeModel with _$DetailRecipeModel {
     @JsonKey(name: "sumber") String? sumber,
     @JsonKey(name: "image_url") String? imageUrl,
     @JsonKey(name: "date") String? date,
-    @JsonKey(name: "energi") int? energi,
+    @JsonKey(name: "energi") double? energi,
     @JsonKey(name: "protein") double? protein,
     @JsonKey(name: "lemak") double? lemak,
-    @JsonKey(name: "karbohidrat") int? karbohidrat,
+    @JsonKey(name: "karbohidrat") double? karbohidrat,
     @JsonKey(name: "ingredients") List<IngredientModel>? ingredients,
     @JsonKey(name: "steps") List<String>? steps,
   }) = _DetailRecipeModel;

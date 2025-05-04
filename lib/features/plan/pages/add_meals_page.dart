@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -30,8 +28,6 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
   TextEditingController searchController = TextEditingController();
   bool _isLoading = false;
 
-  XFile? _selectedImage;
-
   OverlayEntry? overlayEntry;
 
   void _pickImage(ImageSource source) async {
@@ -39,9 +35,7 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
     final XFile? image = await picker.pickImage(source: source);
 
     if (image != null) {
-      setState(() {
-        _selectedImage = image;
-      });
+      setState(() {});
     }
   }
 
@@ -143,8 +137,8 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
         temporaryMealsState.value != null &&
         temporaryMealsState.value!.isNotEmpty) {
       final meals = temporaryMealsState.value!
-          .map((e) => MealItem(
-              id: e.compositionId, name: e.namaBahan, kcal: e.energi.toInt()))
+          .map((e) =>
+              MealItem(id: e.compositionId, name: e.namaBahan, kcal: e.energi))
           .toList();
 
       mealListSection = MealListWidget(
@@ -218,8 +212,6 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
                   ),
                 ],
               ),
-              if (_selectedImage != null)
-                Image.file(File(_selectedImage!.path), height: 100),
               const Gap(5),
               CustomSearchField(
                 hintText: "Search meals..",
@@ -292,41 +284,40 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
                 },
               ),
               const Gap(20),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.5,
-                child: mealListSection,
-              ),
-              CustomButtonWidget(
-                text: _isLoading ? 'Loading..' : 'Save',
-                onTap: _isLoading
-                    ? null
-                    : () {
-                        setState(() => _isLoading = true);
-                        ref.read(postAddMealsNotifierProvider.notifier).fetch(
-                              params: AddMealsParams(
-                                compositions: selectedCompositionIds,
-                                type: widget.mealId,
-                              ),
-                              onSuccess: (data) {
-                                setState(() => _isLoading = false);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text('Successfully added plan')),
-                                );
-                                context.pushNamed(RouteName.planPage);
-                              },
-                              onFailed: (error) {
-                                setState(() => _isLoading = false);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text(error)),
-                                );
-                              },
-                            );
-                      },
-              ),
-              const Gap(20),
+              mealListSection,
             ],
           )),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(20),
+        child: CustomButtonWidget(
+          text: _isLoading ? 'Loading..' : 'Save',
+          onTap: _isLoading
+              ? null
+              : () {
+                  setState(() => _isLoading = true);
+                  ref.read(postAddMealsNotifierProvider.notifier).fetch(
+                        params: AddMealsParams(
+                          compositions: selectedCompositionIds,
+                          type: widget.mealId,
+                        ),
+                        onSuccess: (data) {
+                          setState(() => _isLoading = false);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Successfully added plan')),
+                          );
+                          context.pushReplacement(RouteName.main);
+                        },
+                        onFailed: (error) {
+                          setState(() => _isLoading = false);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(error)),
+                          );
+                        },
+                      );
+                },
+        ),
+      ),
     );
   }
 }

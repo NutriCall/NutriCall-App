@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
 class RecipeItem extends StatelessWidget {
@@ -21,6 +22,8 @@ class RecipeItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formattedDate = _formatDate(date);
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
@@ -86,7 +89,7 @@ class RecipeItem extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    date,
+                    formattedDate,
                     style: GoogleFonts.poppins(
                         fontSize: 13,
                         color: AppColor.lightBlack,
@@ -99,5 +102,15 @@ class RecipeItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _formatDate(String date) {
+    try {
+      final parsedDate = DateTime.parse(date);
+      final formatter = DateFormat('d MMMM yyyy');
+      return formatter.format(parsedDate);
+    } catch (e) {
+      return date;
+    }
   }
 }

@@ -307,18 +307,16 @@ class ProgressPage extends HookConsumerWidget {
                                 const Gap(4),
                                 weightProgressAsync.when(
                                   data: (weightProgress) {
-                                    int weight = weightProgress.fold(
+                                    double weight = weightProgress.fold(
                                       (error) => 0,
                                       (weightProgressModel) =>
-                                          (weightProgressModel.weight ?? 0.0)
-                                              .toInt(),
+                                          (weightProgressModel.weight ?? 0.0),
                                     );
-                                    int weightTarget = weightProgress.fold(
+                                    double weightTarget = weightProgress.fold(
                                       (error) => 0,
                                       (weightProgressModel) =>
                                           (weightProgressModel.weightTarget ??
-                                                  0.0)
-                                              .toInt(),
+                                              0.0),
                                     );
                                     return RichText(
                                       text: TextSpan(

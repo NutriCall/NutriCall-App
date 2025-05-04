@@ -16,10 +16,10 @@ _$DetailRecipeModelImpl _$$DetailRecipeModelImplFromJson(
       sumber: json['sumber'] as String?,
       imageUrl: json['image_url'] as String?,
       date: json['date'] as String?,
-      energi: (json['energi'] as num?)?.toInt(),
+      energi: (json['energi'] as num?)?.toDouble(),
       protein: (json['protein'] as num?)?.toDouble(),
       lemak: (json['lemak'] as num?)?.toDouble(),
-      karbohidrat: (json['karbohidrat'] as num?)?.toInt(),
+      karbohidrat: (json['karbohidrat'] as num?)?.toDouble(),
       ingredients: (json['ingredients'] as List<dynamic>?)
           ?.map((e) => IngredientModel.fromJson(e as Map<String, dynamic>))
           .toList(),

@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:nutri_call_app/features/recipe/controllers/add_meal_recipe_controllers.dart';
 import 'package:nutri_call_app/features/recipe/controllers/detail_recipe_controllers.dart';
 import 'package:nutri_call_app/features/recipe/widget/meal_dropdown.dart';
@@ -48,6 +49,7 @@ class DetailRecipePage extends HookConsumerWidget {
           error: (err, stack) => Center(child: Text("Error: $err")),
           data: (recipe) {
             if (recipe == null) return const Center(child: Text("No data"));
+            final formattedDate = _formatDate(recipe.date ?? '-');
             return LayoutBuilder(
               builder: (context, constraints) {
                 return SingleChildScrollView(
@@ -82,7 +84,7 @@ class DetailRecipePage extends HookConsumerWidget {
                             ),
                           ),
                           Text(
-                            recipe.date ?? "-",
+                            formattedDate,
                             style: GoogleFonts.poppins(
                                 fontSize: 13,
                                 color: AppColor.lightBlack,
@@ -110,10 +112,11 @@ class DetailRecipePage extends HookConsumerWidget {
                           const Gap(24),
                           RecipeNutritionTableWidget(
                             nutritionData: {
-                              'Energi': "${recipe.energi ?? '-'} kcal",
-                              'Protein': "${recipe.protein ?? '-'} g",
-                              'Lemak': "${recipe.lemak ?? '-'} g",
-                              'Karbohidrat': "${recipe.karbohidrat ?? '-'} g",
+                              'Calories': "${recipe.energi ?? '-'} kcal",
+                              'Proteins': "${recipe.protein ?? '-'} g",
+                              'Total Fat': "${recipe.lemak ?? '-'} g",
+                              'Total Carbohydrates':
+                                  "${recipe.karbohidrat ?? '-'} g",
                             },
                           ),
                           const Gap(30),
@@ -183,5 +186,15 @@ class DetailRecipePage extends HookConsumerWidget {
         ),
       ),
     );
+  }
+
+  String _formatDate(String date) {
+    try {
+      final parsedDate = DateTime.parse(date);
+      final formatter = DateFormat('d MMMM yyyy');
+      return formatter.format(parsedDate);
+    } catch (e) {
+      return date;
+    }
   }
 }
