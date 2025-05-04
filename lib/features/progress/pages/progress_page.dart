@@ -237,14 +237,11 @@ class ProgressPage extends HookConsumerWidget {
                       ),
                       nutritionProgressAsync.when(
                         data: (nutritionProgress) {
-                          int differenceEnergy = nutritionProgress
-                              .fold(
-                                (error) => 0.0,
-                                (nutritionProgressModel) =>
-                                    nutritionProgressModel.differenceEnergy ??
-                                    0.0,
-                              )
-                              .toInt();
+                          double differenceEnergy = nutritionProgress.fold(
+                            (error) => 0.0,
+                            (nutritionProgressModel) =>
+                                nutritionProgressModel.differenceEnergy ?? 0.0,
+                          );
                           double percentageEnergy = nutritionProgress.fold(
                             (error) => 0.0,
                             (nutritionProgressModel) =>
