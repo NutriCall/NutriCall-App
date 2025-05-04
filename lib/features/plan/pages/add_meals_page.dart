@@ -28,6 +28,7 @@ class AddMealsPage extends ConsumerStatefulWidget {
 
 class _AddMealsPageState extends ConsumerState<AddMealsPage> {
   TextEditingController searchController = TextEditingController();
+  bool _isLoading = false;
 
   XFile? _selectedImage;
 
@@ -153,7 +154,29 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
         },
       );
     } else {
-      mealListSection = const Text("No meals available.");
+      mealListSection = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'List of Meals',
+            style: GoogleFonts.poppins(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: AppColor.semiBlack,
+            ),
+          ),
+          SizedBox(
+              height: MediaQuery.of(context).size.height * 0.2,
+              child: Center(
+                  child: Text(
+                "No list of meals available.",
+                style: GoogleFonts.poppins(
+                    color: AppColor.grey,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500),
+              ))),
+        ],
+      );
     }
     return Scaffold(
       appBar: CustomAppBar(
@@ -270,31 +293,36 @@ class _AddMealsPageState extends ConsumerState<AddMealsPage> {
               ),
               const Gap(20),
               SizedBox(
-                height: 300,
+                height: MediaQuery.of(context).size.height * 0.5,
                 child: mealListSection,
               ),
               CustomButtonWidget(
-                text: 'Save',
-                onTap: () {
-                  ref.read(postAddMealsNotifierProvider.notifier).fetch(
-                        params: AddMealsParams(
-                          compositions: selectedCompositionIds,
-                          type: widget.mealId,
-                        ),
-                        onSuccess: (data) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Successfully added plan')),
-                          );
-                          context.pushNamed(RouteName.planPage);
-                        },
-                        onFailed: (error) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(error)),
-                          );
-                        },
-                      );
-                },
+                text: _isLoading ? 'Loading..' : 'Save',
+                onTap: _isLoading
+                    ? null
+                    : () {
+                        setState(() => _isLoading = true);
+                        ref.read(postAddMealsNotifierProvider.notifier).fetch(
+                              params: AddMealsParams(
+                                compositions: selectedCompositionIds,
+                                type: widget.mealId,
+                              ),
+                              onSuccess: (data) {
+                                setState(() => _isLoading = false);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('Successfully added plan')),
+                                );
+                                context.pushNamed(RouteName.planPage);
+                              },
+                              onFailed: (error) {
+                                setState(() => _isLoading = false);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(error)),
+                                );
+                              },
+                            );
+                      },
               ),
               const Gap(20),
             ],

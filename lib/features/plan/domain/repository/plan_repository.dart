@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:nutri_call_app/features/plan/domain/entities/delete_plan_model.dart';
 import 'package:nutri_call_app/features/plan/domain/entities/list_composition_model.dart';
 import 'package:nutri_call_app/features/plan/domain/entities/meal_plan_model.dart';
 import 'package:nutri_call_app/features/plan/domain/entities/temporary_meal_model.dart';
@@ -23,4 +24,5 @@ abstract class PlanRepository {
   Future<Either<String, List<dynamic>>> postAddMeals({
     required AddMealsParams params,
   });
+  Future<Either<String, DeletePlanModel>> deletePlan({required int mealId});
 }

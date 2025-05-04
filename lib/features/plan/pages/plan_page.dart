@@ -3,9 +3,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:nutri_call_app/extensions/build_context.ext.dart';
+import 'package:nutri_call_app/features/plan/controllers/delete_plan_controllers.dart';
 import 'package:nutri_call_app/features/plan/widget/calendar_widget.dart';
 import 'package:nutri_call_app/features/plan/widget/plan_meal_widget.dart';
 import 'package:nutri_call_app/features/plan/controllers/meal_plan_controller.dart';
+import 'package:nutri_call_app/helpers/buttons/buttons.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
@@ -46,9 +49,7 @@ class PlanPage extends HookConsumerWidget {
               ),
             ),
             const Gap(5),
-            CalendarWidget(
-              onDateSelected: (selectedDay) {},
-            ),
+            const CalendarWidget(),
             const Gap(10),
             Padding(
               padding: const EdgeInsets.only(left: 20),
@@ -76,6 +77,84 @@ class PlanPage extends HookConsumerWidget {
                     itemBuilder: (context, index) {
                       final plan = mealPlanList[index];
                       return PlanMealWidget(
+                        onDelete: (item) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  backgroundColor: Colors.white,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 27, vertical: 22),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(
+                                        Icons.delete,
+                                        weight: 50,
+                                        size: 50,
+                                        color: Color(0xFFFD6464),
+                                      ),
+                                      const Gap(24),
+                                      Text(
+                                        'Are you sure you want to delete ${item["name"]}?',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.poppins(
+                                          color: AppColor.textColor2,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      const Gap(24),
+                                      Button.filled(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        label: 'No',
+                                        color: AppColor.lightRed,
+                                      ),
+                                      const Gap(8),
+                                      Button.outlined(
+                                        textColor: AppColor.textColor2,
+                                        color: Colors.transparent,
+                                        onPressed: () {
+                                          final ids = plan.meals
+                                              .where((meal) =>
+                                                  meal.foodComposition
+                                                      .namaBahan ==
+                                                  item["name"])
+                                              .map((meal) => meal.id)
+                                              .toList();
+
+                                          for (var id in ids) {
+                                            ref
+                                                .read(
+                                                    fetchDeletePlanNotifierProvider
+                                                        .notifier)
+                                                .fetch(
+                                                  onSuccess: () {
+                                                    context.showSuccessSnackbar(
+                                                        'Delete is successful for meal id: $id');
+                                                  },
+                                                  mealId: id,
+                                                );
+                                          }
+                                          ref
+                                              .read(
+                                                  fetchMealPlanNotifierProvider
+                                                      .notifier)
+                                              .fetch();
+                                          Navigator.pop(context);
+                                        },
+                                        label: 'Yes',
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          });
+                        },
                         label: plan.type,
                         kcal: plan.totalEnergi.toStringAsFixed(0),
                         items: plan.meals.map((meal) {

@@ -8,12 +8,14 @@ class PlanMealWidget extends StatefulWidget {
   final String label;
   final String kcal;
   final List<Map<String, dynamic>> items;
+  final void Function(Map<String, dynamic> item)? onDelete;
 
   const PlanMealWidget({
     super.key,
     required this.label,
     required this.kcal,
     required this.items,
+    this.onDelete,
   });
 
   @override
@@ -44,35 +46,29 @@ class _PlanMealWidgetState extends State<PlanMealWidget> {
                     Text(
                       widget.label,
                       style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15,
-                        color: AppColor.darkGreen
-                      ),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          color: AppColor.darkGreen),
                     ),
                     Row(
                       children: [
-                        RichText(text: 
+                        RichText(
+                            text: TextSpan(children: [
                           TextSpan(
-                            children: [
-                              TextSpan(
-                                text: widget.kcal,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12, 
-                                  color: AppColor.darkGreen,
-                                  fontWeight: FontWeight.w500
-                                ),
-                              ),
-                              TextSpan(
-                                text: 'kcal',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 9, 
-                                  color: AppColor.darkGreen,
-                                  fontWeight: FontWeight.w500
-                                ),
-                              )
-                            ]
+                            text: widget.kcal,
+                            style: GoogleFonts.poppins(
+                                fontSize: 12,
+                                color: AppColor.darkGreen,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          TextSpan(
+                            text: 'kcal',
+                            style: GoogleFonts.poppins(
+                                fontSize: 9,
+                                color: AppColor.darkGreen,
+                                fontWeight: FontWeight.w500),
                           )
-                        ),
+                        ])),
                         const Gap(16),
                         ElevatedButton(
                           onPressed: () {
@@ -93,10 +89,9 @@ class _PlanMealWidgetState extends State<PlanMealWidget> {
                           child: Text(
                             'Add',
                             style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400
-                            ),
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                       ],
@@ -128,10 +123,9 @@ class _PlanMealWidgetState extends State<PlanMealWidget> {
                         child: Text(
                           'Detail items',
                           style: GoogleFonts.poppins(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500
-                          ),
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500),
                         ),
                       ),
                       Icon(
@@ -165,41 +159,36 @@ class _PlanMealWidgetState extends State<PlanMealWidget> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    RichText(text: 
+                                    RichText(
+                                        text: TextSpan(children: [
                                       TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: '${item["name"]} (${item["calories"]}',
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.white
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: 'kcal',
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 9,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.white
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: ')',
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.white
-                                            ),
-                                          )
-                                        ]
+                                        text:
+                                            '${item["name"]} (${item["calories"]}',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white),
+                                      ),
+                                      TextSpan(
+                                        text: 'kcal',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 9,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white),
+                                      ),
+                                      TextSpan(
+                                        text: ')',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white),
                                       )
-                                    ),
+                                    ])),
                                     IconButton(
                                       onPressed: () {
-                                        setState(() {
-                                          widget.items.remove(item);
-                                        });
+                                        if (widget.onDelete != null) {
+                                          widget.onDelete!(item);
+                                        }
                                       },
                                       icon: const Icon(
                                         Icons.delete,
@@ -217,23 +206,22 @@ class _PlanMealWidgetState extends State<PlanMealWidget> {
                                       height: 16,
                                       width: 100,
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             'Carb',
                                             style: GoogleFonts.poppins(
-                                              fontSize: 10,
-                                              color: Colors.white70,
-                                              fontWeight: FontWeight.w500
-                                            ),
+                                                fontSize: 10,
+                                                color: Colors.white70,
+                                                fontWeight: FontWeight.w500),
                                           ),
                                           Text(
                                             '${item["carbs"]}g',
                                             style: GoogleFonts.poppins(
-                                              fontSize: 10,
-                                              color: Colors.white70,
-                                              fontWeight: FontWeight.w500
-                                            ),
+                                                fontSize: 10,
+                                                color: Colors.white70,
+                                                fontWeight: FontWeight.w500),
                                           ),
                                         ],
                                       ),
@@ -242,23 +230,22 @@ class _PlanMealWidgetState extends State<PlanMealWidget> {
                                       height: 16,
                                       width: 100,
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             'Protein',
                                             style: GoogleFonts.poppins(
-                                              fontSize: 10,
-                                              color: Colors.white70,
-                                              fontWeight: FontWeight.w500
-                                            ),
+                                                fontSize: 10,
+                                                color: Colors.white70,
+                                                fontWeight: FontWeight.w500),
                                           ),
                                           Text(
                                             '${item["protein"]}g',
                                             style: GoogleFonts.poppins(
-                                              fontSize: 10,
-                                              color: Colors.white70,
-                                              fontWeight: FontWeight.w500
-                                            ),
+                                                fontSize: 10,
+                                                color: Colors.white70,
+                                                fontWeight: FontWeight.w500),
                                           ),
                                         ],
                                       ),
@@ -267,23 +254,22 @@ class _PlanMealWidgetState extends State<PlanMealWidget> {
                                       height: 16,
                                       width: 100,
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             'Fat',
                                             style: GoogleFonts.poppins(
-                                              fontSize: 10,
-                                              color: Colors.white70,
-                                              fontWeight: FontWeight.w500
-                                            ),
+                                                fontSize: 10,
+                                                color: Colors.white70,
+                                                fontWeight: FontWeight.w500),
                                           ),
                                           Text(
                                             '${item["fat"]}g',
                                             style: GoogleFonts.poppins(
-                                              fontSize: 10,
-                                              color: Colors.white70,
-                                              fontWeight: FontWeight.w500
-                                            ),
+                                                fontSize: 10,
+                                                color: Colors.white70,
+                                                fontWeight: FontWeight.w500),
                                           ),
                                         ],
                                       ),
@@ -300,10 +286,9 @@ class _PlanMealWidgetState extends State<PlanMealWidget> {
                           child: Text(
                             "No Items",
                             style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontSize: 9,
-                              fontWeight: FontWeight.w400
-                            ),
+                                color: Colors.white,
+                                fontSize: 9,
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                 ),

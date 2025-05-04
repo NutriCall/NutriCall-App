@@ -4,6 +4,7 @@ import 'package:nutri_call_app/core/provider/dio_provider.dart';
 import 'package:nutri_call_app/features/plan/controllers/post_add_meals_controller.dart';
 import 'package:nutri_call_app/features/plan/controllers/post_calculate_nutrients_controller.dart';
 import 'package:nutri_call_app/features/plan/controllers/post_temporary_controller.dart';
+import 'package:nutri_call_app/features/plan/domain/entities/delete_plan_model.dart';
 import 'package:nutri_call_app/features/plan/domain/entities/list_composition_model.dart';
 import 'package:nutri_call_app/features/plan/domain/entities/temporary_meal_model.dart';
 import 'package:nutri_call_app/features/plan/domain/repository/plan_repository.dart';
@@ -175,6 +176,26 @@ class PlanRepositoryImpl implements PlanRepository {
       return Left('${e.response?.data["message"] ?? e.message}');
     } catch (e) {
       return Left('Error: $e');
+    }
+  }
+
+  @override
+  Future<Either<String, DeletePlanModel>> deletePlan(
+      {required int mealId}) async {
+    try {
+      final response = await httpClient.delete('/meals/delete/$mealId');
+      if (response.statusCode == 200) {
+        DeletePlanModel deletePlanModel =
+            DeletePlanModel.fromJson(response.data['data']);
+        return Right(deletePlanModel);
+      } else {
+        return Left('Failed to load data: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      final error = e.response?.data['message'] ?? 'Unknown error';
+      return Left(error);
+    } catch (e) {
+      return Left('Unexpected error: ${e.toString()}');
     }
   }
 }
