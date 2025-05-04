@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
-class MealDropdown extends StatefulWidget {
-  const MealDropdown({super.key});
+class MealDropdown extends HookConsumerWidget {
+  final String selectedMeal;
+  final void Function(String value) onChanged;
+
+  const MealDropdown({
+    super.key,
+    required this.selectedMeal,
+    required this.onChanged,
+  });
 
   @override
-  _MealDropdownState createState() => _MealDropdownState();
-}
-
-class _MealDropdownState extends State<MealDropdown> {
-  String selectedMeal = 'Breakfast';
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -28,26 +29,22 @@ class _MealDropdownState extends State<MealDropdown> {
             isDense: true,
             value: selectedMeal,
             items: ['Breakfast', 'Lunch', 'Dinner', 'Snacks/Other']
-              .map((meal) => DropdownMenuItem(
-                    value: meal,
-                    child: Text(
-                      meal,
-                      style: GoogleFonts.poppins(
-                        color: AppColor.darkGreen,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500
+                .map((meal) => DropdownMenuItem(
+                      value: meal,
+                      child: Text(
+                        meal,
+                        style: GoogleFonts.poppins(
+                          color: AppColor.darkGreen,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                  ))
-              .toList(),
+                    ))
+                .toList(),
             onChanged: (value) {
-              setState(() {
-                selectedMeal = value!;
-              });
+              if (value != null) onChanged(value);
             },
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-            ),
+            decoration: const InputDecoration(border: InputBorder.none),
           ),
         ),
       ],

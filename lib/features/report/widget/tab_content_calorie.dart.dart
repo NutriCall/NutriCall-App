@@ -30,7 +30,7 @@ class TabContentCalorie extends HookConsumerWidget {
         ref.read(fetchDailyCalorieReportNotifierProvider.notifier).fetch();
         ref.read(fetchFoodEatenReportNotifierProvider.notifier).fetch();
       },
-      color: AppColor.semiBlack,
+      color: AppColor.darkGreen,
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.only(top: 20),
@@ -107,7 +107,7 @@ class TabContentCalorie extends HookConsumerWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        'Daily Average: ${average.toStringAsFixed(0)}',
+                                        'Daily Average: ${average.toStringAsFixed(0)} kcal',
                                         style: GoogleFonts.poppins(
                                           color: AppColor.grey,
                                           fontSize: 12,

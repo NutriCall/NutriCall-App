@@ -31,8 +31,9 @@ class TabContentMacros extends HookConsumerWidget {
     return RefreshIndicator(
       onRefresh: () async {
         ref.read(fetchFoodEatenReportNotifierProvider.notifier).fetch();
+        ref.read(fetchMacronutrientReportNotifierProvider.notifier).fetch();
       },
-      color: AppColor.semiBlack,
+      color: AppColor.darkGreen,
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.only(top: 20),

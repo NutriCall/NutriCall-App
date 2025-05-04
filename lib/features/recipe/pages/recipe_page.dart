@@ -46,7 +46,7 @@ class RecipePage extends HookConsumerWidget {
                 ));
               }
               return RefreshIndicator(
-                color: AppColor.semiBlack,
+                color: AppColor.darkGreen,
                 onRefresh: () async {
                   await ref
                       .read(fetchListRecipeControllersProvider.notifier)
