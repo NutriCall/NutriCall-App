@@ -175,7 +175,7 @@ class ItemDetailMealPage extends HookConsumerWidget {
               ),
               const Gap(30),
               CustomButtonWidget(
-                text: 'Preview',
+                text: isLoading.value ? 'Loading..' : 'Preview',
                 onTap: () {
                   if (isButtonEnabled.value) {
                     sizeState.value = int.parse(sizeController.text);

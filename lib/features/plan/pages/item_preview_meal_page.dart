@@ -48,6 +48,7 @@ class ItemPreviewMealPage extends ConsumerStatefulWidget {
 }
 
 class _ItemPreviewMealPageState extends ConsumerState<ItemPreviewMealPage> {
+  bool _isLoading = false;
   late String image;
 
   @override
@@ -60,10 +61,10 @@ class _ItemPreviewMealPageState extends ConsumerState<ItemPreviewMealPage> {
   Widget build(BuildContext context) {
     final mealState = AsyncValue.data({
       "nutritionData": {
-        "Calories": widget.calories.toString() + ' kcal',
-        "Total Fat": widget.fat.toString() + ' g',
-        "Total Carbohydrates": widget.carbs.toString() + ' g',
-        "Proteins": widget.protein.toString() + ' g',
+        "Calories": '${widget.calories} kcal',
+        "Total Fat": '${widget.fat} g',
+        "Total Carbohydrates": '${widget.carbs} g',
+        "Proteins": '${widget.protein} g',
       }
     });
 
@@ -128,29 +129,34 @@ class _ItemPreviewMealPageState extends ConsumerState<ItemPreviewMealPage> {
               ),
               const Gap(36),
               CustomButtonWidget(
-                text: 'Add to List',
-                onTap: () {
-                  ref.read(postTemporaryNotifierProvider.notifier).post(
-                        params: PostTemporaryParams(
-                          compositionId: widget.id,
-                          type: widget.type,
-                        ),
-                        onSuccess: (data) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  AddMealsPage(mealId: widget.type),
-                            ),
-                          );
-                        },
-                        onFailed: (error) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Failed: $error')),
-                          );
-                        },
-                      );
-                },
+                text: _isLoading ? 'Loading..' : 'Save',
+                onTap: _isLoading
+                    ? null
+                    : () {
+                        setState(() => _isLoading = true);
+                        ref.read(postTemporaryNotifierProvider.notifier).post(
+                              params: PostTemporaryParams(
+                                compositionId: widget.id,
+                                type: widget.type,
+                              ),
+                              onSuccess: (data) {
+                                setState(() => _isLoading = false);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        AddMealsPage(mealId: widget.type),
+                                  ),
+                                );
+                              },
+                              onFailed: (error) {
+                                setState(() => _isLoading = false);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Failed: $error')),
+                                );
+                              },
+                            );
+                      },
               ),
               const Gap(30),
             ],

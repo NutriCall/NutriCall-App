@@ -139,7 +139,7 @@ class ProfilePage extends HookConsumerWidget {
                                                 onPressed: () {
                                                   Navigator.pop(context);
                                                 },
-                                                label: 'Tidak',
+                                                label: 'No',
                                                 color: AppColor.lightRed,
                                               ),
                                               const Gap(8),
@@ -154,9 +154,8 @@ class ProfilePage extends HookConsumerWidget {
                                                               .notifier)
                                                       .logout(
                                                     onSuccess: () {
-                                                      context
-                                                          .showSuccessSnackbar(
-                                                              'Logout Berhasil');
+                                                      context.showSuccessSnackbar(
+                                                          'Logout is successful');
                                                     },
                                                     onError: () {
                                                       ScaffoldMessenger.of(
@@ -164,7 +163,7 @@ class ProfilePage extends HookConsumerWidget {
                                                           .showSnackBar(
                                                         const SnackBar(
                                                           content: Text(
-                                                              'Logout Gagal'),
+                                                              'Logout is failed'),
                                                         ),
                                                       );
                                                     },
