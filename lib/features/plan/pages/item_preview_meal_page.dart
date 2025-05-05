@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nutri_call_app/features/plan/pages/add_meals_page.dart';
+import 'package:nutri_call_app/features/recipe/pages/add_recipe_page.dart';
 import 'package:nutri_call_app/features/recipe/widget/recipe_nutrition_table_widget.dart';
 import 'package:nutri_call_app/helpers/widget/custom_app_bar.dart';
 import 'package:nutri_call_app/helpers/widget/custom_button_widget.dart';
@@ -141,13 +142,22 @@ class _ItemPreviewMealPageState extends ConsumerState<ItemPreviewMealPage> {
                               ),
                               onSuccess: (data) {
                                 setState(() => _isLoading = false);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        AddMealsPage(mealId: widget.type),
-                                  ),
-                                );
+                                if (widget.type == 'Ingredients') {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const AddRecipePage()),
+                                  );
+                                } else {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          AddMealsPage(mealId: widget.type),
+                                    ),
+                                  );
+                                }
                               },
                               onFailed: (error) {
                                 setState(() => _isLoading = false);

@@ -4,19 +4,31 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:nutri_call_app/utils/app_color.dart';
 
 class AddStepsWidget extends StatefulWidget {
-  const AddStepsWidget({super.key});
+  final void Function(List<String>) onChanged;
+
+  const AddStepsWidget({
+    super.key,
+    required this.onChanged,
+  });
 
   @override
   State<AddStepsWidget> createState() => _AddStepsWidgetState();
 }
 
 class _AddStepsWidgetState extends State<AddStepsWidget> {
-  List<TextEditingController> stepControllers = [];
+  final List<TextEditingController> stepControllers = [];
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _addStepField(); // Tambahkan field pertama
+  // }
 
   void _addStepField() {
     setState(() {
       stepControllers.add(TextEditingController());
     });
+    _notifyChange();
   }
 
   void _removeStepField(int index) {
@@ -24,6 +36,20 @@ class _AddStepsWidgetState extends State<AddStepsWidget> {
       stepControllers[index].dispose();
       stepControllers.removeAt(index);
     });
+    _notifyChange();
+  }
+
+  void _notifyChange() {
+    final steps = stepControllers.map((c) => c.text).toList();
+    widget.onChanged(steps);
+  }
+
+  @override
+  void dispose() {
+    for (var controller in stepControllers) {
+      controller.dispose();
+    }
+    super.dispose();
   }
 
   Widget _buildStepField(int index) {
@@ -34,6 +60,7 @@ class _AddStepsWidgetState extends State<AddStepsWidget> {
           child: TextField(
             controller: stepControllers[index],
             cursorColor: AppColor.semiBlack,
+            onChanged: (_) => _notifyChange(),
             decoration: InputDecoration(
               hintText: "Step ${index + 1}",
               hintStyle: GoogleFonts.poppins(
@@ -60,13 +87,14 @@ class _AddStepsWidgetState extends State<AddStepsWidget> {
           ),
         ),
         const Gap(6),
-        GestureDetector(
-          onTap: () => _removeStepField(index),
-          child: const Icon(
-            Icons.remove_circle_rounded,
-            color: AppColor.darkGreen,
+        if (stepControllers.length > 1)
+          GestureDetector(
+            onTap: () => _removeStepField(index),
+            child: const Icon(
+              Icons.remove_circle_rounded,
+              color: AppColor.darkGreen,
+            ),
           ),
-        ),
       ],
     );
   }

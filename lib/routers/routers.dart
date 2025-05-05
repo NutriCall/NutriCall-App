@@ -85,7 +85,12 @@ Raw<GoRouter> router(RouterRef ref) {
       GoRoute(
         path: '/preview-recipe-page',
         name: RouteName.previewRecipePage,
-        builder: (context, state) => const PreviewRecipePage(),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          return PreviewRecipePage(
+            previewRecipePageArgs: PreviewRecipePageArgs.fromJson(extra),
+          );
+        },
       ),
       GoRoute(
         path: '/recipes',
