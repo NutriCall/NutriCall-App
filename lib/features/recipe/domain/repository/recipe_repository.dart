@@ -7,6 +7,7 @@ import 'package:nutri_call_app/features/recipe/controllers/post_add_ingredients_
 import 'package:nutri_call_app/features/recipe/controllers/calculate_ingredients_controller.dart';
 import 'package:nutri_call_app/features/recipe/controllers/submit_recipe_controller.dart';
 import 'package:nutri_call_app/features/recipe/controllers/delete_ingredient_controller.dart';
+import 'package:nutri_call_app/features/recipe/controllers/publish_recipe_controller.dart';
 
 abstract class RecipeRepository {
   Future<Either<String, List<ListRecipeModel>>> getListRecipe();
@@ -29,5 +30,8 @@ abstract class RecipeRepository {
   });
   Future<Either<String, Map<String, dynamic>>> postCalculateIngredients({
     required CalculateIngredientsParams params,
+  });
+  Future<Either<String, Map<String, dynamic>?>> publishRecipe({
+    required String recipeId,
   });
 }
