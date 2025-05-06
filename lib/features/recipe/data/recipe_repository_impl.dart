@@ -11,6 +11,7 @@ import 'package:nutri_call_app/features/recipe/domain/entities/list_ingredients_
 import 'package:nutri_call_app/features/recipe/domain/entities/list_recipe_model.dart';
 import 'package:nutri_call_app/features/recipe/domain/repository/recipe_repository.dart';
 import 'package:nutri_call_app/features/recipe/controllers/delete_ingredient_controller.dart';
+import 'package:nutri_call_app/features/recipe/controllers/publish_recipe_controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'recipe_repository_impl.g.dart';
@@ -224,6 +225,27 @@ class RecipeRepositoryImpl implements RecipeRepository {
     try {
       final response = await httpClient.delete(
         '/temporary/delete/$ingredientId',
+      );
+
+      if (response.statusCode == 200) {
+        return Right(response.data['data']);
+      } else {
+        return Left('Error ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      return Left(e.response?.data["message"] ?? 'Unexpected error');
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, Map<String, dynamic>?>> publishRecipe({
+    required String recipeId,
+  }) async {
+    try {
+      final response = await httpClient.post(
+        '/recipes/publish/$recipeId',
       );
 
       if (response.statusCode == 200) {
